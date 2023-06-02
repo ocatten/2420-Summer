@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LargestNumberSolver<T> {
 
-	T[] backingArray;
+
 	
 	/*
 	 * Sort the input array through a comparator using insertion sort.
@@ -14,6 +14,25 @@ public class LargestNumberSolver<T> {
 	 */
 	public static <T> void insertionSort(T[] arr, Comparator<? super T> cmp) {
 		
+		//Loop through every element in the array
+		for(int i = 1; i < arr.length; i++) {
+			//Get the item to insert
+			T inserted = arr[i];
+			//Find the previous index to compare to
+			int j = i-1;
+			
+			//Convert both of the items to Strings
+			String iToString = arr[i].toString();
+			String jToString = arr[j].toString();
+			
+			while(j >= 0) {
+				
+				//&& cmp.compare(arr[j], inserted) > 0
+				if(cmp.compare(iToString, jToString)) {
+					
+				}
+			}
+		}
 	}
 	
 	
@@ -25,7 +44,23 @@ public class LargestNumberSolver<T> {
 	 * is 0.
 	 */
 	public static BigInteger findLargestNumber(Integer[] arr) {
-		return 0;
+		//Catch case for empty list
+		if(arr.length < 1) {
+			return BigInteger.valueOf(0);
+		}
+		
+		String[] tempArrayString = new String[arr.length];
+		for(int i = 0; i < arr.length; i++) {
+			tempArrayString[i] = arr[i].toString();
+		}
+		
+		
+		
+		// Sort the list
+//		Comparator<Integer> cmp = new Comparator<Integer>() { 
+//			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
+			
+			
 	}
 	
 	
