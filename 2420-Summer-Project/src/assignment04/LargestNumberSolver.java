@@ -25,13 +25,12 @@ public class LargestNumberSolver<T> {
 			String iToString = arr[i].toString();
 			String jToString = arr[j].toString();
 			
-			while(j >= 0) {
+			while(j >= 0&& cmp.compare(arr[j], inserted) > 0) {
 				
-				//&& cmp.compare(arr[j], inserted) > 0
-				if(cmp.compare(iToString, jToString)) {
-					
-				}
+				arr[j + 1] = arr[j];
+            	j = j - 1;
 			}
+			arr[j + 1] = inserted;
 		}
 	}
 	
@@ -49,10 +48,16 @@ public class LargestNumberSolver<T> {
 			return BigInteger.valueOf(0);
 		}
 		
-		String[] tempArrayString = new String[arr.length];
+		Double[] tempArrayDouble = new Double[arr.length];
 		for(int i = 0; i < arr.length; i++) {
-			tempArrayString[i] = arr[i].toString();
+			if(arr[i] < 10) {
+				tempArrayDouble[i] = (double) arr[i];
+			}
+
 		}
+		
+		Comparator<Integer> cmp = new Comparator<Integer>() { 
+			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
 		
 		
 		
