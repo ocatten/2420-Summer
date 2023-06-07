@@ -53,11 +53,17 @@ public class LargestNumberSolver<T> {
 			if(arr[i] < 10) {
 				tempArrayDouble[i] = (double) arr[i];
 			}
-
+			else {
+				double newNum = (double) arr[i];
+				while(newNum > 10) {
+					newNum /= 10;
+				}
+				tempArrayDouble[i] = newNum;
+			}
 		}
 		
-		Comparator<Integer> cmp = new Comparator<Integer>() { 
-			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
+		Comparator<Double> cmp = new Comparator<Double>() { 
+			public int compare(Double e1, Double e2) { return e1.compareTo(e2); } };
 		
 		
 		
