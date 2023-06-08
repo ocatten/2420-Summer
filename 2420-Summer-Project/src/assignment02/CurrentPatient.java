@@ -12,12 +12,12 @@ import java.util.GregorianCalendar;
 public class CurrentPatient extends Patient {
 	
 	
-
 	//Initialize Variables
 	private String firstName;
 	private String lastName;
 	private int physician; 
 	private GregorianCalendar lastVisit;
+	
 	
 	/**
 	 * Creates the current patient with their name, physician
