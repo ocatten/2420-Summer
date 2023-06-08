@@ -1,10 +1,9 @@
 package assignment04;
 /**
  * This class takes integers of randomly assorted numbers and finds the largest possible combination for the indicies.
- * An array of [44, 22, 33, 11] will return 44332211. 
  * 
- * @author: Parker Catten @u0580588 & Everett Oglesby
- * @version: 02:10:23 CS-2420_SP-2023
+ * 
+ * @author: Parker Catten @u0580588 & Everett Oglesby3
  */
 
 import java.io.File;
@@ -370,12 +369,30 @@ public class LargestNumberSolver {
 	public static List<Integer[]> readFile(String filename) {
 		
 		// Creates the List of arrays to be returned
-		List<Integer[]>
+		List<Integer[]> intList;
+		
+		//Tracker for the Integer arrays to be added to the list
+		ArrayList<Integer> currentArray = new ArrayList<Integer>();
+		
+		//
+		
 		try {
 
 			Scanner reader = new Scanner(new File(filename));
+
+			while(reader.hasNext() ) {
+				if(reader.next() == " ") {
+					continue;
+				}
+				int nextInt = reader.nextInt();
+				currentArray.add(nextInt);
+			}
+			
 		} catch (FileNotFoundException e) {
+			
 			e.printStackTrace();
+			intList = new List<Integer[]>();
+			return intList;
 		}
 	}
 
