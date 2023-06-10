@@ -1,9 +1,10 @@
 package assignment04;
 /**
- * This class takes integers of randomly assorted numbers and finds the largest possible combination for the indicies.
+ * This class takes integers of randomly assorted numbers and finds the largest possible combination for the indicies.m
  * 
  * 
- * @author: Parker Catten @u0580588 & Everett Oglesby3
+ * @author: Parker Catten @u0580588 & Everett Oglesby
+ * @version: 06:08:23
  */
 
 import java.io.File;
@@ -63,24 +64,6 @@ public class LargestNumberSolver {
 			return BigInteger.valueOf(0);
 		}
 		
-<<<<<<< Updated upstream
-		Double[] tempArrayDouble = new Double[arr.length];
-		for(int i = 0; i < arr.length; i++) {
-			if(arr[i] < 10) {
-				tempArrayDouble[i] = (double) arr[i];
-			}
-			else {
-				double newNum = (double) arr[i];
-				while(newNum > 10) {
-					newNum /= 10;
-				}
-				tempArrayDouble[i] = newNum;
-			}
-		}
-		
-		Comparator<Double> cmp = new Comparator<Double>() { 
-			public int compare(Double e1, Double e2) { return e1.compareTo(e2); } };
-=======
 		/* Sorting by descending order WILL NOT work here. Instead, each digit should be paired with another and those 
 		 * concatenated numbers should be tested against each other to find the largest combination. However, this 
 		 * method should be slower for larger data sets. Since single digits cause issues with the previously mentioned
@@ -94,7 +77,6 @@ public class LargestNumberSolver {
 		// Sort the list
 		Comparator<Integer> cmp = new Comparator<Integer>() { 
 			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
->>>>>>> Stashed changes
 		
 		insertionSort(temp, cmp);
 		
@@ -168,93 +150,6 @@ public class LargestNumberSolver {
 		
 			
 		return new BigInteger(bigInteger);
-		
-		/*
-		// Makes a list of each single digit
-		ArrayList<Integer> singleDigits = new ArrayList<Integer>();
-		
-		for (int i = 0; i < arr.length; i++) {
-			// If it's less than 10 (making it a leading digit):
-			if( 0 < arr[i] && arr[i] < 10) {
-				singleDigits.add( arr[i] ); // Add it to the ArrayList
-			}
-		}
-		
-		// Sort the list of singleDigits and reverses it for later comparison
-		Comparator<Integer> cmp = new Comparator<Integer>() { 
-			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
-				
-		// Creates a new ArrayList that's sorted for the single digits
-		singleDigits.sort(cmp);
-		ArrayList<Integer> sortedSingleDigits = new ArrayList<Integer>();
-		
-		// Reverses the sorted list.
-		for(int i = 0; i < singleDigits.size(); i++) {	
-			sortedSingleDigits.add( singleDigits.get( singleDigits.size() - (1 + i) ));
-		}
-		
-		
-		
-		// Now it's going to compare each number by its leading term but will put the whole numbers on the end and
-		//  that will be corrected later.
-		Double simplifiedValues[] = new Double[arr.length];
-		// Makes a new array of double values identical to the parameter's array
-		for (int i = 0; i < arr.length; i++) {
-			simplifiedValues[i] = (double)(arr[i]);
-			
-			// "Simplifies" all the values and reduces each index to its most basic digits
-			while(simplifiedValues[i] > 10) {
-				simplifiedValues[i] /= 10;
-			}
-		}
-		
-		
-		// Sets up the comparator to be used in the insertionSort
-		Comparator<Double> cmp2 = new Comparator<Double>() { 
-			public int compare(Double e1, Double e2) { return e1.compareTo(e2); } };
-		
-		// Completes the required call to the insertionSort
-		insertionSort(simplifiedValues, cmp2);
-		
-		// Lastly, reverses the list to have the greatest simplifiedValues to the earliest point in the array but
-		//  also checking for whole numbers and placing them at the very beginning of their respective places.
-		ArrayList<Double> sortedValues = new ArrayList<Double>();
-		
-		
-		Double temp;
-		for(int i = 0; i < simplifiedValues.length; i++) {
-				
-			// Now, it converts those doubles back into their original integer form and combines them.
-			while(simplifiedValues[i] % 1 > 0) { // If the value has a decimal,
-				simplifiedValues[i] *= 10;
-			}
-			
-			if(simplifiedValues[i] / 10 != 0) { // Checks to see if the number is not a single digit
-				sortedValues.add(simplifiedValues[i]);
-			}
-		}
-
-		
-		// String to be concatenated into the bigInteger
-		String bigInteger = "";
-		for(int i = 0; i < sortedSingleDigits.size()-1; i++) {
-			for(int j = 0; j < sortedValues.size()-1; j++) {
-				// If the sortedValue begins with the same digit as that single digit:
-				if ( sortedValues.get(j) < sortedSingleDigits.get(i) + 1) {
-					
-					bigInteger += sortedSingleDigits.get(i).intValue();
-					i++;
-				}
-				
-				// Truncates the double to avoid a ".0" end
-				bigInteger += sortedValues.get(j).intValue();
-			}
-			
-		}
-		
-		System.out.println(bigInteger);
-		// Uses the bigInteger parameter to convert the string to the bigInteger 
-		return new BigInteger(bigInteger);*/
 	}
 	
 	
@@ -332,9 +227,10 @@ public class LargestNumberSolver {
 		// Loops through each element in the list.
 		for(int i = 0; i < list.size(); i++) {
 			total = total.add( findLargestNumber(list.get(i)) ); // Adds each arrays biggest number to the total
+			//System.out.println("largest at "+ i + ": " + findLargestNumber(list.get(i))); // test statement
 		}
 		
-		//System.out.println(total); // Used to check the return value.
+		//System.out.println("total: " + total); // Used to check the return value.
 		
 		// Throws the total back as the result.
 		return total;
@@ -354,6 +250,13 @@ public class LargestNumberSolver {
 	 * @throws IllegalArgumentException
 	 */
 	public static Integer[] findKthLargest(List<Integer[]> list, int k) throws IllegalArgumentException {
+		
+		/**
+		 * This method will use a pattern in permutations of combinations: Let's say the indicies were arranged in their largest
+		 * combination and subsequently ranked by the index with the largest number, for example, [5, 4, 3, 2, 1]. The
+		 * first index (5, or the largest value at the first index) will have its position determined by k. 
+		 */
+		
 		return null;
 	}
 	
@@ -369,31 +272,48 @@ public class LargestNumberSolver {
 	public static List<Integer[]> readFile(String filename) {
 		
 		// Creates the List of arrays to be returned
-		List<Integer[]> intList;
+		List<Integer[]> fileList = new ArrayList<Integer[]>();
 		
-		//Tracker for the Integer arrays to be added to the list
-		ArrayList<Integer> currentArray = new ArrayList<Integer>();
+		// Reader for the file
+		Scanner reader;
 		
-		//
-		
+		// Tries to read the file to verify that it's there:
 		try {
-
-			Scanner reader = new Scanner(new File(filename));
-
-			while(reader.hasNext() ) {
-				if(reader.next() == " ") {
-					continue;
-				}
-				int nextInt = reader.nextInt();
-				currentArray.add(nextInt);
-			}
+			
+			// Creates the reader for the file
+			reader = new Scanner(new File(filename));
 			
 		} catch (FileNotFoundException e) {
 			
-			e.printStackTrace();
-			intList = new List<Integer[]>();
-			return intList;
+			System.out.println("File " + filename + " not  found");
+			//e.printStackTrace();
+			
+			return fileList;
 		}
+		
+		
+		// While there are still lines in the file:
+		while(reader.hasNextLine()) {
+			
+			// Convert the nextLine into a single string.
+			String currentLineString = reader.nextLine();
+			
+			// Converts that string into an array and then converts the indicies into integers
+			String[] lineStringArray = currentLineString.split(" ");
+			
+			Integer[] lineArray = new Integer[lineStringArray.length];
+			for(int i = 0; i < lineStringArray.length; i++) {
+				
+				// Adds the converted strings to the array
+				lineArray[i] = Integer.valueOf(lineStringArray[i]);
+			}
+			
+			// Adds the array to the list
+			fileList.add(lineArray);
+			
+		}
+		
+		return fileList;
 	}
 
 }

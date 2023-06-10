@@ -1,9 +1,9 @@
 package assignment04;
 /**
- * Tester class for LargestNumberSolver
+ * Tester class for LargestNumberSolver 
  * 
  * @author: Parker Catten @u0580588 & Everett Oglesby
- * @version 02:10:23 CS-2420_SP-2023
+ * @version 06:08:23 CS-2420_SP-2023
  */
 
 import static org.junit.Assert.assertEquals;
@@ -253,4 +253,51 @@ public class LargestNumberSolverTester {
 		
 		assertEquals(numberSolver.sum(testCase), BigInteger.valueOf(0));
 	}
+	
+	
+//--------------------------------------------READ FILE TESTS------------------------------------------------
+	
+	@Test
+	public <T> void testReadFileOnEmpty() {
+		
+		LargestNumberSolver numberSolver = new LargestNumberSolver();
+		
+		try {
+			
+			List<Integer[]> contents = numberSolver.readFile("integers.txt");
+			
+		} catch(Exception e) {
+			assertTrue(true == true);
+		}
+	}
+	
+	
+	
+	@Test
+	public <T> void testReadFileOnIntegers() {
+		
+		LargestNumberSolver numberSolver = new LargestNumberSolver();
+		List<Integer[]> contents = new ArrayList<Integer[]>();
+		
+		try {
+			
+			contents = numberSolver.readFile("integers.txt");
+			
+		} catch(Exception e) {
+			assertTrue(true != true);
+		}
+		
+		for(Integer[] line : contents) {
+			
+			System.out.print("Line " + contents.indexOf(line) + ": ");
+			for(int i = 0; i < line.length; i++) {
+				
+				//System.out.print(line[i] + " ");
+			}
+			
+			//System.out.println();
+		}
+		
+	}
+	
 }
