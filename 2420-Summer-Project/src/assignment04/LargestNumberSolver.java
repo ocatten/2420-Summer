@@ -239,25 +239,59 @@ public class LargestNumberSolver {
 	
 	
 	/**
-	 * This method returns the largest possible number corresponding to k. If k is 0, if will find the largest
-	 * concatenated number. If it is 1, it will find the second largest number, and so forth. Throws an
-	 * IllegalArgumentException if k is out of range, and it cannot modify the original list in any way.
-	 * Additionally, this method must implement the insertionShort method and use a comparator in some way.
+	 * This method returns the largest concatenation out of a list of arrays. If k is 0, it will return the largest,
+	 * if k is 1, it returns the second largest, and so on.
 	 * 
-	 * @param list
-	 * @param k
-	 * @return
-	 * @throws IllegalArgumentException
+	 * @param list: List of Integer arrays
+	 * @param k: Rank of the largestNumber combination out of the arrays
+	 * @return: kth largest array in the list
+	 * @throws IllegalArgumentException: If k is out of range.
 	 */
 	public static Integer[] findKthLargest(List<Integer[]> list, int k) throws IllegalArgumentException {
 		
-		/**
-		 * This method will use a pattern in permutations of combinations: Let's say the indicies were arranged in their largest
-		 * combination and subsequently ranked by the index with the largest number, for example, [5, 4, 3, 2, 1]. The
-		 * first index (5, or the largest value at the first index) will have its position determined by k. 
+		// Catch case for k being to large.
+		if(k >= list.size()) {
+			throw new IllegalArgumentException();
+		}
+		
+		
+		// Create a new array to keep the largestNumbers
+		BigInteger[] largestSorted = new BigInteger[list.size()];
+		
+		// Find the largestNumber for each line and add it to the temporary list.
+		for(int i = 0; i < list.size(); i++) {
+			
+			largestSorted[i] = findLargestNumber(list.get(i));
+		}
+		
+		
+		// Comparator to sort the list
+		Comparator<BigInteger> cmp = new Comparator<BigInteger>() { 
+			public int compare(BigInteger e1, BigInteger e2) { return e1.compareTo(e2); } };
+		
+		// Sort the temporary list.
+		insertionSort(largestSorted, cmp);
+		
+		// Next, find the kth object in this list:
+		BigInteger target = largestSorted[k];
+		
+		/* Take the list of unsorted largestNumbers to find which index in the list the
+		 * method will return.
 		 */
 		
-		return null;
+		// Create a new array to keep the largestNumbers
+		ArrayList<BigInteger> largestUnsorted = new ArrayList<BigInteger>();
+		
+		// Find the largestNumber for each line and add it to the temporary list.
+		for(int i = 0; i < list.size(); i++) {
+			
+			largestUnsorted.add(findLargestNumber(list.get(i)) );
+		}
+		
+		// Find the index the method will return
+		int returnIndex = largestUnsorted.indexOf(target);
+		
+		return list.get(returnIndex);
 	}
 	
 	
