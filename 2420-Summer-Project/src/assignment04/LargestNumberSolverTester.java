@@ -103,7 +103,7 @@ public class LargestNumberSolverTester {
 		Integer[] testCase = new Integer[] {1, 2, 3, 4, 12, 24};
 		BigInteger expectedCase = new BigInteger("4321");
 		
-		System.out.println("should be 4321 = " + numberSolver.findLargestNumber(testCase));
+		//System.out.println("should be 4321 = " + numberSolver.findLargestNumber(testCase));
 		
  	}
 	
@@ -300,4 +300,33 @@ public class LargestNumberSolverTester {
 		
 	}
 	
+	
+	@Test
+	public <T> void testFindKthLargest() {
+		Random rng = new Random();
+		
+		int arraySize = 10;
+		int kNum = rng.nextInt(9) + 1;
+		
+		LargestNumberSolver numberSolver = new LargestNumberSolver();
+		List<Integer[]> givenList = new ArrayList<Integer[]>();
+		System.out.println("running");
+		
+		for(int i = 0; i < 15; i++) {
+			
+			//Random rng = new Random();
+			Integer[] givenArray = new Integer[arraySize];
+			for (int j = 0; j < arraySize; j++) {
+				givenArray[j] = rng.nextInt(9) + 1;
+			}
+			givenList.add(givenArray);
+		}
+
+		Integer[] largestList = numberSolver.findKthLargest(givenList, kNum);
+		//System.out.println(largestList[0].toString());
+		
+		for(int i = 0; i < givenList.size(); i++) {
+			
+		}
+	}
 }
