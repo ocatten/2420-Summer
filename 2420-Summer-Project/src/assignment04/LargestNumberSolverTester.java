@@ -103,7 +103,11 @@ public class LargestNumberSolverTester {
 		Integer[] testCase = new Integer[] {1, 2, 3, 4, 12, 24};
 		BigInteger expectedCase = new BigInteger("4321");
 		
+<<<<<<< Updated upstream
 		//System.out.println("should be 4321 = " + numberSolver.findLargestNumber(testCase));
+=======
+		System.out.println("should be 43224112 = " + numberSolver.findLargestNumber(testCase));
+>>>>>>> Stashed changes
 		
  	}
 	
@@ -289,7 +293,7 @@ public class LargestNumberSolverTester {
 		
 		for(Integer[] line : contents) {
 			
-			System.out.print("Line " + contents.indexOf(line) + ": ");
+			//System.out.print("Line " + contents.indexOf(line) + ": ");
 			for(int i = 0; i < line.length; i++) {
 				
 				//System.out.print(line[i] + " ");

@@ -63,6 +63,7 @@ public class LargestNumberSolver {
 			return BigInteger.valueOf(0);
 		}
 		
+<<<<<<< Updated upstream
 		Double[] doubleArray = new Double[arr.length];
 		for(int i = 0; i < arr.length; i++) {
 			if(arr[i] < 10) {
@@ -74,10 +75,47 @@ public class LargestNumberSolver {
 					newNum /= 10;
 				}
 				doubleArray[i] = newNum;
+=======
+		/* Sorting by descending order WILL NOT work here. Instead, each digit should be paired with another and those 
+		 * concatenated numbers should be tested against each other to find the largest combination. However, this 
+		 * method should be slower for larger data sets. Since single digits cause issues with the previously mentioned
+		 * approach, each number will be sorted according to its leading digit and will be sorted from there (without
+		 * counting 0's).
+		 */
+		
+		// First, the program will sort and reverse the list in the parameter after copying it (to avoid altering the original)
+		Integer[] temp = arr.clone();
+		
+		// Sort the list
+		Comparator<Integer> cmp = new Comparator<Integer>() { 
+			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
+		
+		insertionSort(temp, cmp);
+		
+		// Now reverse the list:
+		ArrayList<Integer> sortedTemp = new ArrayList<Integer>();
+		
+		for(int i = 0; i < arr.length; i++) {
+			sortedTemp.add( temp[ arr.length - (1+i)] );
+		}
+		
+		
+		// Next, create arrayLists for single digits and non-single digits to make comparisons with later.
+		ArrayList<Integer> singleDigits = new ArrayList<Integer>();
+		ArrayList<Double> nonSingleDigits = new ArrayList<Double>();
+		
+		// Loop through each element in the array:
+		for (int i = 0; i < sortedTemp.size(); i++) {
+			if (0 < sortedTemp.get(i) && sortedTemp.get(i) < 10) { // If this is a digit between 1 and 9 (inclusive):
+				singleDigits.add( sortedTemp.get(i) );
+			} else { // If it isn't a single digit, add it to the other arrayList.
+				nonSingleDigits.add( (double)(sortedTemp.get(i)) ); // This is a double for later comparisons.
+>>>>>>> Stashed changes
 			}
 		}
 		Double[] temp = doubleArray;
 		
+<<<<<<< Updated upstream
 		Comparator<Double> cmp = new Comparator<Double>() { 
 			public int compare(Double e1, Double e2) { return e1.compareTo(e2); } };
 		
@@ -97,9 +135,57 @@ public class LargestNumberSolver {
 			double newDouble = sortedDoubles[i];
 			while(sortedDoubles[i] != (int) sortedDoubles[i]) {
 				newDouble = sortedDoubles[i] *= 10;
+=======
+		
+		// Next, the code will sort the non-single digit code according to its correct order in concatenation by sorting
+		//  each value according to its digits
+		for(Double index : nonSingleDigits) {
+			while (index > 10) { // While it still hasn't been "simplified:"
+				index /= 10;
+			}
+		}
+		
+		// Now that each value is a decimal, make comparisons accordingly.
+		Comparator<Double> doubleCmp = new Comparator<Double>() { 
+			public int compare(Double e1, Double e2) { return e1.compareTo(e2); } };
+		
+		nonSingleDigits.sort(doubleCmp);
+		// Next, we'll convert this list back into integer values and store these values in a reversed list
+		for(Double index : nonSingleDigits) {
+			
+			System.out.println("decimal values: " + index); // Test statement
+			
+			if (index < 10) { // If it still hasn't been UN-"simplified:"
+				index *= 10;
+>>>>>>> Stashed changes
 			}
 			sortedList[i] = (int) newDouble;
 		}
+<<<<<<< Updated upstream
+=======
+		
+		// Adds the values to a new arrayList in reversed order:
+		ArrayList<Integer> sortedValues = new ArrayList<Integer>();
+		
+		for(Double index : nonSingleDigits) {
+			sortedValues.add(0, index.intValue());
+		}
+		
+		
+		// Lastly, the function will add the two arrayLists together but add single digits first if they're equivalent
+		//  to a larger value's first digit.
+		String bigInteger = "";
+		
+		// Loop through each singleDigit and make comparisons with each sortedValue:
+		int sortedValueIndex = 0;
+		for(Integer singleDigitIndex : singleDigits) {
+			// While the sortedValueIndex is both a valid index and shares the same first digit with the singleDigits:
+			while (sortedValueIndex < sortedValues.size() && sortedValues.get(sortedValueIndex) < (singleDigitIndex + 1) ) {
+				
+				bigInteger += sortedValues.get(sortedValueIndex);
+				sortedValueIndex++;
+			}
+>>>>>>> Stashed changes
 			
 		String bigNumber = "";
 		
@@ -179,11 +265,11 @@ public class LargestNumberSolver {
 	public static BigInteger sum(List<Integer[]> list) {
 		
 		// Instantiates a total to be returned later
-		BigInteger total = BigInteger.valueOf( (long)(0) );
+		BigInteger total = BigInteger.valueOf(0);
 		
 		// Loops through each element in the list.
-		for(int i = 0; i < list.size(); i++) {
-			total = total.add( findLargestNumber(list.get(i)) ); // Adds each arrays biggest number to the total
+		for(Integer[] index : list) {
+			total = total.add( findLargestNumber(index) ); // Adds each arrays biggest number to the total
 			//System.out.println("largest at "+ i + ": " + findLargestNumber(list.get(i))); // test statement
 		}
 		
