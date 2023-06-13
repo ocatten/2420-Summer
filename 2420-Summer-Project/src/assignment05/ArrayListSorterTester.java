@@ -2,7 +2,7 @@
  * Tester class for ArrayListSorter
  * 
  * @author: Parker Catten @u0580588 & Everett Oglesby
- * @version 02:23:23 CS-2420_SP-2023
+ * @version 06:12:23 CS-2420_SMR-2023
  */
 package assignment05;
 
