@@ -92,34 +92,28 @@ public class ArrayListSorterTester {
 	public void testQuickSortOnSmall () {
 		
 		ArrayListSorter sorter = new ArrayListSorter();
-		ArrayList<Integer> testCase = sorter.generatePermuted(10);
+		//ArrayList<Integer> testCase = sorter.generatePermuted(10);
+		ArrayList<Integer> testCase = new ArrayList<Integer>();
 		
-		
-		ArrayList<Integer> uniqueValues = new ArrayList<Integer>();
-		
-		for (int i = 0; i < testCase.size(); i++) {
-			
-			System.out.print(testCase.get(i) + " ");
-			//assertEquals(i + 1, testCase.get(i));
-		}
-		
-		System.out.println("unsorted ");
-		
+		//[7, 2, 5, 8, 1, 9, 3, 4, 6, 10] 
+		testCase.add(7);
+		testCase.add(2);
+		testCase.add(5);
+		testCase.add(8);
+		testCase.add(1);
+		testCase.add(9);
+		testCase.add(3);
+		testCase.add(4);
+		testCase.add(6);
+		testCase.add(10);
 		
 		Comparator<Integer> cmp = new Comparator<Integer>() { // Makes the comparator to make comparisons with.
 			public int compare(Integer e1, Integer e2) { return e1.compareTo(e2); } };
 		
 	
-			sorter.quicksort(testCase);
+		sorter.quicksort(testCase);
 		
-		for (int i = 0; i < testCase.size(); i++) {
-			
-			System.out.print(testCase.get(i) + " ");
-			//assertEquals(i + 1, testCase.get(i));
-		}
-		
-		
-		
-		System.out.println("sorted ");
+		System.out.print(testCase);
+		System.out.println(" sorted ");
 	}
 }
