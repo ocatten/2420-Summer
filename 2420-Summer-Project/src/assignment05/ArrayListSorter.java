@@ -79,6 +79,10 @@ public class ArrayListSorter {
 		
 		// Group of test statements.
 		System.out.println("Partition: " + arr);
+		
+		System.out.println("leftBound: " + arr.get(leftBound));
+		System.out.println("rightBound: "+ rightBound);
+		System.out.println("rightBound: " + arr.get(rightBound));
 		System.out.println("low: " + arr.get(low));
 		System.out.println("high: " + arr.get(high));
 		System.out.println("pivot: " + pivot);
@@ -129,11 +133,28 @@ public class ArrayListSorter {
 			}
 		}
 		
-		// Now put the pivot back into its place
+		// Now put the pivot back into its place IF IT BELONGS THERE
 		int pivotIndex = low;
-		System.out.println("SWAPPING " + arr.get(pivotIndex) + " WITH " + pivot); // Test statement
-		Collections.swap(arr, pivotIndex, rightBound); // Swap the two values.
 		
+		// Test statements
+		System.out.println("current pivotIndex " + pivotIndex);
+		System.out.println("current rightBound " + rightBound);
+		
+		if ( pivotIndex != rightBound-1) {
+			
+			System.out.println(rightBound);
+			System.out.println("SWAPPING " + arr.get(pivotIndex) + " WITH " + pivot); // Test statement
+			Collections.swap(arr, pivotIndex, rightBound); // Swap the two values.
+		
+		} else if (pivotIndex != rightBound-1) { 
+			
+			
+		} else {
+			
+			return;
+		}
+		
+		System.out.println(rightBound);
 		System.out.println("NEXT PARTITION");
 		partition(pivotIndex, rightBound, arr);
 		partition(leftBound, pivotIndex-1, arr);
