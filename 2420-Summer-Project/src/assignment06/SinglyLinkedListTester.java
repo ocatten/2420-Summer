@@ -466,6 +466,46 @@ public class SinglyLinkedListTester {
 		assertTrue(smallList.iterator().hasNext());
 	}
 	
+	@Test
+	public void testRemoveOnEmpty() {
+		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
+		Iterator<Integer> itr = smallList.iterator();
+		itr.remove();
+	}
+	
+	@Test
+	public void testRemoveOnceInIterator() {
+		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
+		
+		for(Integer i = 1; i <= 4; i++) {
+			smallList.addNode(i);
+		}
+		
+		Iterator<Integer> itr = smallList.iterator();
+		itr.remove();
+		Integer testNum = 2;
+		assertEquals(testNum,smallList.head.data);
+	}
+	
+	@Test
+	public void testRemoveMultipleTimesInIterator() {
+		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
+		
+		for(Integer i = 1; i <= 4; i++) {
+			smallList.addNode(i);
+		}
+		
+		Iterator<Integer> itr = smallList.iterator();
+		itr.remove();
+		Integer testNum = 2;
+		assertEquals(testNum,smallList.head.data);	
+		itr.remove();
+		testNum++;
+		assertEquals(testNum,smallList.head.data);
+		itr.remove();
+		testNum++;
+		assertEquals(testNum,smallList.head.data);
+	}
 	
 	
 	@Test

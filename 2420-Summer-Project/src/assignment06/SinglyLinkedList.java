@@ -424,7 +424,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		Object[] nodes = new Object[size()];
 		
 		// Catch case for an empty list
-		if(temp.data == null) {
+		if(temp == null) {
 			return nodes;
 		}
 		
@@ -560,38 +560,41 @@ public class SinglyLinkedList<E> implements List<E> {
 		 */
 		public void remove() {
 			
+			//Catch case for if the Linked List is null or the iterator is not properly initialized
+			if(head == null || currentNode == null) {
+				return;
+			}
+			
 			// More testing statements
 			//System.out.println("BEGINNING OF REMOVE - Current node: " + currentNode.data);
 			//System.out.println("BEGINNING OF REMOVE - Previous node: " + previousNode.data);
 			
-			// Catch case for a single element length of nodes.
+			// Catch case for a single element length of nodes or Node is at beginning.
 			if( currentNode == head) {
-				
-				deleteFirst();
-				//System.out.println("END OF REMOVE - Current node: " + currentNode.data);
-				//System.out.println("END OF REMOVE - Previous node: " + previousNode.data);
-				return;
+				head = head.next;
+		        if (head != null) {
+		            head.previous = null;
+		        }
+		        currentNode = head;
+		        previousNode = null;
+		        return;
 			}
 			
 			// If the iterator is at the end of the list, it deletes the last element and sets everything one back.
 			if(currentNode == tail)  {
-				
-				currentNode = previousNode;
-				
-				// As long as the previousNode has an element before it, it sets it back one.
-				if(previousNode.previous != null) {
-					previousNode = previousNode.previous;
-				}
-				
-				// Set the next value to null.
-				currentNode.next = null;
-				return;
+				tail = tail.previous;
+		        tail.next = null;
+		        currentNode = tail;
+		        previousNode = tail.previous;
+		        return;
 			}
 			
 			// If there is no exceptional case, thread the nodes through the currentNode and reset proper values.
 			previousNode.next = currentNode.next;
-			currentNode = currentNode.next;
+		    currentNode.next.previous = previousNode;
+		    currentNode = currentNode.next;
 		}
+
 		
 		
 		
