@@ -227,7 +227,7 @@ public class SinglyLinkedListTester {
 		SinglyLinkedList emptyList = new SinglyLinkedList();
 		
 		emptyList.insertFirst(-1);
-		Object[] testCase = (Object[]) emptyList.toArray();
+		Object[] testCase = emptyList.toArray();
 		
 		for(int i = 0; i < testCase.length; i++) {
 			//System.out.println(((Node)testCase[0]).data);
@@ -470,7 +470,16 @@ public class SinglyLinkedListTester {
 	public void testRemoveOnEmpty() {
 		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
 		Iterator<Integer> itr = smallList.iterator();
-		itr.remove();
+		
+		try {
+			
+			itr.remove();
+			assertTrue(false);
+			
+		} catch (Exception e) {
+			
+			assertTrue(true);
+		}
 	}
 	
 	@Test
@@ -557,9 +566,5 @@ public class SinglyLinkedListTester {
 		assertEquals(smallList.size(), 0);
 		
 	}
-	
-	
-	
-	
 	
 }

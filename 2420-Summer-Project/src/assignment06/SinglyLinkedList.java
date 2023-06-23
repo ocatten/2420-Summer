@@ -118,7 +118,6 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			// If the list is not empty the head of the next node will be equal to the new node
 			head = newNode;
-			head.next = temp;
 			
 			return; // Exit the function
 		}
@@ -562,7 +561,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			//Catch case for if the Linked List is null or the iterator is not properly initialized
 			if(head == null || currentNode == null) {
-				return;
+				throw new IllegalStateException();
 			}
 			
 			// More testing statements
@@ -577,6 +576,9 @@ public class SinglyLinkedList<E> implements List<E> {
 		        }
 		        currentNode = head;
 		        previousNode = null;
+		        
+		        listSize--; // Track list size
+		        
 		        return;
 			}
 			
@@ -586,6 +588,9 @@ public class SinglyLinkedList<E> implements List<E> {
 		        tail.next = null;
 		        currentNode = tail;
 		        previousNode = tail.previous;
+		        
+		        listSize--; // Track list size
+		        
 		        return;
 			}
 			
@@ -593,6 +598,8 @@ public class SinglyLinkedList<E> implements List<E> {
 			previousNode.next = currentNode.next;
 		    currentNode.next.previous = previousNode;
 		    currentNode = currentNode.next;
+		    
+		    listSize--;
 		}
 
 		
