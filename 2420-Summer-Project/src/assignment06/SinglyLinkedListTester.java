@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import assignment06.SinglyLinkedList.LinkedListIterator;
 import assignment06.SinglyLinkedList.Node;
 
 public class SinglyLinkedListTester {
@@ -253,6 +254,8 @@ public class SinglyLinkedListTester {
 		
 		assertEquals(-1, ((Node)testCase[1]).data);
 	}
+	
+
 	
 	
 	
@@ -495,6 +498,47 @@ public class SinglyLinkedListTester {
 		Integer testNum = 2;
 		assertEquals(testNum,smallList.head.data);
 	}
+	
+	@Test
+	public void testRemoveTwiceOnListWithSingleValue() {
+		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
+		
+		smallList.addNode(1);
+		
+		Iterator<Integer> itr = smallList.iterator();
+		itr.remove();
+		
+		try {
+			
+			itr.remove();
+			assertTrue(false);
+			
+		} catch (Exception e) {
+			
+			assertTrue(true);
+		}
+	}
+	
+	
+	
+	@Test
+	public void testRemoveInTheMiddleOfSmallList() {
+		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
+		
+		smallList.addNode(1);
+		smallList.addNode(2);
+		smallList.addNode(3);
+		smallList.addNode(4);
+		
+		LinkedListIterator itr = smallList.iterator();
+		itr.next();
+		//itr.next();
+		itr.remove();
+		Integer expected = 3;
+		assertEquals(expected, itr.getData());
+	}
+	
+	
 	
 	@Test
 	public void testRemoveMultipleTimesInIterator() {
