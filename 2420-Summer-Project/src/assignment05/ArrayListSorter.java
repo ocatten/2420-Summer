@@ -62,47 +62,44 @@ public class ArrayListSorter {
 	 * @param rightBound: index of the array that bounds the partition's highest index
 	 * @param arr: Array the partition is sorting.
 	 */
-	public static <T extends Comparable<? super T>> void partition(int leftBound, int rightBound, ArrayList<T> arr) {
+	public static <T extends Comparable<? super T>> void partition(int low, int high, ArrayList<T> arr) {
 		
 		// Base case, tracks when the partitions are tracking sub arrays that don't exist
-		if (leftBound < 0) {
+		if (low < 0) {
 			return;
-		} else if (rightBound >= arr.size()) {
+		} else if (high >= arr.size()) {
+			return;
+		} else if (high <= 0) {
 			return;
 		}
 		
 		// Set up relevant fields.
-		int low = leftBound;
-		int high = rightBound - 1; // This leaves room to swap the pivot to the end
-		int mid = pivotAtMid(arr, rightBound, leftBound);
-		T pivot = arr.get(mid);
+		int mid = pivotAtMid(arr, high, low);
 		
 		// Group of test statements.
 		System.out.println("Partition: " + arr);
-		
-		System.out.println("leftBound: " + arr.get(leftBound));
-		System.out.println("rightBound: "+ rightBound);
-		System.out.println("rightBound: " + arr.get(rightBound));
 		System.out.println("low: " + arr.get(low));
 		System.out.println("high: " + arr.get(high));
-		System.out.println("pivot: " + pivot);
-		System.out.println("mid index: " + mid);
+		System.out.println("pivot: " + arr.get(mid));
 		
 		// Comparator object to use
 		Comparator<T> cmp = new Comparator<T>() { // Makes the comparator to make comparisons with.
 			public int compare(T e1, T e2) { return e1.compareTo(e2); } };
 		
-		// Get rid of the pivot we're working with.
-		Collections.swap(arr, rightBound, mid);
-		
-		
 		// While the algorithm hasn't sorted through the two ends of the partition:
-		while (low < high) {
+		while (low < mid || mid <= high) {
 			
-			// If the low is lower than pivot, increment the position
-			if (cmp.compare(arr.get(low), pivot) < 0) {
+			// If the high is in the right place, decrement its position
+			if (cmp.compare(arr.get(high), arr.get(mid)) < 0) {
 				
-				System.out.println("low not found " + arr.get(low) + " against " + pivot); // Test statement
+				System.out.println("high not found " + arr.get(high) + " against " + arr.get(mid)); // Test statement
+				high--;
+			}
+			
+			// If the low is in the right place, increment the position
+			if (cmp.compare(arr.get(low), arr.get(mid)) < 0) {
+				
+				System.out.println("low not found " + arr.get(low) + " against " + arr.get(mid)); // Test statement
 				low++;
 			}
 			
@@ -113,14 +110,14 @@ public class ArrayListSorter {
 			
 			
 			// If the high is still higher than the pivot, decrement the position
-			if (cmp.compare(arr.get(high), pivot) > 0 && low < high) {
+			if (cmp.compare(arr.get(high), pivot) > 0) {
 				
 				System.out.println("high not found " + arr.get(high) + " against " + pivot);
 				high--;
 			}
 			
 			// If the high is lower than the pivot, print as such
-			if (cmp.compare(arr.get(high), pivot) < 0 && low < high) {
+			if (cmp.compare(arr.get(high), pivot) < 0) {
 				
 				System.out.println("high found " + arr.get(high) + " against " + pivot); // Test statement
 				
@@ -134,12 +131,13 @@ public class ArrayListSorter {
 		}
 		
 		// Now put the pivot back into its place IF IT BELONGS THERE
-		int pivotIndex = low;
+		int pivotIndex = high;
 		
 		// Test statements
 		System.out.println("current pivotIndex " + pivotIndex);
 		System.out.println("current rightBound " + rightBound);
 		
+		// If the position of the pivot isn't right next to the rightBound:
 		if ( pivotIndex != rightBound-1) {
 			
 			System.out.println(rightBound);
