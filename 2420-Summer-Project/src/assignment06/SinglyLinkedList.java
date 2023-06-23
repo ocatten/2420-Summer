@@ -18,6 +18,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	// Fields
 	public Node head = null;
 	public Node tail = null;
+	public int listSize = 0;
 	
 	
 	/**
@@ -71,14 +72,28 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			// If the list is not empty the tail of the next will be equal to the new node
 			newNode.previous = tail;
+			//System.out.println("Current tail: " + tail.data); // Test statement
 			tail.next = newNode;
+			
+			//System.out.println("newNode: " + newNode.data); // Test statements
+			//System.out.println("Tail's tail: " + tail.next.data);
+			
 			tail = newNode;
+			
+			//System.out.println("New tail: " + tail.previous.next.data); // Test statements
+			//System.out.println("New tail's prev: " + tail.previous.data);
+			//System.out.println("New tail's tail: " + tail.next);
+			
+			listSize++; // track size
 			
 		} else {
 			
 			// If the list is empty, the whole set of nodes only point to the new Node
 			head = newNode;
 			tail = newNode;
+			//head.next = tail;
+			//tail.previous = head;
+			listSize++; // track size
 		}
 	}
 	
@@ -96,6 +111,16 @@ public class SinglyLinkedList<E> implements List<E> {
 		// Catch case for empty list
 		if(size() == 0) {
 			addNode(element);
+			
+			// Make a node for data passed in the parameter
+			Node newNode = new Node(element);
+			Node temp = head;
+			
+			// If the list is not empty the head of the next node will be equal to the new node
+			head = newNode;
+			head.next = temp;
+			
+			return; // Exit the function
 		}
 		
 		// Make a node for data passed in the parameter
@@ -105,6 +130,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		// If the list is not empty the head of the next node will be equal to the new node
 		head = newNode;
 		head.next = temp;
+		listSize++; // track size
 	}
 	
 	
@@ -141,6 +167,7 @@ public class SinglyLinkedList<E> implements List<E> {
 				// Sets the newNode in the chain of nodes
 				newNode.next = currentNode.next;
 				currentNode.next = newNode;	
+				listSize++; // track size
 				return;
 			}
 			
@@ -229,7 +256,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		
 		// Catch case for an empty array.
 		if(this.size() == 0) {
-			throw new IndexOutOfBoundsException();
+			throw new NoSuchElementException();
 		}
 
 		// Stores the head to return
@@ -264,6 +291,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		if(index == 0) {
 			
 			deleteFirst();
+			listSize--;
 			return head.data;
 		}
 			
@@ -281,6 +309,7 @@ public class SinglyLinkedList<E> implements List<E> {
 						
 				// Sets the newNode in the chain of nodes
 				previousNode.next = currentNode.next;
+				listSize--;
 				return currentNode.data;
 			}
 					
@@ -322,7 +351,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		}
 		
 		// If the element isn't in the list, return -1
-		return -1;
+		return - 1;
 	}
 
 
@@ -333,28 +362,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * 
 	 * @return the number of elements in this list
 	 */
-	public int size() {
-		
-		// Sets a counter at 0 and starts at the head of the list.
-		int count = 1;
-		Node temp = head;
-		
-		// Catch case for an empty list
-		if(temp == null) {
-			return 0; // 0 is the size of an empty list
-		}
-		
-		// While the list still has a next element:
-		while(temp.next != null) {
-			
-			// Move the temporary variable to the next node and increment count
-			count++;
-			temp = temp.next;
-		}
-		
-		// Return the final count value.
-		return count;
-	}
+	public int size() { return listSize; }
 
 
 
@@ -384,13 +392,16 @@ public class SinglyLinkedList<E> implements List<E> {
 	public void clear() {
 		
 		// Catch case for an empty list
-		if(size() == 0) {
+		if(listSize == 0) {
 			return; // Do nothing
 		}
+		
+		listSize = 0; // Track size
 		
 		// Clear the head and the tail which clears the list.
 		head.next = null;
 		head = null;
+		tail.previous = null;
 		tail = null;
 	}
 	
@@ -462,8 +473,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		 * @return 
 		 */
 		public LinkedListIterator() {
-			Node currentNode = head;
-			Node previousNode = head;
+			
 		}
 		
 		
@@ -546,7 +556,7 @@ public class SinglyLinkedList<E> implements List<E> {
 
 		
 		/**
-		 * Removes the currentNode from the series of nodes. If it deletes the 
+		 * Removes the currentNode from the series of nodes.
 		 */
 		public void remove() {
 			

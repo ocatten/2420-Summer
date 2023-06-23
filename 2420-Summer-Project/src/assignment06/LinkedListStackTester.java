@@ -383,7 +383,7 @@ public class LinkedListStackTester {
 		
 		assertEquals(test.head.data, new Integer(5));
 		assertEquals(test.tail.data, new Integer(1));
-		assertEquals(test.size(), 6);
+		assertEquals(test.size(), 5);
 	}
 	
 	
@@ -396,7 +396,7 @@ public class LinkedListStackTester {
 		
 		assertEquals(test.head.data, new Integer(999));
 		assertEquals(test.tail.data, new Integer(0));
-		assertEquals(test.size(), 1001);
+		assertEquals(test.size(), 1000);
 	}
 	
 }

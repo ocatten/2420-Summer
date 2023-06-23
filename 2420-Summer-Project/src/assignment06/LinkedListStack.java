@@ -6,12 +6,7 @@
  */
 package assignment06;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import assignment06.SinglyLinkedList;
-import assignment06.Stack;
-import assignment06.SinglyLinkedList.Node;
 
 public class LinkedListStack<E> implements Stack<E> {
 	
@@ -26,7 +21,7 @@ public class LinkedListStack<E> implements Stack<E> {
 	 */
 	public LinkedListStack() {
 		// Sets-up fields
-		singlyLinkedList = new SinglyLinkedList();
+		singlyLinkedList = new SinglyLinkedList<E>();
 	}
 	
 	
@@ -34,7 +29,7 @@ public class LinkedListStack<E> implements Stack<E> {
 	/**
 	 * Class for each node of the linkedList. Uses the generic type E, and has a head/tail node for directionality.
 	 */
-	class Node<E>{
+	class Node {
 		
 		// Sets up the relevant fields for the class.
 		E data;
