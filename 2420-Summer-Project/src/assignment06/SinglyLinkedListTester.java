@@ -17,7 +17,6 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
-import assignment06.SinglyLinkedList.LinkedListIterator;
 import assignment06.SinglyLinkedList.Node;
 
 public class SinglyLinkedListTester {
@@ -98,7 +97,7 @@ public class SinglyLinkedListTester {
 		}
 		
 		for(int i = 0; i < testCase.length - 1; i++) {
-			assertEquals( ((Node)testCase[i]).data, i + 1);
+			assertEquals(testCase[i], i + 1);
 		}
 		// Simultaneously tests createNode and addNode
 	}
@@ -147,7 +146,7 @@ public class SinglyLinkedListTester {
 		}
 			
 		for(int i = 0; i < testCase.length; i++) {
-			assertEquals(((Node) (testCase[i])).data, smallList.get(i));
+			assertEquals(testCase[i], smallList.get(i));
 		}
 	}
 	
@@ -165,7 +164,7 @@ public class SinglyLinkedListTester {
 		}
 			
 		for(int i = 0; i < testCase.length; i++) {
-			assertEquals(((Node) (testCase[i])).data, largeList.get(i));
+			assertEquals(testCase[i], largeList.get(i));
 		}
 	}
 	
@@ -200,7 +199,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[0]).data);
 		}
 		
-		assertEquals(-1, ((Node)testCase[0]).data);
+		assertEquals(-1, testCase[0]);
 	}
 	
 	
@@ -217,7 +216,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[0]).data);
 		}
 		
-		assertEquals(-1, ((Node)testCase[0]).data);
+		assertEquals(-1, testCase[0]);
 	}
 	
 	
@@ -234,7 +233,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[0]).data);
 		}
 		
-		assertEquals(-1, ((Node)testCase[0]).data);
+		assertEquals(-1, testCase[0]);
 	}
 	
 
@@ -252,7 +251,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[0]).data);
 		}
 		
-		assertEquals(-1, ((Node)testCase[1]).data);
+		assertEquals(-1, testCase[1]);
 	}
 	
 
@@ -271,7 +270,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[0]).data);
 		}
 		
-		assertEquals(-1, ((Node)testCase[1]).data);
+		assertEquals(-1, testCase[1]);
 	}
 	
 	
@@ -288,7 +287,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[0]).data);
 		}
 		
-		assertEquals(-1, ((Node)testCase[0]).data);
+		assertEquals(-1, testCase[0]);
 	}
 	
 
@@ -306,7 +305,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[i]).data);
 		}
 		
-		assertEquals(2, ((Node)testCase[0]).data);
+		assertEquals(2, testCase[0]);
 	}
 	
 	
@@ -323,7 +322,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[i]).data);
 		}
 		
-		assertEquals(1, ((Node)testCase[0]).data);
+		assertEquals(1, testCase[0]);
 	}
 	
 	
@@ -340,7 +339,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[i]).data);
 		}
 		
-		assertEquals(3, ((Node)testCase[1]).data);
+		assertEquals(3, testCase[1]);
 	}
 	
 	
@@ -357,7 +356,7 @@ public class SinglyLinkedListTester {
 			//System.out.println(((Node)testCase[i]).data);
 		}
 		
-		assertEquals(2, ((Node)testCase[1]).data);
+		assertEquals(2, testCase[1]);
 	}
 	
 	
@@ -471,6 +470,7 @@ public class SinglyLinkedListTester {
 	
 	@Test
 	public void testRemoveOnEmpty() {
+		
 		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
 		Iterator<Integer> itr = smallList.iterator();
 		
@@ -484,6 +484,31 @@ public class SinglyLinkedListTester {
 			assertTrue(true);
 		}
 	}
+	
+	
+	
+	@Test
+	public void testRemoveOnSingleItem() {
+		
+		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
+		
+		smallList.addNode(1);
+		Iterator<Integer> itr = smallList.iterator();
+		
+		itr.remove();
+		
+		try {
+			
+			itr.remove();
+			assertTrue(false);
+		
+		} catch (Exception e) {
+			
+			assertTrue(true);
+		}
+	}
+	
+	
 	
 	@Test
 	public void testRemoveOnceInIterator() {
@@ -499,14 +524,18 @@ public class SinglyLinkedListTester {
 		assertEquals(testNum,smallList.head.data);
 	}
 	
+	
+	
 	@Test
 	public void testRemoveTwiceOnListWithSingleValue() {
+		
 		SinglyLinkedList<Integer> smallList = new SinglyLinkedList<>();
 		
 		smallList.addNode(1);
 		
 		Iterator<Integer> itr = smallList.iterator();
 		itr.remove();
+		itr.next();
 		
 		try {
 			
@@ -530,12 +559,12 @@ public class SinglyLinkedListTester {
 		smallList.addNode(3);
 		smallList.addNode(4);
 		
-		LinkedListIterator itr = smallList.iterator();
+		Iterator<Integer> itr = smallList.iterator();
 		itr.next();
-		//itr.next();
+		itr.next();
 		itr.remove();
-		Integer expected = 3;
-		assertEquals(expected, itr.getData());
+		Integer expected = 4;
+		assertEquals(expected, itr.next());
 	}
 	
 	
@@ -549,14 +578,23 @@ public class SinglyLinkedListTester {
 		}
 		
 		Iterator<Integer> itr = smallList.iterator();
+		
 		itr.remove();
+		itr.next();
 		Integer testNum = 2;
-		assertEquals(testNum,smallList.head.data);	
-		itr.remove();
-		testNum++;
+		
 		assertEquals(testNum,smallList.head.data);
+		
+		itr.remove();
+		itr.next();
+		testNum++;
+		
+		assertEquals(testNum,smallList.head.data);
+		
 		itr.remove();
 		testNum++;
+		itr.next();
+		
 		assertEquals(testNum,smallList.head.data);
 	}
 	
@@ -575,40 +613,48 @@ public class SinglyLinkedListTester {
 		itr.next();
 		
 		Object[] testCase = smallList.toArray();
-		for(int i = 0; i < testCase.length; i++) {
+		//for(int i = 0; i < testCase.length; i++) {
 			//System.out.println( ((Node)testCase[i]).data );
-		}
-		assertEquals( ((Node)testCase[1]).data, 2);
+		//}
+		
+		assertEquals( testCase[1], 2);
 		
 		itr.remove();
+		itr.next();
 		
-		testCase = smallList.toArray();
-		for(int i = 0; i < testCase.length; i++) {
+		//testCase = smallList.toArray();
+		//for(int i = 0; i < testCase.length; i++) {
 			//System.out.println( ((Node)testCase[i]).data );
-		}
-		assertEquals( ((Node)testCase[1]).data, 3);
+		//}
+		assertEquals(testCase[1], 2);
 		
 		itr.remove();
-		testCase = smallList.toArray();
-		for(int i = 0; i < testCase.length; i++) {
-			//System.out.println( ((Node)testCase[i]).data );
+		itr.next();
+		
+		//testCase = smallList.toArray();
+		for(int i = 0; i < testCase.length-1; i++) {
+			//System.out.println(testCase[i]);
 		}
-		assertEquals( ((Node)testCase[1]).data, 4);
+		assertEquals(testCase[1], 2);
 		
 		itr.remove();
-		testCase = smallList.toArray();
+		itr.next();
+		
+		//testCase = smallList.toArray();
 		for(int i = 0; i < testCase.length; i++) {
 			//System.out.println( ((Node)testCase[i]).data );
 		}
-		assertEquals( ((Node)testCase[0]).data, 1);
+		assertEquals(testCase[0], 1);
 		
-		itr.remove();
-		testCase = smallList.toArray();
+		//itr.remove();
+		//itr.next();
+		
+		//testCase = smallList.toArray();
 		for(int i = 0; i < testCase.length; i++) {
 			//System.out.println( ((Node)testCase[i]).data );
 		}
-		assertEquals(smallList.size(), 0);
 		
+		assertEquals(smallList.size(), 1);
 	}
 	
 }

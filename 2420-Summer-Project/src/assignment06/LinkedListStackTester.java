@@ -54,7 +54,7 @@ public class LinkedListStackTester {
 		}
 	}
 	
-/*----------------------------------------------LINKED LIST CONSTRUCTORS-----------------------------------------------*/
+/*-------------------------------------------------LINKED LIST CONSTRUCTORS------------------------------------------------*/
 	
 	@Test
 	public void testEmptyLinkedListConstructor(){
@@ -105,7 +105,7 @@ public class LinkedListStackTester {
 		}
 	}
 	
-/*----------------------------------------------------SIZE TEST------------------------------------------------------------*/
+/*-----------------------------------------------------SIZE TEST------------------------------------------------------------*/
 	
 	@Test
 	public void emptyLinkedListSizeTest () {
@@ -132,7 +132,7 @@ public class LinkedListStackTester {
 		assertEquals(linkedList.size(), 1000);
 	}
 	
-/*---------------------------------------------LINKEDLIST NODES PEEK TEST--------------------------------------------------*/
+/*----------------------------------------------LINKEDLIST NODES PEEK TEST-------------------------------------------------*/
 	
 	@Test
 	public void emptyLinkedListNodesPeekTest () {
@@ -170,7 +170,7 @@ public class LinkedListStackTester {
 		assertEquals(linkedList.peek(), intgr);
 	}
 	
-/*---------------------------------------CLEAR AND IsEMPTY LINKEDLIST TESTS--------------------------------------------*/
+/*-----------------------------------------CLEAR AND IsEMPTY LINKEDLIST TESTS----------------------------------------------*/
 	
 	@Test
 	public void emptyLinkedListIsClearTest () {
@@ -240,7 +240,7 @@ public class LinkedListStackTester {
 	
 	
 
-/*----------------------------------------------------PUSH TESTS-------------------------------------------------------*/
+/*-------------------------------------------------------PUSH TESTS-------------------------------------------------------*/
 	
 	@Test
 	public void emptyLinkedListPushTest () {
@@ -303,7 +303,7 @@ public class LinkedListStackTester {
 		assertEquals(linkedList.size(), 1001);
 	}
 	
-/*------------------------------------------------------POP TEST------------------------------------------------------*/
+/*-------------------------------------------------------POP TEST----------------------------------------------------------*/
 	
 	@Test
 	public void emptyLinkedListPopTest () {
@@ -360,7 +360,7 @@ public class LinkedListStackTester {
 		assertEquals(linkedList.size(), 999);
 	}	
 	
-/*----------------------------------------------------GETLIST TESTS--------------------------------------------------*/
+/*----------------------------------------------------GETLIST TESTS--------------------------------------------------------*/
 	
 	@Test
 	public void emptyGetListTest () {

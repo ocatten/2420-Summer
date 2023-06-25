@@ -7,11 +7,9 @@
  */
 package assignment06;
 
-import java.util.ArrayList; 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import assignment06.List;
+import java.lang.IllegalStateException;
 
 public class SinglyLinkedList<E> implements List<E> {
 	
@@ -19,6 +17,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	public Node head = null;
 	public Node tail = null;
 	public int listSize = 0;
+	//public boolean hasMoved;
 	
 	
 	/**
@@ -70,8 +69,11 @@ public class SinglyLinkedList<E> implements List<E> {
 		// Catch case to see if list is empty
 		if(head != null) {
 			
+			//System.out.println("head is not null flag"); // Test statement
+			
 			// If the list is not empty the tail of the next will be equal to the new node
 			newNode.previous = tail;
+			
 			//System.out.println("Current tail: " + tail.data); // Test statement
 			tail.next = newNode;
 			
@@ -110,11 +112,11 @@ public class SinglyLinkedList<E> implements List<E> {
 		
 		// Catch case for empty list
 		if(size() == 0) {
+			
 			addNode(element);
 			
 			// Make a node for data passed in the parameter
 			Node newNode = new Node(element);
-			Node temp = head;
 			
 			// If the list is not empty the head of the next node will be equal to the new node
 			head = newNode;
@@ -420,7 +422,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		
 		// Start at the head of the linkedList and make a new array of the size of the list.
 		Node temp = head;
-		Object[] nodes = new Object[size()];
+		Object[] nodes = new Object[listSize];
 		
 		// Catch case for an empty list
 		if(temp == null) {
@@ -429,16 +431,19 @@ public class SinglyLinkedList<E> implements List<E> {
 		
 		// Sets the first index of the nodes to the head
 		int index = 0;
-		nodes[index] = temp;
+		nodes[index] = temp.data;
 		
 		// While there are still nodes in the list:
 		while(temp.next != null) {
 		
 			// Increment the index, move forward in the list of nodes, 
 			//  and set the nodes at the index to the current position
+			nodes[index] = temp.data;
 			index++;
-			nodes[index] = temp.next;
+			
+			nodes[index] = temp.next.data;
 			temp = temp.next;
+			
 		}
 		
 		return nodes;
@@ -463,6 +468,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	class LinkedListIterator implements Iterator<E> {
 		
+		boolean hasMoved = true;
 		Node currentNode = head;
 		Node previousNode = head; // Created to improve O behavior for remove()
 		
@@ -471,9 +477,8 @@ public class SinglyLinkedList<E> implements List<E> {
 		 * Constructor to instantiate relevant fields
 		 * @return 
 		 */
-		public LinkedListIterator() {
-			
-		}
+		//public LinkedListIterator() {
+		//}
 		
 		
 		
@@ -488,6 +493,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			// Catch case for empty list
 			if(head == null) {
+				
 				return null;
 			}
 			
@@ -501,6 +507,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			if(currentNode == head) {
 				
 				if(this.hasNext()) {
+					
 					currentNode = currentNode.next;
 				}
 				
@@ -509,6 +516,7 @@ public class SinglyLinkedList<E> implements List<E> {
 				//System.out.println("END OF NEXT - Current node: " + currentNode.data);
 				//System.out.println("END OF NEXT - Previous node: " + previousNode.data);
 				
+				hasMoved = true; // Track movement
 				return currentNode.data;
 			}
 			
@@ -517,19 +525,22 @@ public class SinglyLinkedList<E> implements List<E> {
 			if(this.hasNext()) {
 				
 				currentNode = currentNode.next;
+				
 			} else {
 				
 				return null; // Returns null if there is no next object.
 			}
 			
 			// Tracks the previousNode if the currentNode has moved
-			previousNode = previousNode.next;
-			
+			if(previousNode != null) {
+				previousNode = previousNode.next;
+			}
 			
 			// More testing statements
 			//System.out.println("END OF NEXT - Current node: " + currentNode.data);
 			//System.out.println("END OF NEXT - Previous node: " + previousNode.data);
 			
+			hasMoved = true; // Track movement
 			// Return the data at that point
 			return currentNode.data;
 		}
@@ -559,9 +570,15 @@ public class SinglyLinkedList<E> implements List<E> {
 		 */
 		public void remove() {
 			
+			//System.out.println(listSize); // Test statements
+			//System.out.println(currentNode.data);
+			//System.out.println(head.data);
+			
 			//Catch case for if the Linked List is null or the iterator is not properly initialized
-			if(head == null || currentNode == null) {
-				throw new IllegalStateException();
+			if(head == null || currentNode == null || !hasMoved) {
+				
+				//System.out.println("exception flag"); // Test statement
+				throw new java.lang.IllegalStateException();
 			}
 			
 			// More testing statements
@@ -570,26 +587,33 @@ public class SinglyLinkedList<E> implements List<E> {
 			
 			// Catch case for a single element length of nodes or Node is at beginning.
 			if( currentNode == head) {
+				
+				//System.out.println("flag"); // Test statement
 				head = head.next;
+				
 		        if (head != null) {
 		            head.previous = null;
 		        }
-		        currentNode = head;
+		        
 		        previousNode = null;
 		        
-		        listSize--; // Track list size
+		        listSize--; // Track list size and movement
+		        hasMoved = false;
 		        
 		        return;
 			}
 			
 			// If the iterator is at the end of the list, it deletes the last element and sets everything one back.
 			if(currentNode == tail)  {
+				
 				tail = tail.previous;
 		        tail.next = null;
-		        currentNode = tail;
+		        
+		        //currentNode = tail;
 		        previousNode = tail.previous;
 		        
-		        listSize--; // Track list size
+		        listSize--; // Track list size and movement
+		        hasMoved = false;
 		        
 		        return;
 			}
@@ -597,20 +621,9 @@ public class SinglyLinkedList<E> implements List<E> {
 			// If there is no exceptional case, thread the nodes through the currentNode and reset proper values.
 			previousNode.next = currentNode.next;
 		    currentNode.next.previous = previousNode;
-		    currentNode = currentNode.next;
+		    //currentNode = currentNode.next;
 		    
 		    listSize--;
-		}
-
-		
-		
-		
-		/**
-		 * Accessor method for data within a node.
-		 * @return E: Data at the currnetNode
-		 */
-		public E getData() {
-			return currentNode.data;
 		}
 		
 	}
