@@ -137,7 +137,7 @@ public class WebBrowser {
 		// Add each Node to the webHistory
 		for(int i = 0; i < backButton.size(); i++) {
 			
-			webHistory.insertFirst( (URL) backButton.getList().get(i) );
+			webHistory.insertFirst( backButton.getList().get(i) );
 		}
 		
 		return webHistory;

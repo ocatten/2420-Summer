@@ -98,7 +98,7 @@ public class LinkedListStack<E> implements Stack<E> {
 		
 		if(top != null) { // Checks if the stack has an element
 			size--; // Increments the size to keep the O behavior for size lower.
-			return (E)singlyLinkedList.deleteFirst();
+			return singlyLinkedList.deleteFirst();
 		} else { // If it doesn't, throw the exception
 			throw new NoSuchElementException();
 		}

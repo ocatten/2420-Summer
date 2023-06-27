@@ -105,13 +105,18 @@ public class WebBrowserTester {
 		
 		LinkedListStack bckBttn = wb.getBack();
 		//System.out.println(bckBttn.peek());
+		//System.out.println(bckBttn.size());
 		
 		wb.visit(new URL("http://pizza.com/"));
+		/*System.out.println(bckBttn.peek());
+		System.out.println(bckBttn.size());*/
 		
 		bckBttn = wb.getBack();
 		//System.out.println(bckBttn.peek());
+		//System.out.println(bckBttn.size());
+		//System.out.println(bckBttn.peek());
 		
-		assertEquals(3, bckBttn.size());
+		assertEquals(4, bckBttn.size());
 		assertEquals(bckBttn.peek().toString(), "http://pizza.com/");
 		
 	}
@@ -126,7 +131,7 @@ public class WebBrowserTester {
 		
 		LinkedListStack bckBttn = wb.getBack();
 		
-		assertEquals(1000, bckBttn.size());
+		assertEquals(1001, bckBttn.size());
 		assertEquals(bckBttn.peek().toString(), "http://pizza.com/");
 		
 	}

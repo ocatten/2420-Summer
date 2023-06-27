@@ -63,6 +63,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public void addNode(E data) {
 		
+		//System.out.println("addNode call"); // Test statement
+		
 		// Creates the new Node
 		Node newNode = new Node(data);
 		
@@ -110,16 +112,18 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public void insertFirst(E element) {
 		
+		//System.out.println("insertFirst call"); // Test statement
+		
 		// Catch case for empty list
 		if(size() == 0) {
 			
 			addNode(element);
 			
 			// Make a node for data passed in the parameter
-			Node newNode = new Node(element);
+			//Node newNode = new Node(element);
 			
 			// If the list is not empty the head of the next node will be equal to the new node
-			head = newNode;
+			//head = newNode;
 			
 			return; // Exit the function
 		}
@@ -146,6 +150,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index > size())
 	 */
 	public void insert(int index, E element) throws IndexOutOfBoundsException {
+		
+		//System.out.println("insert call"); // Test statement
 		
 		// Catch case for empty list
 		if(this.size() == 0) {
@@ -193,6 +199,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public E getFirst() throws IndexOutOfBoundsException {
 		
+		//System.out.println("getFirst call"); // Test statement
+		
 		// Catch case for an empty array.
 		if(this.size() == 0) {
 			throw new IndexOutOfBoundsException();
@@ -214,6 +222,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @throws IndexOutOfBoundsException if index is out of range (index < 0 || index >= size())
 	 */
 	public E get(int index) throws NoSuchElementException {
+		
+		//System.out.println("get call"); // Test statement
 		
 		// Sets up the relevant fields
 		int indexCounter = 0;
@@ -255,6 +265,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public E deleteFirst() throws NoSuchElementException {
 		
+		//System.out.println("deleteFirst call"); // Test statement
+		
 		// Catch case for an empty array.
 		if(this.size() == 0) {
 			throw new NoSuchElementException();
@@ -266,6 +278,7 @@ public class SinglyLinkedList<E> implements List<E> {
 		// Makes the value after the head a new value
 		Node newHead = head.next;
 		head = newHead;
+		listSize--;
 		
 		return temp.data;
 	}
@@ -283,38 +296,87 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public E delete(int index) throws IndexOutOfBoundsException {
 		
+		/*System.out.println("delete call"); // Test statement
+		
+		// Test statements to see initial list
+		for( Object object : this.toArray() ) {
+			
+			System.out.print(object + " ");
+		}
+		System.out.println();
+		System.out.println(index);
+		
 		// Catch case for an empty list.
-		if(this.size() == 0) {	
+		/*if(this.size() == 0) {	
 			throw new IndexOutOfBoundsException();
 		}
 		
 		// Catch case for copies of deleteFirst
 		if(index == 0) {
-			
-			deleteFirst();
-			listSize--;
-			return head.data;
+			return deleteFirst();
 		}
+		
+		// Catch case for an index at the end of a list
+		if(index == listSize-1) {
+			
+			// Stores the tail to return
+			//Node temp = tail;
+			
+			// Makes the value before the tail for a new value
+			//Node newTail = tail.previous;
+			//System.out.println("PREVIOUS NODE: " + newTail.data);
+			tail = tail.previous;
+			//tail.next = null;
+			listSize--;
+			
+			// Test statements to see output
+			System.out.println("RESULT: ");
+			for( Object object : this.toArray() ) {
+					
+				System.out.print(object + " ");
+			}
+			System.out.println();
+			
+			// For actually returning the deleted item at the INDEX, WHICH IS WRONG
+			//return temp.data; 
+			
+			//return tail.data; // Return thew NEW ITEM AT THAT POSITION
+			return this.get(index);
+		}*/
 			
 		
 		// Make a node for the data passed in the parameter.
-		Node previousNode = head;
-		Node currentNode = head.next;
-		int indexCounter = 1;
+		Node previousNode = new Node(null);
+		previousNode.next = head;
+		Node currentNode = head;
+		int indexCounter = 0;
 				
 		// While the index is within the number of nodes,
-		while(indexCounter < this.size()) {
+		while(indexCounter <= this.size()) {
 					
 			// If the counter has reached the desired index:
 			if(indexCounter == index) {
 						
 				// Sets the newNode in the chain of nodes
+				currentNode.next.previous = previousNode;
 				previousNode.next = currentNode.next;
-				listSize--;
+			
+				listSize--; // Track list size
+				
+				// Test statements to see output
+				/*System.out.println("RESULT: ");
+				for( Object object : this.toArray() ) {
+					
+					System.out.print(object + " ");
+				}
+				System.out.println();*/
+				
 				return currentNode.data;
+				//return currentNode.next.data;
 			}
 					
 			// Sets the next position at the end to avoid making refs to the temp object itself
+			previousNode = previousNode.next;
 			currentNode = currentNode.next;
 			indexCounter++;
 		}
@@ -335,6 +397,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @return the index of the first occurrence; -1 if the element is not found
 	 */
 	public int indexOf(Object element) {
+		
+		//System.out.println("indexOf call"); // Test statement
 		
 		// Sets up a counter and goes through each node, and checks if they're equal
 		int indexCounter = 0;
@@ -363,7 +427,11 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * 
 	 * @return the number of elements in this list
 	 */
-	public int size() { return listSize; }
+	public int size() { 
+		
+		//System.out.println("size call"); // Test statement
+		return listSize;
+	}
 
 
 
@@ -374,6 +442,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @return true if this collection contains no elements; false, otherwise
 	 */
 	public boolean isEmpty() {
+		
+		//System.out.println("isEmpty call"); // Test statement
 
 		// Check the head, if it's there, return true
 		if(head == null) {
@@ -391,6 +461,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * O(1) for a singly-linked list.
 	 */
 	public void clear() {
+		
+		//System.out.println("clear call"); // Test statement
 		
 		// Catch case for an empty list
 		if(listSize == 0) {
@@ -418,7 +490,9 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	public Object[] toArray() {
 		
+		//System.out.println("toArray call"); // Test statements
 		//System.out.println(head);
+		//System.out.println(listSize);
 		
 		// Start at the head of the linkedList and make a new array of the size of the list.
 		Node temp = head;
@@ -433,6 +507,10 @@ public class SinglyLinkedList<E> implements List<E> {
 		int index = 0;
 		nodes[index] = temp.data;
 		
+		//index++;
+		//temp = temp.next;
+		//index++;
+		
 		// While there are still nodes in the list:
 		while(temp.next != null) {
 		
@@ -440,12 +518,11 @@ public class SinglyLinkedList<E> implements List<E> {
 			//  and set the nodes at the index to the current position
 			nodes[index] = temp.data;
 			index++;
-			
-			nodes[index] = temp.next.data;
 			temp = temp.next;
-			
 		}
 		
+		// Catch the last index of the array and return.
+		nodes[listSize-1] = temp.data;
 		return nodes;
 	}
 	
@@ -456,6 +533,8 @@ public class SinglyLinkedList<E> implements List<E> {
 	 * @return an iterator over the elements in this list in proper sequence (from first element to last element)
 	 */
 	public Iterator<E> iterator() {
+		
+		//System.out.println("iterator call"); // Test statement
 		return new LinkedListIterator();
 	}
 	
@@ -468,8 +547,9 @@ public class SinglyLinkedList<E> implements List<E> {
 	 */
 	class LinkedListIterator implements Iterator<E> {
 		
-		boolean hasMoved = true;
-		Node currentNode = head;
+		// Fields
+		boolean hasMoved = false;
+		Node currentNode = new Node(null);
 		Node previousNode = head; // Created to improve O behavior for remove()
 		
 		
@@ -477,8 +557,10 @@ public class SinglyLinkedList<E> implements List<E> {
 		 * Constructor to instantiate relevant fields
 		 * @return 
 		 */
-		//public LinkedListIterator() {
-		//}
+		public LinkedListIterator() {
+			
+			currentNode.next = head;
+		}
 		
 		
 		
@@ -490,6 +572,8 @@ public class SinglyLinkedList<E> implements List<E> {
 		 * @return E: Data stored in the next node
 		 */
 		public E next() {
+			
+			//System.out.println("next call"); // Test statement
 			
 			// Catch case for empty list
 			if(head == null) {
@@ -555,6 +639,8 @@ public class SinglyLinkedList<E> implements List<E> {
 		 */
 		public boolean hasNext() {
 			
+			//System.out.println("hasNext call"); // Test statement
+			
 			// Catch case for a completely empty set of Nodes
 			if (currentNode == null) {
 				return false;
@@ -570,7 +656,8 @@ public class SinglyLinkedList<E> implements List<E> {
 		 */
 		public void remove() {
 			
-			//System.out.println(listSize); // Test statements
+			//System.out.println("remove call"); // Test statements
+			//System.out.println(listSize);
 			//System.out.println(currentNode.data);
 			//System.out.println(head.data);
 			
@@ -622,6 +709,7 @@ public class SinglyLinkedList<E> implements List<E> {
 			previousNode.next = currentNode.next;
 		    currentNode.next.previous = previousNode;
 		    //currentNode = currentNode.next;
+		    hasMoved = false;
 		    
 		    listSize--;
 		}
