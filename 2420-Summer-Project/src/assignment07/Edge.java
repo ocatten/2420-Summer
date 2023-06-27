@@ -1,12 +1,10 @@
 package assignment07;
 
-import assignment07.Vertex;
-
 /**
- * This class exists for an edge between two verticies in a directed graph
+ * This class exists for an edge between two vertices in a directed graph
  * 
  * @author Parker Catten, & Everett Oglesby
- * @version June 27, 2022
+ * @version 06:27:23
  */
 public class Edge {
 
