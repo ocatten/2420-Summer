@@ -60,29 +60,29 @@ public class GraphUtility {
 	 */
 	public static <Type> LinkedList<Type> DFS(List<Type> graph, Type source, Type target) {
 		
-		//Cast the source and target to Vertex objects
+		// Cast the source and target to Vertex objects
 		Vertex sourceVertex = (Vertex) source;
 		Vertex targetVertex = (Vertex) target;
 		
-		//Set the current source vertex to visited
+		// Set the current source vertex to visited
 		sourceVertex.visited = true;
 
-		//Create a new LinkedList to show the pathway to the target
+		// Create a new LinkedList to show the pathway to the target
 		LinkedList<Type> returnList = new LinkedList<Type>();
 		returnList.add(source);
 		
-		//If the source is at the target, return the list
+		// If the source is at the target, return the list
 		if(source.equals(target)){
 			
 			return returnList;
 		}
 		
-		//If not travel to the next vertex
+		// If not travel to the next vertex
 		for(Edge edge : sourceVertex.getAdjacent()) {
 			
 			Vertex vertex = edge.getOtherVertex();
 			
-			//If the vertex hasn't been visited yet, add it to the list if it's not null
+			// If the vertex hasn't been visited yet, add it to the list if it's not null
 			if(!vertex.visited) {
 				
 				LinkedList<Type> result = DFS(graph,(Type)vertex, target);
@@ -152,7 +152,6 @@ public class GraphUtility {
 			// Sets each to unvisited.
 			vertexNode.visited = false;
 		}
-		
 		
 		// Casts the starting vertex to make it visited, adds it to the queue.
 		Vertex startVertex = (Vertex)srcData;
