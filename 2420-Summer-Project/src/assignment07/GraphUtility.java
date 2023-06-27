@@ -225,14 +225,85 @@ public class GraphUtility {
 	}
 	
 	
-	
+	/**
+	 * Uses a topological sort algorithm to generate a sorted ordering of the vertices in the graph. Each 
+	 * graph have more than one valid ordering.
+	 * 
+	 * @param <Type>
+	 * @param sources
+	 * @param destinations
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	public static <Type> List<Type> sort(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {
-		// FILL IN + ADD METHOD COMMENT
+
+		
+		//Cast the source and target to Vertex objects
+		Vertex sourceVertex = (Vertex) source;
+		Vertex targetVertex = (Vertex) target;
+		
+		//Set the current source vertex to visited
+		sourceVertex.visited = true;
+
+		//Create a new LinkedList to show the pathway to the target
+		LinkedList<Type> returnList = new LinkedList<Type>();
+		returnList.add(source);
+		
+		//If the source is at the target, return the list
+		if(source.equals(target)){
+			
+			return returnList;
+		}
+		
+		//If not travel to the next vertex
+		for(Edge edge : sourceVertex.getAdjacent()) {
+			
+			Vertex vertex = edge.getOtherVertex();
+			
+			//If the vertex hasn't been visited yet, add it to the list if it's not null
+			if(!vertex.visited) {
+				
+				LinkedList<Type> result = DFS(graph,(Type)vertex, target);
+				result.add(0, source);
+				
+				if(result != null) {
+					
+					result.add(0, source);
+					return returnList;
+				}
+				
+			}
+		}
+		
+		// Else return null
 		return null;
 	}
 	
-	
+	/**
+	 * Private helper method for topological sorting.
+	 * 
+	 * @param v
+	 * @param visited
+	 * @param queue
+	 */
+	private <Type> void topologicalSort(int n, boolean visited[], ArrayList<Integer> currentNodes) {
 		
+		//Flag the current node as visited
+		visited[n] = true;
+		//Integer i;
+		
+		for(int i = 0; i < currentNodes.size(); i++) {
+			int node = currentNodes.get(i);
+			if(!visited[node]) {
+				topologicalSort(node, visited, currentNodes);
+			}
+		}
+		
+		currentNodes.add(new Integer(n));
+	}
+	
+	
+	
 	/**
 	 * Builds "sources" and "destinations" lists according to the edges
 	 * specified in the given DOT file (e.g., "a -> b"). Assumes that the vertex

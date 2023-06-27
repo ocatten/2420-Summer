@@ -17,7 +17,7 @@ public class LinkedListStackLTimer {
 		
 		//Which test to do, change the int to do a different test
 		//I wrote all of the tests as seperate methods
-		int test = 0;
+		int test = 5;
 
 		LinkedListStack timer = new LinkedListStack();
 		for(Integer n = 0; n < timesToLoop ; n++) {
@@ -322,7 +322,10 @@ public class LinkedListStackLTimer {
 			Random rng = new Random();
 
 			
-
+			//Create the list 
+			for(Integer i = 0; i < n*timesToLoop; i++) {
+				timer.push(i);
+			}
 			
 
 			
