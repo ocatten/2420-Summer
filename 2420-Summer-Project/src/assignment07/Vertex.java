@@ -1,8 +1,7 @@
 package assignment07;
 
-import java.util.LinkedList;
+import java.util.LinkedList; 
 import java.util.List;
-import java.util.Iterator;
 
 /**
  * This class represents a vertex in a directed graph. Uses a string to store its data
@@ -11,77 +10,52 @@ import java.util.Iterator;
  * @version 06:27:23
  */
 public class Vertex {
-
-	// used to id the Vertex
-	private String name;
 	
+	// Fields
+	private String data; // Data and key of vertex for the Graph's HashMap
+	public Vertex cameFrom; // Tracks previous vertex that points from it
+	private LinkedList<Edge> adj; // Adjacency list
+	public boolean visited = false; // Visited flag
 
-	// adjacency list
-	private LinkedList<Edge> adj;
 	
-	// Tracks previous vertex that points from it
-	public Vertex cameFrom;
-	
-	//visited flag
-	public boolean visited = false;
-
 	/**
-	 * Creates a new Vertex object, using the given name.
+	 * Constructor that creates a new Vertex object, stores given data within it
 	 * 
-	 * @param name - string used to identify this Vertex
+	 * @param data: String stored in this Vertex
 	 */
-	public Vertex(String name) {
+	public Vertex(String data) {
 		
-		this.name = name;
+		this.data = data;
 		this.adj = new LinkedList<Edge>();
 	}
-
-	/**
-	 * @return the string used to identify this Vertex
-	 */
-	public String getName() {
-		return name;
-	}
-
+	
+	
+	
 	/**
 	 * Adds a directed edge from this Vertex to another.
 	 * 
-	 * @param otherVertex - the Vertex object that is the destination of the edge
+	 * @param dstVertex: the Vertex object that is the destination of the edge
 	 */
-	public void addEdge(Vertex otherVertex) {
+	public void addEdge(Vertex dstVertex) {
 		
-		adj.add(new Edge(otherVertex));
-		// Gets the new edge and sets its origin to this vertex.
-		adj.get(adj.size()-1).setCameFrom(this);
-	}
-
-	/**
-	 * @return a iterator for accessing the edges for which this Vertex is the source
-	 */
-	public Iterator<Edge> edges() {
-		return adj.iterator();
+		adj.add(new Edge(dstVertex)); // Add the new edge to the adjacency list
+		
+		// Gets the new edge from the end of the adjacency list and sets its origin to this vertex
+		adj.get( adj.size()-1 ).setSource(this);
 	}
 	
 	
 	
 	/**
-	 * Accessor method for finding adjacent edges
-	 * @return adj
+	 * @return: The string stored in this Vertex
 	 */
-	public List<Edge> getAdjacent() {
-		return adj;
-	}
+	public String getData() { return data; }
 	
 	
 	
 	/**
-	 * Generates and returns a textual representation of this Vertex.
+	 * @return adj: List of edges around the vertex.
 	 */
-	public String toString() {
-		String s = "Vertex " + name + " adjacent to vertices ";
-		Iterator<Edge> itr = adj.iterator();
-		while(itr.hasNext())
-			s += itr.next() + "  ";
-		return s;
-	}
+	public List<Edge> getAdjacent() { return adj; }
+	
 }

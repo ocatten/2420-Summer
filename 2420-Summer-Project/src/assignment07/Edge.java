@@ -9,14 +9,14 @@ package assignment07;
 public class Edge {
 
 	// Fields
-	private Vertex dst; // destination of this directed edge
-	public Vertex cameFrom; // Origin of the directed edge
+	public Vertex src; // Source of the directed edge
+	private Vertex dst; // Destination of the directed edge
 
 	
 	/**
-	 * Creates the Edge object, given the origin of the edge
+	 * Constructor that creates the Edge object, given the source
 	 * 
-	 * @param dst - the destination Vertex
+	 * @param dst: The destination Vertex
 	 */
 	public Edge(Vertex dst) {
 		this.dst = dst;
@@ -27,11 +27,10 @@ public class Edge {
 	/**
 	 * Sets the parameter to the origin vertex
 	 * 
-	 * @param source: Source that the origin points to
+	 * @param src: Source that the origin points to
 	 */
-	public void setCameFrom(Vertex source){
-		
-		cameFrom = source;
+	public void setSource(Vertex src){
+		this.src = src;
 	}
 	
 	
@@ -39,24 +38,20 @@ public class Edge {
 	/**
 	 * @return: The original vertex pointing to something else
 	 */
-	public Vertex getCameFrom() { return cameFrom; }
+	public Vertex getSource() { return src; }
 
 	
 	
 	/**
-	 * @return: The destination the origin is pointing to
+	 * @return: The destination the source is pointing to
 	 */
-	public Vertex getOtherVertex() {
-		return this.dst;
-	}
+	public Vertex getDestination() { return dst; }
 	
 	
 	
 	/**
-	 * Returns the name of the destination Vertex as a textual representation of this Edge.
+	 * @return: Data at the destination for the console
 	 */
-	public String toString() {
-		return this.dst.getName();
-	}
+	public String toString() { return dst.getData(); }
 	
 }

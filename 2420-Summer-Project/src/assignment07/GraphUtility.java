@@ -35,6 +35,7 @@ public class GraphUtility {
 		}
 		
 		// Cast the generic destinations to vertices for testing purposes
+		@SuppressWarnings("unchecked")
 		LinkedList<Vertex> destinationVerticies = (LinkedList<Vertex>)destinations;
 				
 		//Set each vertex to not visited
@@ -44,6 +45,7 @@ public class GraphUtility {
 				
 		// begin the DFS
 		LinkedList<Type> result = DFS(destinations, srcData, dstData);
+		//System.out.println("DFS RESULT VALUE: " + result); // Test statement
 		return (result != null);
 	}
 	
@@ -62,7 +64,7 @@ public class GraphUtility {
 		
 		// Cast the source and target to Vertex objects
 		Vertex sourceVertex = (Vertex) source;
-		Vertex targetVertex = (Vertex) target;
+		//Vertex targetVertex = (Vertex) target;
 		
 		// Set the current source vertex to visited
 		sourceVertex.visited = true;
@@ -80,14 +82,15 @@ public class GraphUtility {
 		// If not travel to the next vertex
 		for(Edge edge : sourceVertex.getAdjacent()) {
 			
-			Vertex vertex = edge.getOtherVertex();
+			Vertex vertex = edge.getDestination();
 			
 			// If the vertex hasn't been visited yet, add it to the list if it's not null
 			if(!vertex.visited) {
 				
-				LinkedList<Type> result = DFS(graph,(Type)vertex, target);
-				result.add(0, source);
+				@SuppressWarnings("unchecked")
+				LinkedList<Type> result = DFS(graph, ((Type)vertex), target);
 				
+				// Catch case to avoid null pointer exception
 				if(result != null) {
 					
 					result.add(0, source);
@@ -173,15 +176,15 @@ public class GraphUtility {
 			for(Edge neighbor : starter.getAdjacent()) {
 				
 				// If the neighbor hasn't been visited:
-				if(!neighbor.getOtherVertex().visited) {
+				if(!neighbor.getDestination().visited) {
 					
 					//System.out.println("neighbor vertex: " + neighbor.getOtherVertex().getName()); // Test statement
-					neighbor.getOtherVertex().cameFrom = starter; // Sets the origin to this vertex as shown in lecture
+					neighbor.getDestination().cameFrom = starter; // Sets the origin to this vertex as shown in lecture
 					// The Vertex is visited if the queue contains it.
-					neighbor.getOtherVertex().visited = bfsQueue.contains(neighbor.getOtherVertex());
+					neighbor.getDestination().visited = bfsQueue.contains(neighbor.getDestination());
 					
 					// Add it to the queue.
-					bfsQueue.add(neighbor.getOtherVertex());
+					bfsQueue.add(neighbor.getDestination());
 				}
 			}
 		}
@@ -202,6 +205,7 @@ public class GraphUtility {
 	 * @param target: Destination we are building from
 	 * @param start: Source of the path where it begins
 	 */
+	@SuppressWarnings("unchecked")
 	public static <Type> List<Type> reconstructPath(List<Type> nodes, List<Type> edges, Type target, Type start){
 		
 		List<Vertex> tempPath = new LinkedList<Vertex>(); // Makes the list to be returned
@@ -221,7 +225,7 @@ public class GraphUtility {
 			returnPath.add( tempPath.get(i) );
 		}
 		
-		return (List<Type>)returnPath;
+		return (List<Type>)returnPath; // Cast this back to the generic data type
 	}
 	
 	
@@ -258,7 +262,7 @@ public class GraphUtility {
 		//If not travel to the next vertex
 		for(Edge edge : sourceVertex.getAdjacent()) {
 			
-			Vertex vertex = edge.getOtherVertex();
+			Vertex vertex = edge.getDestination();
 			
 			//If the vertex hasn't been visited yet, add it to the list if it's not null
 			if(!vertex.visited) {
