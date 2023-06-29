@@ -164,5 +164,14 @@ public class GraphTester {
 /*----------------------------------------------- TOPO SORT TESTS --------------------------------------------------------*/
 
 	
+		System.out.println("Topo sort tests");
+		
+		// Creates the shortest path and prints it with a for loop to verify a successful test
+				List<Vertex> shortestPathResultTopo = utility.sort(sources2, destinations2);
+				System.out.print("Shortest path from a to i: ");
+				for(Vertex node : shortestPathResultTopo) {
+					System.out.print(node.getData() + " ");
+				}
+				System.out.println();
 	}
 }

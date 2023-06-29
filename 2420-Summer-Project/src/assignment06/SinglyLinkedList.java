@@ -482,7 +482,7 @@ public class SinglyLinkedList<E> implements List<E> {
 	
 	@Override
 	/**
-	 * Generates an array containing all of the elements in this list in proper sequence 
+	 * Generates an array containing all of the elements in this list in proper se nce 
 	 * (from first element to last element).
 	 * O(N) for a singly-linked list.
 	 * 
