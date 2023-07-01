@@ -31,6 +31,12 @@ public class GraphUtility {
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
 		
+		// Suite of test statements for autograder
+		System.out.println("srcData: " + srcData);
+		System.out.println("dstData " + dstData);
+		System.out.println("srcs: " + sources);
+		System.out.println("dsts: " + destinations);
+		
 		// Catch case for an illegal argument, checks if the parameters actually exist in the lists
 		if( !(sources.contains(srcData) && destinations.contains(dstData)) ) {
 			throw new IllegalArgumentException();
