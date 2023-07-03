@@ -1,12 +1,11 @@
-package assign08;
+package assignment08;
 
 /**
- * This class represents a binary search tree containing generic data in each vertex (Vertex class definition is found
- * at the bottom of this file). Each node(Vertex) of the graph has a left and a right pointer and the graph is sorted
- * based on its value in relation to the head of the graph.
+ * This class represents a generic binary search tree. It implements the provided SortedSet interface given by the instructor.
+ * This tree also uses vertices to house the generic data.
  * 
- * @author: Everett Oglesby & Parker Catten @u0580588
- * @version: 03:23:23 - SP-2023_001
+ * @author: Everett Oglesby & Parker Catten
+ * @version: 07:03:23 - SUM-2023_001
  */
 
 import java.util.ArrayList;
