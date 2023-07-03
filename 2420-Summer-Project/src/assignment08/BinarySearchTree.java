@@ -368,80 +368,89 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					return false; // Reached the root of the tree, wasn't modified
 				}
 				
+				
 				// If a match is found:
 				if(currentNode.data.equals(item)) {
 					
-					//System.out.println("NODE REMOVED TO LEFT: " + currentNode.data); // Test statement
+					//System.out.println("NODE REMOVED TO LEFT OF: " + currentNode.data); // Test statement
 					
 					// If a root is going to be removed:
 					if(currentNode.leftSide == null) {
 						
-						//System.out.println("Left side not found to: " + currentNode.data); // Test statement
+						//System.out.println("Removing the root: " + currentNode.data);
 						
-						currentNode = null; // Empty currentNode
-						return true; // Tree was modified
-							
-					} else {
-						return false; // Root found with no match, tree wasn't changed
-					}
-				}
-					
-				// Rearrange the pointers around the current node and set the currentNode to null
-				currentNode.cameFrom.leftSide = currentNode.leftSide;
-				currentNode.leftSide.cameFrom = currentNode.cameFrom;
-					
-				currentNode = null; // Set the node to null, the list was modified so return true
-				return true;
-				
-			} else if(cmp.compare(item, currentNode.data) > 0) {
-				
-					System.out.println("Right side found to " + currentNode.data); // Test statement
-				
-				// Move the tracker if the next position if it's valid
-				if (currentNode.rightSide != null) {
-					
-					System.out.println("Moved to: " + currentNode.rightSide.data); // Test statement
-					currentNode = currentNode.rightSide;
-				} else {
-					return false;
-				}
-				
-				// If a match is found:
-				if(currentNode.data.equals(item)) {
-					
-					System.out.println("NODE REMOVED TO RIGHT: " + currentNode.data); // Test statement
-					
-					// If a root is found:
-					if(currentNode.rightSide == null) {
-						
-						System.out.println("Removing the root: " + currentNode.data);
-						
-						// Check if the root is a match, if it's not nothing is found
+						// Check if the root is a match, if not return
 						if (currentNode.data.equals(item)) {
 							
-							System.out.println("match found");
-							currentNode.cameFrom.rightSide = null;
-							return true;
+							//System.out.println("match found"); // Test statement
+							currentNode.cameFrom.leftSide = null;
+							return true; // Tree was modified
 							
 						} else {
-							return false; // No match is found, it's not in the list
+							return false; // Root reached and tree wasn't changed
 						}
+							
 					}
 					
-					// Rearrange the pointers around the current node and set the currentNode to null
+					// If not root, rearrange the pointers around the current node and empty currentNode
+					currentNode.cameFrom.leftSide = currentNode.leftSide;
+					currentNode.leftSide.cameFrom = currentNode.cameFrom;
+						
+					currentNode = null; // Empty currentNode
+					return true; // Tree was modified
+				}
+					
+			// If the item is to the right (greater than) currentNode:
+			} else if(cmp.compare(item, currentNode.data) > 0) {
+					
+				//System.out.println("Right side found to " + currentNode.data); // Test statement
+					
+				// Move to the right if rightSide exists
+				if (currentNode.rightSide != null) {
+						
+					//System.out.println("Moved to: " + currentNode.rightSide.data); // Test statement
+					currentNode = currentNode.rightSide;
+						
+				} else {
+					return false; // Reached the root of the tree, wasn't modified
+				}
+					
+					
+				// If a match is found:
+				if(currentNode.data.equals(item)) {
+						
+				//System.out.println("NODE REMOVED TO RIGHT OF: " + currentNode.data); // Test statement
+						
+					// If a root is going to be removed:
+					if(currentNode.rightSide == null) {
+							
+						//System.out.println("Removing the root: " + currentNode.data);
+							
+						// Check if the root is a match, if not return
+						if (currentNode.data.equals(item)) {
+								
+							//System.out.println("match found"); // Test statement
+							currentNode.cameFrom.rightSide = null;
+							return true; // Tree was modified
+								
+						} else {
+							return false; // Root reached and tree wasn't changed
+						}
+								
+					}
+						
+					// If not root, rearrange the pointers around the current node and empty currentNode
 					currentNode.cameFrom.rightSide = currentNode.rightSide;
 					currentNode.rightSide.cameFrom = currentNode.cameFrom;
-					
-					currentNode = null; // Set the node to null, the list was modified so return true
-					return true;
+							
+					currentNode = null; // Empty currentNode
+					return true; // Tree was modified
 				}
 			}
 		}
 		
-		// If the code reaches a root:
+		// Catch case broken remove:
 		System.out.println("ERROR IN REMOVE FUNCTION");
-		
-		// If nothing was caught, nothing was changed
 		return false;
 	}
 	
