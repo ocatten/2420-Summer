@@ -18,11 +18,10 @@ import java.util.NoSuchElementException;
 public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
 	
 	
-	// Makes the comparator for the generic object.
-	public Comparator<Type> cmp = new Comparator<Type>() { // Makes the comparator to make comparisons with.
+	// Fields
+	public Comparator<Type> cmp = new Comparator<Type>() { // Instantiates comparator
 		public int compare(Type e1, Type e2) { return e1.compareTo(e2); } };
 	
-	// Fields
 	private Vertex head = null;
 	private ArrayList<Type> arrayListHolder = new ArrayList<Type>();
 	private int size = 0;
@@ -38,34 +37,34 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public boolean add(Type item) {
 		
-		// Creates a new node to track the position on the graph + Vertex to return
+		// Creates a new node to track the position on the graph and a return value
 		Vertex currentNode = head;
 		Vertex insertedVertex = new Vertex(item);
 		
-		// Catch case to check if the tree is empty. If it is, simply make the head the new item
+		// Catch case for empty tree
 		if (head == null) {
 			
 			head = new Vertex(item);
-			return true; // The tree was modified, it was created.
+			return true; // The tree was modified as the head was made
 		}
 		
 		
-		// Loop through each element of the tree until a null value is hit
+		// Loop through each element of the tree until an empty node is found
 		while(currentNode.data != null) {
 			
-			// Compare the parameter to the current node and move to the child nodes accordingly
+			// Check the provided object with the currentNode
 			if(cmp.compare(item, currentNode.data) < 0) {
 				
-				// Catch case to see if a root is found.
+				// Catch case for the end of tree
 				if (currentNode.leftSide == null) {
 					
-					// Adds the new vertex to the end, sets its cameFrom, and returns true.
+					// If this element belongs on the left, create it there
 					currentNode.leftSide = insertedVertex;
 					insertedVertex.cameFrom = currentNode;
 					
-					//System.out.println(insertedVertex.data + " has been added to the left."); // Test statement
+					//System.out.println(insertedVertex.data + " was added to the left."); // Test statement
 					
-					return true;
+					return true; // The tree was modified return true
 				}
 				
 				// Check the currentNode's next destination to see if the currentNode is to be inserted
