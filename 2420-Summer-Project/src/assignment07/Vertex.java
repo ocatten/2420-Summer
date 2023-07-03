@@ -1,6 +1,6 @@
 package assignment07;
 
-import java.util.LinkedList; 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -9,12 +9,12 @@ import java.util.List;
  * @author Parker Catten & Everett Oglesby
  * @version 06:27:23
  */
-public class Vertex {
+public class Vertex<Type> {
 	
 	// Fields
-	private String data; // Data and key of vertex for the Graph's HashMap
-	public Vertex cameFrom; // Tracks previous vertex that points from it
-	private LinkedList<Edge> adj; // Adjacency list
+	private Type data; // Data and key of vertex for the Graph's HashMap
+	public Vertex<Type> cameFrom; // Tracks previous vertex that points from it
+	private LinkedList<Edge<Type> > adj; // Adjacency list
 	public boolean visited = false; // Visited flag
 
 	
@@ -23,10 +23,10 @@ public class Vertex {
 	 * 
 	 * @param data: String stored in this Vertex
 	 */
-	public Vertex(String data) {
+	public Vertex(Type data) {
 		
 		this.data = data;
-		this.adj = new LinkedList<Edge>();
+		this.adj = new LinkedList<Edge<Type> >();
 	}
 	
 	
@@ -36,9 +36,9 @@ public class Vertex {
 	 * 
 	 * @param dstVertex: the Vertex object that is the destination of the edge
 	 */
-	public void addEdge(Vertex dstVertex) {
+	public void addEdge(Vertex<Type> dstVertex) {
 		
-		adj.add(new Edge(dstVertex)); // Add the new edge to the adjacency list
+		adj.add(new Edge<Type>(dstVertex)); // Add the new edge to the adjacency list
 		
 		// Gets the new edge from the end of the adjacency list and sets its origin to this vertex
 		adj.get( adj.size()-1 ).setSource(this);
@@ -49,13 +49,13 @@ public class Vertex {
 	/**
 	 * @return: The string stored in this Vertex
 	 */
-	public String getData() { return data; }
+	public Type getData() { return data; }
 	
 	
 	
 	/**
 	 * @return adj: List of edges around the vertex.
 	 */
-	public List<Edge> getAdjacent() { return adj; }
+	public List< Edge<Type> > getAdjacent() { return adj; }
 	
 }

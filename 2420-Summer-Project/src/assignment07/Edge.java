@@ -6,11 +6,11 @@ package assignment07;
  * @author Parker Catten, & Everett Oglesby
  * @version 06:27:23
  */
-public class Edge {
+public class Edge<Type> {
 
 	// Fields
-	public Vertex src; // Source of the directed edge
-	private Vertex dst; // Destination of the directed edge
+	public Vertex<Type> src; // Source of the directed edge
+	private Vertex<Type> dst; // Destination of the directed edge
 
 	
 	/**
@@ -18,7 +18,7 @@ public class Edge {
 	 * 
 	 * @param dst: The destination Vertex
 	 */
-	public Edge(Vertex dst) {
+	public Edge(Vertex<Type> dst) {
 		this.dst = dst;
 	}
 	
@@ -29,7 +29,7 @@ public class Edge {
 	 * 
 	 * @param src: Source that the origin points to
 	 */
-	public void setSource(Vertex src){
+	public void setSource(Vertex<Type> src){
 		this.src = src;
 	}
 	
@@ -38,20 +38,20 @@ public class Edge {
 	/**
 	 * @return: The original vertex pointing to something else
 	 */
-	public Vertex getSource() { return src; }
+	public Vertex<Type> getSource() { return src; }
 
 	
 	
 	/**
 	 * @return: The destination the source is pointing to
 	 */
-	public Vertex getDestination() { return dst; }
+	public Vertex<Type> getDestination() { return dst; }
 	
 	
 	
 	/**
 	 * @return: Data at the destination for the console
 	 */
-	public String toString() { return dst.getData(); }
+	public String toString() { return (String)(dst.getData()); }
 	
 }

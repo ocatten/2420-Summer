@@ -1,7 +1,6 @@
 package assignment07;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,17 +11,17 @@ import java.util.List;
  * @author: Parker Catten & Everett Oglesby
  * @version: 06:27:23
  */
-public class Graph {
+public class Graph<Type> {
 
 	// Fields
-	HashMap<String, Vertex> allVertices; // HashMap of all the source/destination vertices
+	HashMap<Type, Vertex<Type>> allVertices; // HashMap of all the source/destination vertices
 	
 	
 	/**
 	 * Constructor that sets up relevant fields
 	 */
 	public Graph() {
-		allVertices = new HashMap<String, Vertex>();
+		allVertices = new HashMap<Type, Vertex<Type>>();
 	}
 	
 	
@@ -31,14 +30,14 @@ public class Graph {
 	 * Adds a directed edge between the srcData's vertex to the dstData's (if they exist) to the
 	 * HashMap. If either do not exist, the function will make new vertices to house them
 	 * 
-	 * @param srcData: String value stored in the source vertex
-	 * @param name2 - string name for destination vertex
+	 * @param srcData: Value stored in the source vertex
+	 * @param dstData: Value for the destination vertex
 	 */
-	public void addEdge(String srcData, String dstData) {
+	public void addEdge(Type srcData, Type dstData) {
 		
 		// Vertices that represent the srcData and dstData
-		Vertex srcVertex = null;
-		Vertex dstVertex = null;
+		Vertex<Type> srcVertex = null;
+		Vertex<Type> dstVertex = null;
 		
 		// If the vertex is already represented:
 		if(allVertices.containsKey(srcData)) {
@@ -47,7 +46,7 @@ public class Graph {
 		
 		} else { // If it's not, create a new vertex for the data and add it.
 			
-			srcVertex = new Vertex(srcData);
+			srcVertex = new Vertex<Type>(srcData);
 			allVertices.put(srcData, srcVertex); // Add it with the data it stores
 		}
 		
@@ -60,7 +59,7 @@ public class Graph {
 		
 		} else { // If it's not, create a new vertex for the data and add it.
 			
-			dstVertex = new Vertex(dstData);
+			dstVertex = new Vertex<Type>(dstData);
 			allVertices.put(dstData, dstVertex); // Add it with the data it stores
 		}
 		
@@ -75,23 +74,22 @@ public class Graph {
 	 */
 	public String dotGraph() {
 		
-		// This method's return value needs to use a StringBuilder since the final value will need to be extensively
-		//  modified and added to. Giving the String mutable properties will simplify the process
-		StringBuilder DOT = new StringBuilder("digraph d {\n");
+		// Empty String to be added to and returned
+		String DOT = "";
 		
 		// Loop through each vertex's adjacent values and adds a line of the source/destination in diagraph format
-		for(Vertex vertex : allVertices.values()) { // For each vertex:
+		for(Vertex<Type> vertex : allVertices.values()) { // For each vertex:
 			
-			List<Edge> edges = vertex.getAdjacent();
+			List<Edge<Type>> edges = vertex.getAdjacent();
 			
 			// Iterate through each vertex's edges
-			for(Edge edge : edges)  {
-				DOT.append("   \"" + vertex.getData() + "\" -> \"" + edge.getDestination().getData() + "\"\n");
+			for(Edge<Type> edge : edges)  {
+				DOT += "   \"" + vertex.getData() + "\" -> \"" + edge.getDestination().getData() + "\"\n";
 			}
 		}
 		
 		// Return the built String with the closing bracket
-		return DOT.toString() + "}";
+		return DOT + "}";
 	}
 	
 	
@@ -99,7 +97,7 @@ public class Graph {
 	/**
 	 * @return: the HashMap this graph uses
 	 */
-	public HashMap<String, Vertex> getVertices() { return allVertices; }
+	public HashMap<Type, Vertex<Type>> getVertices() { return allVertices; }
 	
 	
 	
@@ -112,7 +110,7 @@ public class Graph {
 		String result = "";
 		
 		// Add each vertex's toString value on its own line to the String
-		for(Vertex vertex : allVertices.values()) {
+		for(Vertex<Type> vertex : allVertices.values()) {
 			result += vertex.getData() + "\n";
 		}
 		

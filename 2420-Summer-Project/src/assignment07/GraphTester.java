@@ -16,7 +16,7 @@ public class GraphTester {
 		
 /*----------------------------------------------- DEPTH SEARCH TESTS -----------------------------------------------------*/
 		// build a sample directed graph
-		Graph sample = new Graph();
+		Graph<String> sample = new Graph<String>();
 		sample.addEdge("a", "b");
 		sample.addEdge("b", "c");
 		sample.addEdge("c", "d");
@@ -64,9 +64,9 @@ public class GraphTester {
 /*----------------------------------------------- SHORTEST PATH TESTS ----------------------------------------------------*/
 		
 		// Creates a new sample graph and lists of sources and destinations
-		Graph sample2 = new Graph();
-		List<Vertex> sources2 = new LinkedList<Vertex>();
-		List<Vertex> destinations2 = new LinkedList<Vertex>();
+		Graph<String> sample2 = new Graph<String>();
+		List<Vertex<String>> sources2 = new LinkedList< Vertex<String> >();
+		List< Vertex<String> > destinations2 = new LinkedList< Vertex<String> >();
 		
 		// Makes a web with more alternate paths than the first graph.
 		sample2.addEdge("a", "d");
