@@ -376,26 +376,22 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					// If a root is going to be removed:
 					if(currentNode.leftSide == null) {
 						
-						//System.out.println("Left side found to: " + currentNode.data); // Test statement
+						//System.out.println("Left side not found to: " + currentNode.data); // Test statement
 						
-						// Check if the root is a match, if it's not nothing is found
-						if (currentNode.data.equals(item)) {
+						currentNode = null; // Empty currentNode
+						return true; // Tree was modified
 							
-							currentNode.cameFrom = null;
-							return true;
-							
-						} else {
-							return false; // No match is found, it's not in the list
-						}
+					} else {
+						return false; // Root found with no match, tree wasn't changed
 					}
-					
-					// Rearrange the pointers around the current node and set the currentNode to null
-					currentNode.cameFrom.leftSide = currentNode.leftSide;
-					currentNode.leftSide.cameFrom = currentNode.cameFrom;
-					
-					currentNode = null; // Set the node to null, the list was modified so return true
-					return true;
 				}
+					
+				// Rearrange the pointers around the current node and set the currentNode to null
+				currentNode.cameFrom.leftSide = currentNode.leftSide;
+				currentNode.leftSide.cameFrom = currentNode.cameFrom;
+					
+				currentNode = null; // Set the node to null, the list was modified so return true
+				return true;
 				
 			} else if(cmp.compare(item, currentNode.data) > 0) {
 				
