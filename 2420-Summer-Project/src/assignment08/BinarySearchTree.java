@@ -64,25 +64,13 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					
 					//System.out.println(insertedVertex.data + " was added to the left."); // Test statement
 					
-					return true; // The tree was modified return true
+					return true; // The tree was modified
 				}
 				
-				// Check the currentNode's next destination to see if the currentNode is to be inserted
-				//  between them
-				if( cmp.compare(item, currentNode.leftSide.data) > 0) {
-					
-					// Change the two pointers around the inserted Vertex
-					insertedVertex.cameFrom = currentNode;
-					insertedVertex.leftSide = currentNode.leftSide;
-					currentNode.leftSide = insertedVertex;
-					
-					//System.out.println(insertedVertex.data + " has been added to the right."); // Test statement
-					
-					return true; // The list has been modified.
-				}
-				
-				currentNode = currentNode.leftSide;
+				// Move the currentNode down the tree
+				currentNode = currentNode.leftSide; 
 			
+			// If the added node needs to go the right of the currentNode:
 			} else if(cmp.compare(item, currentNode.data) > 0) {
 				
 				// Catch case to see if a root is found.
@@ -92,19 +80,23 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					currentNode.rightSide = insertedVertex;
 					insertedVertex.cameFrom = currentNode;
 					
-					return true;
+					//System.out.println(insertedVertex.data + " was added to the right."); // Test statement
+					
+					return true; // List was modified
 				}
 				
+				// Move the currentNode to the right
 				currentNode = currentNode.rightSide;
 				
-			} else { // If it's equal
+			} else { // If it's equal the tree already has this value
 				
-				System.out.println(" Equivalent ");
-				return false;
+				//System.out.println(" Equivalent "); // Test statement
+				return true; // The parameter already exists in the tree
 			}
 		}
 		
-		return false; // If no case was found to modify the nodes, it was not modified.
+		// Catch case for failed modification
+		return false;
 	}
 	
 	
@@ -120,19 +112,19 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public boolean addAll(Collection<? extends Type> items) {
 		
-		// Flag to track if the add method ever added anything.
+		// Flag to track if a modification was made
 		boolean modified = false;
 		
-		// Simply loop through each item in the collection and run the add method.
+		// Loop through the collection and add each item
 		for(Type item : items) {
 			
-			// Modifies the list merely by calling the add method, so the evaluation happens simultaneously:
+			// Modifies the list through the method call, if true then list was modified
 			if(this.add(item)) {
 				modified = true;
 			}
 		}
 		
-		return modified;
+		return modified; // Return result
 	}
 	
 	
