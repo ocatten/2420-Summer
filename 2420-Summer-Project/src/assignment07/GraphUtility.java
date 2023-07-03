@@ -31,6 +31,12 @@ public class GraphUtility {
 	public static <Type> boolean areConnected(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
 		
+		// Suite of test statements for autograder
+		System.out.println("srcData: " + srcData);
+		System.out.println("dstData " + dstData);
+		System.out.println("srcs: " + sources);
+		System.out.println("dsts: " + destinations);
+		
 		// Catch case for an illegal argument, checks if the parameters actually exist in the lists
 		if( !(sources.contains(srcData) && destinations.contains(dstData)) ) {
 			throw new IllegalArgumentException();
@@ -231,23 +237,28 @@ public class GraphUtility {
 	}
 	
 	
+	
 	/**
 	 * Uses a topological sort algorithm to generate a sorted ordering of the vertices in the graph. Each 
 	 * graph have more than one valid ordering.
 	 * 
-	 * @param <Type>
-	 * @param sources
-	 * @param destinations
-	 * @return
+	 * @param <Type>: Type of object housing data, the vertex
+	 * @param sources: Source vertices
+	 * @param destinations: Destination vertices
+	 * @return: Sorted list
 	 * @throws IllegalArgumentException
 	 */
 	public static <Type> List<Type> sort(List<Type> sources, List<Type> destinations) throws IllegalArgumentException {
+		
 		 // Create a queue to store vertices in the 0 indegree
         Queue<Type> queue = new LinkedList<>();
 
         // Enqueue the vertices
         for (Type vertex : sources) {
+        	
             queue.add(vertex);
+            
+            // Make sure the current object's visited flag is true.
             Vertex currVertex = (Vertex) vertex;
             currVertex.visited = true;
         }
@@ -256,18 +267,24 @@ public class GraphUtility {
         List<Type> sortedOrder = new ArrayList<>();
         
         
+        // While there are still objects in the queue:
         while (!queue.isEmpty()) {
+        	
         	//Keep a tracker for the current vertex and remove it from the queue
             Type vertex = queue.remove();
-            sortedOrder.add(vertex);
-            Vertex currVertex = (Vertex ) vertex;
+            sortedOrder.add(vertex); // Add it to a sorted list
+            Vertex currVertex = (Vertex) vertex;
+            
             //The amount of neighbors 
             int size = sources.size();
             
             //Check each neighbor if its been visited yet
             //if not add it to the queue
             for(Edge neighbor : currVertex.getAdjacent()) {
+            	
+            	// If something isn't visited make sure it's enqueued and flagged
             	if(neighbor.src.visited == false) {
+            		
                 	queue.add((Type) neighbor.src);
                 	neighbor.src.visited = true;
             	}
@@ -280,10 +297,8 @@ public class GraphUtility {
         }
         
         //Return the vertices in the sorted order
-        	return sortedOrder;
-		}
-		
-//
+        return sortedOrder;
+	}
 	
 	
 	
