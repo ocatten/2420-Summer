@@ -5,7 +5,6 @@ package assignment08;
  * This tree also uses vertices to house the generic data.
  * 
  * @author: Everett Oglesby & Parker Catten
- * @version: 07:03:23 - SUM-2023_001
  */
 
 import java.util.ArrayList;

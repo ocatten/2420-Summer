@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Represents a "dictionary" of strings using a binary search tree and offers
  * methods for spell-checking documents.
  * 
- * @author Parker Catten & Everett Oglesby
+ * @author Everett Oglesby and Parker Catten
  * @version June 26, 2023
  */
 public class SpellChecker {
@@ -55,7 +55,7 @@ public class SpellChecker {
 	 * @param word - the String to be added to the dictionary
 	 */
 	public void addToDictionary(String word) {
-		// FILL IN
+		dictionary.add(word);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class SpellChecker {
 	 * @param word - the String to be removed from the dictionary
 	 */
 	public void removeFromDictionary(String word) {
-		// FILL IN
+		dictionary.remove(word);
 	}
 
 	/**
@@ -76,11 +76,21 @@ public class SpellChecker {
 	 */
 	public List<String> spellCheck(File documentFile) {
 
+		//The list of words from the file to check through.
 		List<String> wordsToCheck = readFromFile(documentFile);
 
-		// FILL IN -- do not return null
-
-		return null;
+		//The list of misspelled words found from the file
+		List<String> misspelledWords = new ArrayList<String>();
+		
+		//Check each word from the list of words to check to see if any are not 
+		//found in the dictionary. If not add them to the list of misspelled words.
+		for(String word: wordsToCheck)
+			if(!dictionary.contains(word)) {
+				misspelledWords.add(word);
+			}
+		
+		//Return the list of misspelled words.
+		return misspelledWords;
 	}
 
 	/**
@@ -89,7 +99,9 @@ public class SpellChecker {
 	 * @param words - the List of Strings to be added to the dictionary
 	 */
 	private void buildDictionary(List<String> words) {
-		// FILL IN
+		//Add each string from the arrayList of words to the dictionary.
+		dictionary.addAll(words);
+		
 	}
 
 	/**
