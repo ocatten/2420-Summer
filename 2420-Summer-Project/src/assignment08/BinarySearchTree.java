@@ -91,7 +91,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			} else { // If it's equal the tree already has this value
 				
 				//System.out.println(" Equivalent "); // Test statement
-				return true; // The parameter already exists in the tree
+				return false; // The parameter already exists in the tree, not modified
 			}
 		}
 		
@@ -136,41 +136,39 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public void clear() {
 		
-		// Utilizes a postOrder sort to clear the whole list. Begins by finding the root node.
-		postOrder(head);
+		// Uses postOrder to clear the list, empties head field
+		postOrderClear(head);
 		head = null;
 	}
 	
 	
 	
 	/**
-	 * postOrder helper method the clear the tree, includes a process node function that clears the vertex.
+	 * clear() helper method that uses a postOrder traversal to clear the tree.
 	 * 
-	 * @param rootVertex: Vertex located at a source of the BST
+	 * @param rootVertex: Vertex located as a source of subtree or tree
 	 */
-	private void postOrder(BinarySearchTree<Type>.Vertex sourceVertex) {
+	private void postOrderClear(BinarySearchTree<Type>.Vertex sourceVertex) {
 		
-		// Checks to ensure that the variable is not a 
-		// Utilizes a postOrder sort to clear the whole list. Begins by finding the root node.
+		// Take root node given
 		Vertex currentVertex = sourceVertex;
 		
-		// Checks to see if the currentVertex is a root, and if not, removes the call from the stack
-		//  and moves on to the next step of the recursive traversal
+		// Catch case for a provided vertex that isn't a root:
 		if(currentVertex.leftSide != null && currentVertex.rightSide != null) {
-			return;
+			return; // Do nothing and remove the call from the call stack
 		}
 		
-		// If there is a vertex to the left, rerun the code to the left 
+		// If there's a child to the left re-run to the left
 		if(currentVertex.leftSide != null) {
-			postOrder(currentVertex.leftSide);
+			postOrderClear(currentVertex.leftSide);
 		}
 		
-		// If there is a vertex the the right, rerun the code to the right if the left is clear
+		// If there's a child to the right re-run to the right now that the left is clear
 		if(currentVertex.rightSide != null) { 
-			postOrder(currentVertex.rightSide);
+			postOrderClear(currentVertex.rightSide);
 		}
 		
-		// Once a root has been found, set it to the null
+		// Base case, set this root to null.
 		currentVertex = null;
 	}
 	
@@ -187,97 +185,45 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public boolean contains(Type item) {
 		
-<<<<<<< HEAD
-		// Creates a new node to track the position on the graph
+		// Creates tracker starting at head
 		Vertex currentNode = head;
 		
-		// Catch case to check if the tree is empty. 
+		// Catch case for empty tree
 		if (head == null) {
-			return false; // If it is, throw false as it does not have the item
+			return false; // If empty, tree doesn't have param
 		}
 			
-		
-		// Loop through each element of the tree until a null value or a match is hit
+		// Loop through each element of the tree until a null value is hit
 		while(currentNode.data != null) {
 		
-			// Compare the parameter to the current node and move to the child nodes accordingly
+			// If parameter is less than the currentNode:
 			if(cmp.compare(item, currentNode.data) < 0) {
 		
-				// Catch case to see if a root is found.
+				// If we've reached a root:
 				if (currentNode.leftSide == null) {
-					return false; // Reached the end of the tree, no match found
+					return false; // No match found, doesn't have param
 				}
 				
-				currentNode = currentNode.leftSide; // Move to the next node
+				currentNode = currentNode.leftSide; // Move to the left
 				
-				// Finds if it's greater than
+				// If the param is greater than currentNode:
 				} else if(cmp.compare(item, currentNode.data) > 0) {
 					
-					// Catch case to see if a root is found.
+					// If we've reached a root:
 					if (currentNode.rightSide == null) {
-						return false; // Reached end of tree, no match found
+						return false; // No match found, doesn't have param
 					}
 					
-					currentNode = currentNode.rightSide; // Move to the next node
+					currentNode = currentNode.rightSide; // Move to the right
 					
-				} else { // If it's equal
-					return true;
+				} else { // If parameter is equal to the current value:
+					return true; // A match is found.
 				}
 		}
 		
+		// Catch case for an error.
 		System.out.println("ERROR IN CONTAINS() BST");
 		return false; // False otherwise.
-=======
-		// Creates a new node to track the position on the graph + Vertex to return
-				Vertex currentNode = head;
-				Vertex insertedVertex = new Vertex(item);
-				
-				// Catch case to check if the tree is empty. If it is, simply make the head the new item
-				if (head == null) {
-					
-					head = new Vertex(item);
-					return true; // The tree was modified, it was created.
-				}
-				
-				
-				// Loop through each element of the tree until a null value is hit
-				while(currentNode.data != null) {
-					
-					// Compare the parameter to the current node and move to the child nodes accordingly
-					if(cmp.compare(item, currentNode.data) < 0) {
-						
-						// Catch case to see if a root is found.
-						if (currentNode.leftSide == null) {
-						
-							
-							//System.out.println(insertedVertex.data + " has been added to the left."); // Test statement
-							
-							return false;
-						}
-						
-						
-						
-						currentNode = currentNode.leftSide;
-					
-					} else if(cmp.compare(item, currentNode.data) > 0) {
-						
-						// Catch case to see if a root is found.
-						if (currentNode.rightSide == null) {
-							
-							return false;
-						}
-						
-						currentNode = currentNode.rightSide;
-						
-					} else { // If it's equal
-						
-						//System.out.println(" Equivalent ");
-						return true;
-					}
-				}
-				
-				return false; // If no case was found to modify the nodes, it was not modified.
->>>>>>> 14664ff9c84e7b66644a44f7327a92dd3bc70395
 	}
 	
 	
@@ -293,47 +239,41 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public boolean containsAll(Collection<? extends Type> items) {
 		
-		/*
-		 * The containsAll method will not work here, since the set will be modified even if only one of the 
-		 * members of the collection actually modify the data set
-		 */
-		
-		// Simply loop through each item in the collection and see if it contains each item
+		// Loop through collection to check contains()
 		for(Type item : items) {
 					
-			// If it doesn't find any of the items, return false
+			// If one item in the collection is not found,
 			if(!this.contains(item)) {
-				return false;
+				return false; // Does not containsAll
 			}
 		}
 		
-		return true;
+		return true; // No missing elements found, containsAll
 	}
 	
 	
 	
 	@Override
 	/**
-	 * Returns the first (i.e., smallest) item in this set.
-	 * 
+	 * @return the first (i.e., smallest) item in this set.
 	 * @throws NoSuchElementException if the set is empty
 	 */
 	public Type first() throws NoSuchElementException {
 		
-		// Catch case for an empty array
+		// Catch case for empty tree
 		if(this.isEmpty()) {
 			throw new NoSuchElementException();
 		}
 		
-		// Tracking vertex at the head of the array.
+		// Tracking vertex starting at head
 		Vertex currentVertex = head;
 		
-		// Move to the left of the binary search tree until the root is found (the next left side is empty.
+		// Move to the left of the tree while there's still a node there
 		while(currentVertex.leftSide != null) {
 			currentVertex = currentVertex.leftSide;
 		}
 		
-		// Return the data in the left-most vertex.
+		// Return at the left-most root
 		return currentVertex.data;
 	}
 	
@@ -344,42 +284,32 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 * @return: true if this set contains no items.
 	 */
 	public boolean isEmpty() {
-		
-		// If there is no head vertex, it is empty.
-		return (head == null);
+		return (head == null); // No head means vertex is empty
 	}
 	
 	
 	
 	@Override
 	/**
-	 * Returns the last (i.e., largest) item in this set.
-	 * 
+	 * @return the last (i.e., largest) item in this set.
 	 * @throws NoSuchElementException if the set is empty
 	 */
 	public Type last() throws NoSuchElementException {
 		
-		// Catch case for an empty array
+		// Catch case for empty tree
 		if(this.isEmpty()) {
-			
-			//System.out.println("Size: " + size()); // Test statement
-			//System.out.println(this.isEmpty()); // test statement
-			
-			// The BST is empty, there is no last element
 			throw new NoSuchElementException();
 		}
 		
-		// Tracking vertex at the head of the array.
+		// Tracking vertex starting at head
 		Vertex currentVertex = head;
 		
-		// Move to the right of the binary search tree until the root is found (the next right side is empty.
+		// Move to the right of the tree while there's still a node there
 		while(currentVertex.rightSide != null) {
 			currentVertex = currentVertex.rightSide;
 		}
 		
-		//System.out.println(currentVertex.data); // Test statement
-		
-		// Return the data in the right-most vertex.
+		// Return at the right-most root
 		return currentVertex.data;
 	}
 	
@@ -395,60 +325,58 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public boolean remove(Type item) {
 		
-		// Creates a new node to track the position on the graph + Vertex to return
+		// Tracking node starting at head
 		Vertex currentNode = head;
 		
-		// Catch case to check if the tree is empty. If it is, nothing can be removed
+		// Catch case for empty tree
 		if (head == null) {
-			return false;
+			return false; // Tree not modified
 		}
 		
-		// Catch case for single element BSTs
+		// Catch case for BST with a single node
 		if(currentNode.leftSide == null && currentNode.rightSide == null) {
 			
-			// If there's a match:
+			// If the head is the item to be removed:
 			if (head.data.equals(item)) {
 				
-				// Empty the head
+				// Empty head node
 				head = null;
-				return true;
+				return true; // List was modified
 				
 			} else {
-				return false;
+				return false; // List was not modified
 			}
 		}
 		
-		
-		// Loop through each element of the tree until a match is found or a root is found
-		//while(currentNode.leftSide != null || currentNode.rightSide != null) {
+		// Loop through each element of the tree until a root is found:
 		while(currentNode != null) {
 			
-			//System.out.println("Loop started"); // Test statement.
+			//System.out.println("While loop started"); // Test statement.
 			
-			// If the item is less than the current position:
+			// If the item is to the left (less than) currentNode:
 			if(cmp.compare(item, currentNode.data) < 0) {
 				
-				System.out.println("Left side found to " + currentNode.data); // Test statement
+				//System.out.println("Left side found to " + currentNode.data); // Test statement
 				
-				// Move the tracker if the next position if it's valid
+				// Move to the left if leftSide exists
 				if (currentNode.leftSide != null) {
 					
-					System.out.println("Moved to: " + currentNode.leftSide.data); // Test statement
+					//System.out.println("Moved to: " + currentNode.leftSide.data); // Test statement
 					currentNode = currentNode.leftSide;
 					
 				} else {
-					return false;
+					return false; // Reached the root of the tree, wasn't modified
 				}
 				
 				// If a match is found:
 				if(currentNode.data.equals(item)) {
 					
-					System.out.println("NODE REMOVED TO LEFT: " + currentNode.data); // Test statement
+					//System.out.println("NODE REMOVED TO LEFT: " + currentNode.data); // Test statement
 					
-					// If a root is found:
+					// If a root is going to be removed:
 					if(currentNode.leftSide == null) {
 						
-						System.out.println("Left side found to: " + currentNode.data); // Test statement
+						//System.out.println("Left side found to: " + currentNode.data); // Test statement
 						
 						// Check if the root is a match, if it's not nothing is found
 						if (currentNode.data.equals(item)) {
