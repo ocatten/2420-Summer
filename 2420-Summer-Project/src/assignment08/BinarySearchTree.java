@@ -10,8 +10,6 @@ package assignment08;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class BinarySearchTree<Type extends Comparable<? super Type>> implements SortedSet<Type> {
@@ -467,20 +465,15 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public boolean removeAll(Collection<? extends Type> items) {
 		
-		/*
-		 * The containsAll method will not work here, since the set will be modified even if only one of the 
-		 * members of the collection actually modify the data set
-		 */
-		
 		// Flag to track if the remove method ever removed anything.
 		boolean modified = false;
 		
-		// Simply loop through each item in the collection and run the remove method.
+		// Loop through each item in collection
 		for(Type item : items) {
 			
-			// Modifies the list merely by calling the remove method, so the evaluation happens simultaneously:
+			// Call remove() for each item
 			if(this.remove(item)) {
-				modified = true;
+				modified = true; // If an item was ever removed, list was modified (adjust flag)
 			}
 		}
 		
@@ -495,142 +488,82 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public int size() {
 		
-		// Creates an array list to evaluate the size of the number of elements.
-		toArrayList();
+		// Makes a list of the tree to find size
+		this.toArrayList();
 		return arrayListHolder.size();
-		
-		/*size = 0;
-		// Loops through each element in the list using an preOrder search
-		int result = preOrder(head);
-		
-		System.out.println(result);
-		return result; // Return stub.*/
-	}
-	
-	
-	
-	/**
-	 * -------------------------------------------------------------------------------------------------------------------
-	 * Discarded preOrder traversal algorithm to count the size
-	 * -------------------------------------------------------------------------------------------------------------------
-	 */
-	
-	/**
-	 * preOrder traversal algorithm helper method that recursively sorts through a list starting with the source value.
-	 * 
-	 * @param sourceVertex: Starts with the source of the tree
-	 */
-	private int preOrder(BinarySearchTree<Type>.Vertex sourceVertex) {
-		
-		Vertex currentVertex = sourceVertex;
-		
-		// Catch case for an empty tree
-		if(currentVertex == null) {
-			return 0;
-		}
-		
-		// Checks to see if the currentVertex is a root, and if not, removes the call from the stack
-		//  and moves on to the next step of the recursive traversal
-		if(currentVertex.leftSide != null && currentVertex.rightSide != null) {
-			
-			// If the code has reached a root, add one to the code for the currentNode and reutrn the count.
-			size++;
-			return size;
-		}
-		
-		
-		// If there is a vertex the the left, rerun the code to the right if the left is clear
-		if(currentVertex.leftSide != null) { 
-			size++;
-			preOrder(currentVertex.leftSide);
-		}
-		
-		// If there is a vertex the the right, rerun the code to the right if the left is clear
-		if(currentVertex.rightSide != null) { 
-			size++;
-			preOrder(currentVertex.rightSide);
-		}
-		
-		return size;
 	}
 	
 	
 	
 	@Override
 	/**
-	 * @return: an ArrayList containing all of the items in this set, in sorted
-	 * order.
+	 * @return: an ArrayList containing all of the items in this set, in sorted order.
 	 */
 	public ArrayList<Type> toArrayList() {
 		
-		// Clear the field list outside the method
+		// Reset the field in the class
 		arrayListHolder = new ArrayList<Type>();
-		//System.out.println("Head: " + head.data); // Test statement
+		//System.out.println("HEAD: " + head.data); // Test statement
 		
-		// Run the in order sort and return the modified list field
-		inOrder(head);
+		// Run inOrder sort for creating the list
+		inOrderListBuilder(head);
 		
-		return arrayListHolder; // Return stub
+		return arrayListHolder; // Return the modified list
 	}
 	
 	
 	
 	/**
-	 * inOrder traversal algorithm helper method that recursively sorts through a list starting with the source value.
+	 * Traversal helper method that uses a recursive inOrder sort to build a list of the tree
 	 * 
 	 * @param sourceVertex: Starts with the source of the tree
 	 * @return: ArrayList with each element added to it
 	 */
-	private void inOrder(BinarySearchTree<Type>.Vertex sourceVertex) {
+	private void inOrderListBuilder(BinarySearchTree<Type>.Vertex sourceVertex) {
 		
-		/*
-		// Testing statements to know exactly what the code is doing.
-		System.out.println("Current vertex: " + sourceVertex.data);
+		// Test statements
+		/*System.out.println("Current vertex: " + sourceVertex.data);
 		
 		if(sourceVertex.leftSide != null) {
-			System.out.println("LEFT DATA: " + sourceVertex.leftSide.data); 
+			//System.out.println("LEFT DATA: " + sourceVertex.leftSide.data); 
 		} else {
-			System.out.println("No left vertex of the sourceVertex: " + sourceVertex.data);
-		}
-		
-		if(sourceVertex.rightSide != null) {
-			System.out.println("RIGHT DATA: " + sourceVertex.rightSide.data); 
+			//System.out.println("No left vertex of the sourceVertex: " + sourceVertex.data);
+		} if(sourceVertex.rightSide != null) {
+			//System.out.println("RIGHT DATA: " + sourceVertex.rightSide.data);
 		} else {
-			System.out.println("No right vertex of the sourceVertex: " + sourceVertex.data);
-		}
-		*/
+			//System.out.println("No right vertex of the sourceVertex: " + sourceVertex.data);
+		}*/
 		
-		// Catch case for empty value
+		// Base case for empty parameter
 		if (sourceVertex == null) {
 			return;
 		}
 		
+		// Tracking node starting at parameter
+		Vertex currentVertex = sourceVertex; 
 		
-		Vertex currentVertex = sourceVertex; // Tracking vertex.
-		
-		// Checks to see if the currentVertex is a root, and if not, removes the call from the stack
-		//  and moves on to the next step of the recursive traversal
+		// Checks to see if currentVertex is a root:
 		if(currentVertex.leftSide == null && currentVertex.rightSide == null) {
 			
+			// If it's a root, add it to the arrayListHolder
 			arrayListHolder.add(currentVertex.data);
-			return;
+			return; // Remove call from call stack
 		}
 		
-		// If there is a vertex to the left, repeat this code on that vertex.
+		// If there's a left child, run again on the left child before completing current call
 		if(currentVertex.leftSide != null) {
 			//System.out.println("successful left side insert"); // Testing statement
-			inOrder(currentVertex.leftSide);
+			inOrderListBuilder(currentVertex.leftSide);
 		}
 		
-		// If there is a vertex to the right, after the left has been checked and sorted, 
-		//  make a recursive call on the right
+		// If there's a right child, run again on the right child before completing current call
 		if(currentVertex.rightSide != null) {
-			inOrder(currentVertex.rightSide);
+			inOrderListBuilder(currentVertex.rightSide);
 		}
 		
-		// If every child vertex has been sorted, add the current node to the list and return the result.
+		// If every child vertex has been added, complete current call
 		arrayListHolder.add(currentVertex.data);
-		return;
+		//return; // Remove from stack.
 	}
 	
 	
@@ -638,83 +571,73 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	/**
 	 * @return: Head of the tree
 	 */
-	public Vertex getHead() {
-		return head;
-	}
+	public Vertex getHead() { return head; }
 	
 	
 	
 	/**
-	 * inOrder traversal algorithm helper method for printing out the graph.
+	 * Class method to convert the BST to a console-friendly String for tools like webgraphiz.com
+	 * 
+	 *  @param sourceVertex: Starting point for method call
 	 */
-	public void binaryTreeToString(Vertex sourceVertex) {
+	public void toString(Vertex sourceVertex) {
 		
-		Vertex currentVertex = sourceVertex; // Tracking vertex for the BST
+		// Tracking vertex for BST starting at param
+		Vertex currentVertex = sourceVertex; 
 	
-		int count = 0; // Empty value that will be returned to accumulate the number of nodes.
-	
-		// Catch case for an empty tree
+		// Catch case for empty tree
 		if(currentVertex == null) {
 			return;
 		}
 		
-		// Checks to see if the currentVertex is a root, and if not, removes the call from the stack
-		//  and moves on to the next step of the recursive traversal
+		// If currentVertex is a source that points to something:
 		if(currentVertex.leftSide != null || currentVertex.rightSide != null) {
 			
-			// If the code has reached a root, add one to the code for the currentNode and reutrn the count.
+			// Add the currentVertex to a line pointing to something else
 			System.out.print("\"" + currentVertex.data + "\" -> ");
 		}
 		
 		
-		// If there is a vertex the the left, rerun the code to the right if the left is clear
+		// If there is a left child, add it to the line and rerun to the left
 		if(currentVertex.leftSide != null) { 
 			
 			System.out.println("\"" + currentVertex.leftSide.data + "\"");
-			binaryTreeToString(currentVertex.leftSide);
+			toString(currentVertex.leftSide); // Add left side to the call stack
 		}
 		
-		// If there is a vertex the the right, rerun the code to the right if the left is clear
+		// If there is a right child, add it to the line and rerun to the right
 		if(currentVertex.rightSide != null) { 
 			
 			System.out.println("\"" + currentVertex.rightSide.data + "\"");
-			binaryTreeToString(currentVertex.rightSide);
+			toString(currentVertex.rightSide); // Add right side to call stack
 		}
 	}
 	
 	
-/*================================================= VERTEX CLASS =========================================================*/
+/*========================================================== VERTEX CLASS ========================================================================*/
 	
 	
 	/**
-	 * This class represents a vertex (AKA node) in a directed graph. The vertex is
-	 * not generic, assumes that a string name is stored there. Includes a set of
-	 * nodes
+	 * This class represents a node or Vertex in the BST. Houses generic data.
 	 * 
-	 * @author Erin Parker, Everett Oglesby, & Parker Catten
-	 * @version March 20, 2022
+	 * @author Everett Oglesby, & Parker Catten
+	 * @version 07:03:23 SUM-23 2420_001
 	 */
 	public class Vertex {
 
-		// used to id the Vertex
-		private Type data;
-
+		// Fields
+		private Type data; // Data housed in node
 		// Right and left edges to track
 		private Vertex leftSide = null;
 		private Vertex rightSide = null;
-		
-		// Tracks previous vertex that points from it
-		public Vertex cameFrom;
-		
-		//visited flag
-		public boolean visited = false;
-		
+		public Vertex cameFrom; // Tracks previous vertex that points from it
+		public boolean visited = false; // Visited flag
 		
 		
 		/**
-		 * Creates a new Vertex object, using the given name.
+		 * Creates a new Vertex object with the given data
 		 * 
-		 * @param name - string used to identify this Vertex
+		 * @param data: Object within the vertex
 		 */
 		Vertex(Type data) {
 			this.data = data;
@@ -723,28 +646,27 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		
 		
 		/**
-		 * @return the string used to identify this Vertex
+		 * @return data used in the Vertex
 		 */
-		public Type getData() {
-			return data;
-		}
+		public Type getData() { return data; }
 		
 		
 		
 		/**
 		 * Adds a directed edge from this Vertex to another.
 		 * 
-		 * @param otherVertex - the Vertex object that is the destination of the edge
+		 * @param otherVertex: Vertex object that is the destination of the edge
 		 */
 		public <T extends Comparable<? super T>> void addEdge (Vertex otherVertex) {
 			
+			// If the new vertex belongs to the left (less than):
 			if (cmp.compare(this.data, otherVertex.data) > 0) {
 				
 				// Gets the new edge and sets its origin to this vertex.
 				otherVertex.cameFrom = this;
 				leftSide = otherVertex;
 				
-			} else {
+			} else { // If the new vertex belongs to the right (greater than):
 				
 				// Gets the new edge and sets its origin to this vertex.
 				otherVertex.cameFrom = this;
