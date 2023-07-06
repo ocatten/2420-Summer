@@ -38,6 +38,8 @@ public class SpellCheckerDemo {
 			for (String w : misspelledWords) {
 				System.out.println("\t" + w);
 			}
-		}
+		}		
 	}
+	
+	
 }

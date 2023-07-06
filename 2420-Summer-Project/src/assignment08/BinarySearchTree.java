@@ -324,6 +324,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		
 		// Tracking node starting at head
 		Vertex currentNode = head;
+		Vertex removedNode = null;
 		
 		// Catch case for empty tree
 		if (head == null) {
@@ -348,17 +349,17 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		// Loop through each element of the tree until a root is found:
 		while(currentNode != null) {
 			
-			//System.out.println("While loop started"); // Test statement.
+			System.out.println("While loop started"); // Test statement.
 			
 			// If the item is to the left (less than) currentNode:
 			if(cmp.compare(item, currentNode.data) < 0) {
 				
-				//System.out.println("Left side found to " + currentNode.data); // Test statement
+				System.out.println("Left side found to " + currentNode.data); // Test statement
 				
 				// Move to the left if leftSide exists
 				if (currentNode.leftSide != null) {
 					
-					//System.out.println("Moved to: " + currentNode.leftSide.data); // Test statement
+					System.out.println("Moved to: " + currentNode.leftSide.data); // Test statement
 					currentNode = currentNode.leftSide;
 					
 				} else {
@@ -369,17 +370,17 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				// If a match is found:
 				if(currentNode.data.equals(item)) {
 					
-					//System.out.println("NODE REMOVED TO LEFT OF: " + currentNode.data); // Test statement
+					System.out.println("NODE REMOVED TO LEFT OF: " + currentNode.data); // Test statement
 					
 					// If a root is going to be removed:
 					if(currentNode.leftSide == null) {
 						
-						//System.out.println("Removing the root: " + currentNode.data);
+						System.out.println("Removing the root: " + currentNode.data);
 						
 						// Check if the root is a match, if not return
 						if (currentNode.data.equals(item)) {
 							
-							//System.out.println("match found"); // Test statement
+							System.out.println("match found"); // Test statement
 							currentNode.cameFrom.leftSide = null;
 							return true; // Tree was modified
 							
@@ -400,12 +401,12 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 			// If the item is to the right (greater than) currentNode:
 			} else if(cmp.compare(item, currentNode.data) > 0) {
 					
-				//System.out.println("Right side found to " + currentNode.data); // Test statement
+				System.out.println("Right side found to " + currentNode.data); // Test statement
 					
 				// Move to the right if rightSide exists
 				if (currentNode.rightSide != null) {
 						
-					//System.out.println("Moved to: " + currentNode.rightSide.data); // Test statement
+					System.out.println("Moved to: " + currentNode.rightSide.data); // Test statement
 					currentNode = currentNode.rightSide;
 						
 				} else {
@@ -416,17 +417,17 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				// If a match is found:
 				if(currentNode.data.equals(item)) {
 						
-				//System.out.println("NODE REMOVED TO RIGHT OF: " + currentNode.data); // Test statement
+				System.out.println("NODE REMOVED TO RIGHT OF: " + currentNode.data); // Test statement
 						
 					// If a root is going to be removed:
 					if(currentNode.rightSide == null) {
 							
-						//System.out.println("Removing the root: " + currentNode.data);
+						System.out.println("Removing the root: " + currentNode.data);
 							
 						// Check if the root is a match, if not return
 						if (currentNode.data.equals(item)) {
 								
-							//System.out.println("match found"); // Test statement
+							System.out.println("match found"); // Test statement
 							currentNode.cameFrom.rightSide = null;
 							return true; // Tree was modified
 								
@@ -444,6 +445,44 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					return true; // Tree was modified
 				}
 			}
+			//If no match on either side, then check if the head is equal to the item given
+			else if(cmp.compare(item, currentNode.data) == 0){
+				
+				System.out.println("node equal to head");
+				
+				
+				//Check if a node exists to the right side of the head
+				if(currentNode.rightSide != null) {
+					System.out.println("Right side exists");
+					//If so check if any nodes exist to the left side of the head
+					if(currentNode.leftSide != null) {
+						System.out.println("Left side exists");
+						//Tracker for find the left most node
+						Vertex leftmostSideNode = currentNode.rightSide.leftSide;
+						Vertex headleftSide = currentNode.leftSide;
+						
+						while(leftmostSideNode.leftSide != null) {
+							leftmostSideNode = leftmostSideNode.leftSide;
+						}
+						head = currentNode;
+						leftmostSideNode = headleftSide;
+						return true;
+					}
+					else {
+						head = currentNode.rightSide;
+						return true;
+					}
+				}
+				else if(currentNode.leftSide != null) {
+					head = currentNode.leftSide;
+					return true;
+				}
+				else {
+					head = null;
+					return true;
+				}
+			}
+
 		}
 		
 		// Catch case broken remove:

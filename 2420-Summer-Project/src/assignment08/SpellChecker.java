@@ -66,6 +66,24 @@ public class SpellChecker {
 	public void removeFromDictionary(String word) {
 		dictionary.remove(word);
 	}
+	
+	/**
+	 * Removes all the words in a given list
+	 * @param wordsToRemove
+	 */
+	public void removeAll(ArrayList<String> wordsToRemove) {
+		dictionary.removeAll(wordsToRemove);
+	}
+	
+	/**
+	 * Test if the dictionary contains the given word
+	 * @param word
+	 * @return boolean - contains
+	 */
+	public boolean dictionaryContains(String word) {
+		boolean contains = dictionary.contains(word);
+		return contains;
+	}
 
 	/**
 	 * Spell-checks a document against the dictionary.
