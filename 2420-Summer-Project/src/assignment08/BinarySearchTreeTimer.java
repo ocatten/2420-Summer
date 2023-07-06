@@ -25,7 +25,7 @@ public class BinarySearchTreeTimer {
 				for(int n = 1; n < 15; n ++) {
 
 					// Starts with a new binary search tree
-					BinarySearchTree<String> binaryTree = new BinarySearchTree<String>();
+					BinarySearchTree<Integer> binaryTree = new BinarySearchTree<Integer>();
 					
 					Random rng = new Random();
 					
@@ -42,12 +42,13 @@ public class BinarySearchTreeTimer {
 					startTime = System.currentTimeMillis();
 					
 					
-					for(Integer i = 0; i < loopTime; i++) {
+					for(Integer i = 0; i < 5; i++) {
 						System.out.println(i);
 						i = rng.nextInt();
+						i = Math.abs(i);
 						String numToString = i.toString();
 	
-						binaryTree.add(numToString);
+						binaryTree.add(i);
 					}
 					//System.out.println(largestArray[1]);
 
@@ -62,6 +63,7 @@ public class BinarySearchTreeTimer {
 					averageTime = averageTime / 1000;
 					System.out.println(n + "\t" + averageTime);
 				}
+				//The
 	}
 	
 	
@@ -74,7 +76,7 @@ public class BinarySearchTreeTimer {
 
 					// Starts with a new binary search tree
 					
-					TreeSet<String> treeSet = new TreeSet<String>();
+					TreeSet<Integer> treeSet = new TreeSet<Integer>();
 					
 					Random rng = new Random();
 					
@@ -94,9 +96,10 @@ public class BinarySearchTreeTimer {
 					for(Integer i = 0; i < loopTime; i++) {
 						System.out.println(i);
 						i = rng.nextInt();
+						i = Math.abs(i);
 						String numToString = i.toString();
 	
-						TreeSet.add(numToString);
+						treeSet.add(i);
 					}
 					//System.out.println(largestArray[1]);
 
