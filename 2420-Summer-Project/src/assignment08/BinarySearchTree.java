@@ -2,12 +2,12 @@ package assignment08;
 
 /**
  * This class represents a generic binary search tree. It implements the provided SortedSet interface given by the instructor.
- * This tree also uses vertices to house the generic data.
+ * This tree also uses an internal Vertex class to house the generic data.
  * 
  * @author: Everett Oglesby & Parker Catten
  */
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -42,6 +42,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		if (head == null) {
 			
 			head = new Vertex(item);
+			size++;
 			return true; // The tree was modified as the head was made
 		}
 		
@@ -61,6 +62,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					
 					//System.out.println(insertedVertex.data + " was added to the left."); // Test statement
 					
+					size++;
 					return true; // The tree was modified
 				}
 				
@@ -79,6 +81,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					
 					//System.out.println(insertedVertex.data + " was added to the right."); // Test statement
 					
+					size++;
 					return true; // List was modified
 				}
 				
@@ -133,9 +136,10 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	 */
 	public void clear() {
 		
-		// Uses postOrder to clear the list, empties head field
+		// Uses postOrder to clear the list, empties head field, clear the size field
 		postOrderClear(head);
 		head = null;
+		size = 0;
 	}
 	
 	
@@ -324,42 +328,42 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 		
 		// Tracking node starting at head
 		Vertex currentNode = head;
-		Vertex removedNode = null;
 		
 		// Catch case for empty tree
-		if (head == null) {
+		/*if (head == null) {
 			return false; // Tree not modified
-		}
+		}*/
 		
 		// Catch case for BST with a single node
-		if(currentNode.leftSide == null && currentNode.rightSide == null) {
+		/*if(currentNode.leftSide == null && currentNode.rightSide == null) {
 			
 			// If the head is the item to be removed:
 			if (head.data.equals(item)) {
 				
-				// Empty head node
+				// Empty head node, modify size field
+				size--;
 				head = null;
 				return true; // List was modified
 				
 			} else {
 				return false; // List was not modified
 			}
-		}
+		}*/
 		
 		// Loop through each element of the tree until a root is found:
 		while(currentNode != null) {
 			
-			System.out.println("While loop started"); // Test statement.
+			//System.out.println("While loop started"); // Test statement.
 			
 			// If the item is to the left (less than) currentNode:
 			if(cmp.compare(item, currentNode.data) < 0) {
 				
-				System.out.println("Left side found to " + currentNode.data); // Test statement
+				//System.out.println("Left side found to " + currentNode.data); // Test statement
 				
 				// Move to the left if leftSide exists
 				if (currentNode.leftSide != null) {
 					
-					System.out.println("Moved to: " + currentNode.leftSide.data); // Test statement
+					//System.out.println("Moved to: " + currentNode.leftSide.data); // Test statement
 					currentNode = currentNode.leftSide;
 					
 				} else {
@@ -370,123 +374,166 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 				// If a match is found:
 				if(currentNode.data.equals(item)) {
 					
-					System.out.println("NODE REMOVED TO LEFT OF: " + currentNode.data); // Test statement
+					//System.out.println("NODE REMOVED TO LEFT OF: " + currentNode.data); // Test statement
 					
 					// If a root is going to be removed:
-					if(currentNode.leftSide == null) {
+					if(currentNode.leftSide == null && currentNode.rightSide == null) {
 						
-						System.out.println("Removing the root: " + currentNode.data);
+						//System.out.println("Removing the root: " + currentNode.data); // Test statement
 						
-						// Check if the root is a match, if not return
-						if (currentNode.data.equals(item)) {
-							
-							System.out.println("match found"); // Test statement
-							currentNode.cameFrom.leftSide = null;
-							return true; // Tree was modified
-							
-						} else {
-							return false; // Root reached and tree wasn't changed
-						}
-							
-					}
+						currentNode.cameFrom.leftSide = null;
+
+						size--; // Adjust size
+						currentNode = null; // Empty currentNode
+						return true; // List was modified.
+						
 					
-					// If not root, rearrange the pointers around the current node and empty currentNode
-					currentNode.cameFrom.leftSide = currentNode.leftSide;
-					currentNode.leftSide.cameFrom = currentNode.cameFrom;
+					// If it's not a root but has a node to the right, replace currentNode with the greater one
+					} else if (currentNode.rightSide != null) {
 						
-					currentNode = null; // Empty currentNode
-					return true; // Tree was modified
+						// Set the right node's came from and left side's to currentNode's and currentNode's cameFrom pointer to replacement
+						currentNode.rightSide.cameFrom = currentNode.cameFrom;
+						currentNode.cameFrom.leftSide = currentNode.rightSide;
+						currentNode.rightSide.leftSide = currentNode.leftSide;
+						
+						size--; // Adjust size
+						currentNode = null; // Empty currentNode
+						return true; // List was modified.
+					
+					} else { // If the leftSide is not null:
+						
+						// Rearrange pointers and empty currentNode
+						currentNode.cameFrom.leftSide = currentNode.leftSide;
+						currentNode.leftSide.cameFrom = currentNode.cameFrom;
+							
+						size--; // Adjust size
+						currentNode = null; // Empty currentNode
+						return true; // List was modified.
+					}
 				}
 					
 			// If the item is to the right (greater than) currentNode:
 			} else if(cmp.compare(item, currentNode.data) > 0) {
 					
-				System.out.println("Right side found to " + currentNode.data); // Test statement
+				//System.out.println("Right side found to " + currentNode.data); // Test statement
 					
 				// Move to the right if rightSide exists
 				if (currentNode.rightSide != null) {
 						
-					System.out.println("Moved to: " + currentNode.rightSide.data); // Test statement
+					//System.out.println("Moved to: " + currentNode.rightSide.data); // Test statement
 					currentNode = currentNode.rightSide;
 						
 				} else {
 					return false; // Reached the root of the tree, wasn't modified
 				}
 					
-					
 				// If a match is found:
 				if(currentNode.data.equals(item)) {
 						
-				System.out.println("NODE REMOVED TO RIGHT OF: " + currentNode.data); // Test statement
-						
+					//System.out.println("NODE REMOVED TO RIGHT OF: " + currentNode.data); // Test statement
+
 					// If a root is going to be removed:
-					if(currentNode.rightSide == null) {
-							
-						System.out.println("Removing the root: " + currentNode.data);
-							
-						// Check if the root is a match, if not return
-						if (currentNode.data.equals(item)) {
-								
-							System.out.println("match found"); // Test statement
-							currentNode.cameFrom.rightSide = null;
-							return true; // Tree was modified
-								
-						} else {
-							return false; // Root reached and tree wasn't changed
-						}
-								
+					if(currentNode.leftSide == null && currentNode.rightSide == null) {
+					
+						//System.out.println("Removing the root: " + currentNode.data);
+						currentNode.cameFrom.rightSide = null;
+						currentNode = null;
+						size--;
+						return true; // Tree was modified
+				
+					// If it's not a root but has a node to the right, replace currentNode with the greater one
+					} else if (currentNode.rightSide != null) {
+					
+						// Set the right node's came from and left side's to currentNode's and currentNode's cameFrom pointer to replacement
+						currentNode.rightSide.cameFrom = currentNode.cameFrom;
+						currentNode.cameFrom.rightSide = currentNode.rightSide;
+						currentNode.rightSide.leftSide = currentNode.leftSide;
+					
+						size--; // Adjust size
+						currentNode = null; // Empty currentNode
+						return true; // List was modified.
+				
+					} else { // If the leftSide is not null:
+					
+						// Rearrange pointers and empty currentNode
+						currentNode.cameFrom.rightSide = currentNode.leftSide;
+						currentNode.leftSide.cameFrom = currentNode.cameFrom;
+						
+						size--; // Adjust size
+						currentNode = null; // Empty currentNode
+						return true; // List was modified.
 					}
-						
-					// If not root, rearrange the pointers around the current node and empty currentNode
-					currentNode.cameFrom.rightSide = currentNode.rightSide;
-					currentNode.rightSide.cameFrom = currentNode.cameFrom;
-							
-					currentNode = null; // Empty currentNode
-					return true; // Tree was modified
 				}
-			}
+				
 			//If no match on either side, then check if the head is equal to the item given
-			else if(cmp.compare(item, currentNode.data) == 0){
+			} else if (cmp.compare(item, currentNode.data) == 0) {
 				
-				System.out.println("node equal to head");
+				//System.out.println("node equal to head"); // Test statement
 				
-				
-				//Check if a node exists to the right side of the head
+				// Check if a node exists to the right side of the head
 				if(currentNode.rightSide != null) {
-					System.out.println("Right side exists");
-					//If so check if any nodes exist to the left side of the head
+					
+					//System.out.println("Right side exists"); // Test statement
+					
+					// If the left side and the right side exist:
 					if(currentNode.leftSide != null) {
-						System.out.println("Left side exists");
-						//Tracker for find the left most node
-						Vertex leftmostSideNode = currentNode.rightSide.leftSide;
-						Vertex headleftSide = currentNode.leftSide;
+					
+						//System.out.println("Left side exists"); // Test statement
 						
+						// Tracker for find the left most node
+						Vertex leftmostSideNode = currentNode.rightSide;
+						
+						// Move to the lowest possible value of the right subtree
 						while(leftmostSideNode.leftSide != null) {
 							leftmostSideNode = leftmostSideNode.leftSide;
 						}
-						head = currentNode;
-						leftmostSideNode = headleftSide;
-						return true;
-					}
-					else {
+						
+						// Rearrange pointers to make left subtree point to lowest right subtree
+						leftmostSideNode.leftSide = head.leftSide;
+						leftmostSideNode.leftSide.cameFrom = leftmostSideNode;
+						
+						// Move the head to the right to its new head, empty tracker
 						head = currentNode.rightSide;
+						currentNode = null;
+						size--; // Decrement size and return true for a modified BST
+						return true;
+					
+						
+					} else { // If there is ONLY a node on the right:
+						
+						head = currentNode.rightSide; // Move the head to the right
+						
+						// Clear the currentNode, decrement the size, list was modified so return true
+						currentNode = null;
+						size--;
 						return true;
 					}
-				}
-				else if(currentNode.leftSide != null) {
+					
+				// If only the left side exists:
+				} else if(currentNode.leftSide != null) {
+					
+					// Move the new head to the left
 					head = currentNode.leftSide;
+					
+					// Clear the currentNode, decrement the size, list was modified so return true
+					currentNode = null;
+					size--;
 					return true;
-				}
-				else {
+				
+				} else { // If there is only a single node, empty the head and return
+					
 					head = null;
+					
+					// Clear the currentNode, decrement the size, list was modified so return true
+					currentNode = null;
+					size--;
 					return true;
 				}
 			}
-
 		}
 		
-		// Catch case broken remove:
-		System.out.println("ERROR IN REMOVE FUNCTION");
+		// Catch case for an empty tree.
+		//System.out.println("Empty tree."); // Test statement
 		return false;
 	}
 	
@@ -523,14 +570,9 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 	
 	@Override
 	/**
-	 * @return: the number of items in this set.
+	 * @return: the number of items in this set tracked by the size field.
 	 */
-	public int size() {
-		
-		// Makes a list of the tree to find size
-		this.toArrayList();
-		return arrayListHolder.size();
-	}
+	public int size() { return size; }
 	
 	
 	
