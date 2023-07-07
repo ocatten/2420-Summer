@@ -43,12 +43,13 @@ public class BinarySearchTreeTimer {
 					
 					
 					for(Integer i = 0; i < 5; i++) {
-						System.out.println(i);
 						i = rng.nextInt();
 						i = Math.abs(i);
 						String numToString = i.toString();
 	
 						binaryTree.add(i);
+						
+						System.out.println("iterated thru binary tree add one time");
 					}
 					//System.out.println(largestArray[1]);
 
@@ -94,7 +95,7 @@ public class BinarySearchTreeTimer {
 					
 					
 					for(Integer i = 0; i < loopTime; i++) {
-						System.out.println(i);
+
 						i = rng.nextInt();
 						i = Math.abs(i);
 						String numToString = i.toString();
