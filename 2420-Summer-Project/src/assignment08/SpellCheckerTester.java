@@ -15,7 +15,9 @@ public class SpellCheckerTester {
 	ArrayList<String> letters = new ArrayList<String>();
 	
 	public void setup() {
+		
 		letters = new ArrayList<String>();
+		
 		letters.add("A");
 		letters.add("B");
 		letters.add("C");
@@ -27,12 +29,11 @@ public class SpellCheckerTester {
 		letters.add("I");
 		letters.add("J");
 		
-
 		mySC = new SpellChecker(new File("src/assignment08/dictionary.txt"));
 		mySCSimple = new SpellChecker(letters);
 
-//		runSpellCheck(mySC, "src/assignment08/hello_world.txt");
-//		runSpellCheck(mySC, "src/assignment08/good_luck.txt");
+		//runSpellCheck(mySC, "src/assignment08/hello_world.txt");
+		//runSpellCheck(mySC, "src/assignment08/good_luck.txt");
 	}
 
 	/**

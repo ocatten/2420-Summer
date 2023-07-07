@@ -465,7 +465,7 @@ public class BinarySearchTree<Type extends Comparable<? super Type>> implements 
 					}
 				}
 				
-			//If no match on either side, then check if the head is equal to the item given
+			// If no match on either side, then check if the head is equal to the item given
 			} else if (cmp.compare(item, currentNode.data) == 0) {
 				
 				//System.out.println("node equal to head"); // Test statement

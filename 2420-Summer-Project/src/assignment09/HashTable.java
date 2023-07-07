@@ -1,16 +1,25 @@
 package assignment09;
 
+/**
+ * HashTable class with implemented Map interface methods provided by the instructor. Uses separate chaining to resolve collisions.
+ * 
+ * @author Parker Catten & Everett Oglesby
+ * @version 07:07:23 2420_001 SUM-2023
+ */
+
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
-public class HashTable<K,V> implements Map<K,V>{
+import a9.MapEntry;
+
+public class HashTable<K, V> implements Map<K, V> {
 	
 	
-	//Tracker for the lambda value for rehashing
+	// Tracker for the lambda value for rehashing
+	private ArrayList< LinkedList< MapEntry<K, V> > > table;
 	double lambda = 0;
 	
-	ArrayList<LinkedList<MapEntry<K,V>>> hashTable = new ArrayList<LinkedList<MapEntry<K,V>>>();
+	ArrayList< LinkedList< MapEntry<K, V> > > hashTable = new ArrayList< LinkedList< MapEntry<K, V> > >();
 
 	/**
 	 * Removes all mappings from this map.
@@ -19,11 +28,10 @@ public class HashTable<K,V> implements Map<K,V>{
 	 */
 	public void clear() {
 
-		//Clear each entry from the table while keeping its size
-		for(LinkedList<MapEntry<K,V>> entry : table) {
+		// Clear each entry from the table while keeping its size
+		for(LinkedList< MapEntry<K, V> > entry : table) {
 			entry.clear();
 		}
-		
 	}
 
 	/**
