@@ -73,7 +73,7 @@ public class BinarySearchTreeTimer {
 				int timesToLoop = givenTimesToLoop;
 				
 				// For each problem size n . . .
-				for(int n = 1; n < 15; n ++) {
+				for(int n = 1; n < 16; n ++) {
 
 					// Starts with a new binary search tree
 					
@@ -99,7 +99,7 @@ public class BinarySearchTreeTimer {
 						num = Math.abs(num);
 						String numToString = i.toString();
 	
-						treeSet.add(num);
+						treeSet.add(i);
 						
 						//System.out.println("iterated thru binary tree add one time");
 					}
