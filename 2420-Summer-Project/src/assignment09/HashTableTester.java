@@ -8,6 +8,7 @@ package assignment09;
  */
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ public class HashTableTester {
 /*====================================================== CONSTRUCTOR TESTS ===================================================================*/
 	
 	private HashTable<Integer, String> numHash = new HashTable<Integer, String>();
-	private HashTable<Integer, String> numHashLarge = new HashTable<Integer,String>();
+	private HashTable<Integer, String> largeNumHash = new HashTable<Integer,String>();
 	
 	
 	public void smallTableSetUp() {
@@ -44,7 +45,7 @@ public class HashTableTester {
 		int testSize = 1000;
 		
 		for(Integer i = 0; i < testSize; i++) {
-			numHashLarge.put(i, i.toString());
+			largeNumHash.put(i, i.toString());
 		}
 	}
 	
@@ -52,15 +53,15 @@ public class HashTableTester {
 /*========================================================== COMPRESSION TEST =====================================================================*/
 	
 	
-	// This is tested further in the put tests
 	@Test
-	public void compressionTest() {
+	public void compressionTest() { // This is tested further in the put tests
 		
 		assertEquals(2, numHash.compression(12));
 	}
 	
 	
 /*=========================================================== REHASH TESTS =======================================================================*/
+	
 	
 	@Test
 	public void rehashOnEmptyTest() {
@@ -92,14 +93,137 @@ public class HashTableTester {
 	public void rehashOnLargeTest() {
 		
 		largeTableSetUp();
-		assertEquals(197, numHashLarge.getCapacity());
-//		
-//		for(Integer i = 12; i < 101; i++) {
-//			numHashLarge.put(i, i.toString());
-//		}
-//		
-//		assertEquals(23, numHashLarge.getCapacity());
+		
+		assertEquals(197, largeNumHash.getCapacity());
+		assertEquals(1000, largeNumHash.size());
+		
+		for(Integer i = 1000; i < 1970; i++) {
+			largeNumHash.put(i, i.toString());
+		}
+		
+		assertEquals(1970, largeNumHash.size());
+		assertEquals(397, largeNumHash.getCapacity());
 	}
+	
+
+/*=========================================================== CLEAR TESTS =======================================================================*/
+	
+	
+	@Test
+	public void clearOnEmptyTest() {
+		
+		assertEquals(0, numHash.size());
+		numHash.clear();
+		assertEquals(0, numHash.size());
+	}
+	
+	
+	
+	@Test
+	public void clearOnSmallTest() {
+		
+		smallTableSetUp();
+		assertEquals(11, numHash.size());
+		numHash.clear();
+		assertEquals(0, numHash.size());
+	}
+	
+	
+	
+	@Test
+	public void clearOnLargeTest() {
+		
+		largeTableSetUp();
+		assertEquals(1000, largeNumHash.size());
+		largeNumHash.clear();
+		assertEquals(0, largeNumHash.size());
+	}
+	
+	
+/*======================================================= CONTAINS_KEY TESTS =======================================================================*/
+	
+	
+	@Test
+	public void containsKeyOnEmptyTest() {
+		
+		assertFalse(numHash.containsKey(1));
+	}
+	
+	
+	
+	@Test
+	public void containsKeyOnSmallTest() {
+		
+		smallTableSetUp();
+		
+		for(int i = 1; i < 11; i++) {
+			assertTrue(numHash.containsKey(i));
+		}
+		
+		assertFalse(numHash.containsKey(12));
+	}
+	
+	
+	
+	@Test
+	public void containsKeyOnLargeTest() {
+		
+		largeTableSetUp();
+		
+		for(int i = 0; i < 1000; i++) {
+			assertTrue(largeNumHash.containsKey(i));
+		}
+		
+		assertFalse(largeNumHash.containsKey(1000));
+	}
+	
+	
+/*==================================================== CONTAINS_VALUE TESTS =======================================================================*/
+	
+	
+	@Test
+	public void containsValueOnEmptyTest() {
+		
+		assertFalse(numHash.containsValue("1"));
+	}
+	
+	
+	
+	@Test
+	public void containValueOnSmallTest() {
+		
+		smallTableSetUp();
+		
+		assertTrue(numHash.containsValue("one"));
+		assertTrue(numHash.containsValue("two"));
+		assertTrue(numHash.containsValue("three"));
+		assertTrue(numHash.containsValue("four"));
+		assertTrue(numHash.containsValue("five"));
+		assertTrue(numHash.containsValue("six"));
+		assertTrue(numHash.containsValue("seven"));
+		assertTrue(numHash.containsValue("eight"));
+		assertTrue(numHash.containsValue("nine"));
+		assertTrue(numHash.containsValue("ten"));
+		assertTrue(numHash.containsValue("eleven"));
+		
+		assertFalse(numHash.containsValue("twelve"));
+		assertFalse(numHash.containsValue("1"));
+	}
+	
+	
+	
+	@Test
+	public void containsValueOnLargeTest() {
+		
+		largeTableSetUp();
+		
+		for(Integer i = 0; i < 1000; i++) {
+			assertTrue(largeNumHash.containsValue(i.toString()));
+		}
+		
+		assertFalse(largeNumHash.containsValue("1000"));
+	}
+	
 	
 	
 /*=========================================================== PUT TESTS ===========================================================================*/

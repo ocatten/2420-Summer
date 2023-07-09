@@ -39,11 +39,6 @@ public class HashTable<K, V> implements Map<K, V> {
 	public int getCapacity() { return capacity; }
 	
 	/**
-	 * @return: tableSize
-	 */
-	public int getTableSize() { return tableSize; }
-	
-	/**
 	 * @return: Backing ArrayList for the HashTable
 	 */
 	public ArrayList< LinkedList< MapEntry<K, V> > > getHashTableArrayList() { return hashTable; }
@@ -129,7 +124,7 @@ public class HashTable<K, V> implements Map<K, V> {
 			mapEntry.clear();
 		}
 		
-		//tableSize = 0; // Reset tracking field
+		tableSize = 0; // Reset tracking field
 	}
 	
 	
@@ -145,8 +140,15 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public boolean containsKey(K key) {
 		
-		// If there's a list at the key's hash, the table contains the key
-		return (hashTable.get(compression(key)).size() != 0);
+		// For each entry at this key's value:
+		for(MapEntry<K , V> mapEntry : hashTable.get(compression(key)) ) {
+				
+			if(mapEntry.getKey().equals(key)) {
+				return true; // Return true if a match is found
+			}
+		}	
+		
+		return false; // Else case for no match
 	}
 
 	
