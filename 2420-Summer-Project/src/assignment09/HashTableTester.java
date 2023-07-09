@@ -16,7 +16,7 @@ import java.util.List;
 
 public class HashTableTester {	
 	
-/*=================================================================================================================================================*/
+/*====================================================== CONSTRUCTOR TESTS ===================================================================*/
 	
 	private HashTable<Integer, String> numHash = new HashTable<Integer, String>();
 	
@@ -48,7 +48,67 @@ public class HashTableTester {
 	}
 	
 	
-/*============================================================== PUT TESTS =========================================================================*/
+/*========================================================== COMPRESSION TEST =====================================================================*/
+	
+	
+	// This is tested further in the put tests
+	@Test
+	public void compressionTest() {
+		
+		assertEquals(2, numHash.compression(12));
+	}
+	
+	
+/*=========================================================== REHASH TESTS =======================================================================*/
+	
+	@Test
+	public void rehashOnEmptyTest() {
+		
+		assertEquals(10, numHash.getCapacity());
+		
+		try {
+			
+			numHash.rehash();
+			assertTrue(false);
+			
+		} catch(Exception e) {
+			
+			assertTrue(true);
+		}
+	}
+	
+	
+	
+	@Test
+	public void rehashOnSmallTest() {
+		
+		smallTableSetUp();
+		assertEquals(10, numHash.getCapacity());
+		
+		for(Integer i = 12; i < 101; i++) {
+			numHash.put(i, i.toString());
+		}
+		
+		assertEquals(23, numHash.getCapacity());
+	}
+	
+	
+	
+	@Test
+	public void rehashOnLargeTest() {
+		
+		largeTableSetUp();
+		assertEquals(97, numHash.getCapacity());
+		
+		for(Integer i = 12; i < 101; i++) {
+			numHash.put(i, i.toString());
+		}
+		
+		assertEquals(23, numHash.getCapacity());
+	}
+	
+	
+/*=========================================================== PUT TESTS ===========================================================================*/
 	
 	
 	@Test
@@ -77,4 +137,8 @@ public class HashTableTester {
 		numHash.put(1001, "1001");
 		assertEquals(numHash.containsKey(1001), true);
 	}
+	
+	
+/*=========================================================== REHASH TESTS ====================================================================*/
+	
 }

@@ -15,10 +15,39 @@ import java.util.List;
 public class HashTable<K, V> implements Map<K, V> {
 
 	// Fields
-	ArrayList<LinkedList<MapEntry<K,V>>> hashTable = new ArrayList<LinkedList<MapEntry<K,V>>>(); // List backing the table
-	double lambda = 0;
+	ArrayList< LinkedList< MapEntry<K, V> > > hashTable = new ArrayList<LinkedList<MapEntry<K,V>>>(); // List backing the table
 	int capacity = 10;
-	int n = 0; //Tracker for the elements in the array
+	int tableSize = 0; //Tracker for the elements in the array
+	
+	
+	/**
+	 * Constructor that sets up an initial hashTable ArrayList with 10 empty LinkedLists
+	 */
+	public HashTable() {
+		
+		// Add 10 empty LinkedLists to the backingArrayLists
+		for (int i = 0; i < capacity; i++) {
+			hashTable.add(new LinkedList< MapEntry<K, V> >());
+		}
+	} 
+	
+	
+	
+	/**
+	 * @return: capacity
+	 */
+	public int getCapacity() { return capacity; }
+	
+	/**
+	 * @return: tableSize
+	 */
+	public int getTableSize() { return tableSize; }
+	
+	/**
+	 * @return: Backing ArrayList for the HashTable
+	 */
+	public ArrayList< LinkedList< MapEntry<K, V> > > getHashTableArrayList() { return hashTable; }
+	
 	
 	
 	/**
@@ -61,19 +90,19 @@ public class HashTable<K, V> implements Map<K, V> {
 			}
 		}
 		
-		// Create a LinkedList for thea Map Entries
-		List<MapEntry<K,V>> mapEntriesList = this.entries();
+		// Create a LinkedList for the Map Entries
+		List< MapEntry<K, V> > mapEntriesList = this.entries();
 		
 		//System.out.println("REHASHING " + entryList.size()); // Test statement
 		
 		// Clear the hashTable to rehash
 		hashTable.clear();
-		n = 0;
+		tableSize = 0;
 		
 		
 		// Add an empty LinkedList to each index within the capacity
 		for(int i = 0; i < capacity; i++) {
-			hashTable.add(new LinkedList<MapEntry<K, V>>());
+			hashTable.add(new LinkedList< MapEntry<K, V> >());
 		}
 		
 		// Add the MapEntries to the LinkedLists to the table
@@ -216,7 +245,7 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public boolean isEmpty() {
 		
-		return n == 0; // Check if the tracking field for the number of elements has been added to
+		return tableSize == 0; // Check if the tracking field for the number of elements has been added to
 	}
 
 	
@@ -256,14 +285,12 @@ public class HashTable<K, V> implements Map<K, V> {
 		
 		// Else case for no matching key: Add the key-value pair to the end of the LinkedList in a new MapEntry
 		entryList.add(new MapEntry<K, V>(key, value));
-		n++; // Increase the tracking field for number of items
+		tableSize++; // Increase the tracking field for number of items
 		
 		//System.out.println("size " + table.size()); // Test statment
 		
-		int lambda = n / capacity;
-		
 		// Check lambda to see if the function needs to rehash
-		if(lambda >= 10) {
+		if(tableSize / capacity >= 10) {
 			this.rehash();
 		}
 		
@@ -293,7 +320,7 @@ public class HashTable<K, V> implements Map<K, V> {
 			if (currentEntry.getKey().equals(key)) { // If there's a matching key, remove the MapEntry
 				
 				entryList.remove(currentEntry);
-				n--; // Decrement the tracking field for the number of elements
+				tableSize--; // Decrement the tracking field for the number of elements
 
 				return currentEntry.getValue(); // Return the removed MapEntry's value
 			}
@@ -312,6 +339,6 @@ public class HashTable<K, V> implements Map<K, V> {
 	 * 
 	 * @return the number of mappings in this map
 	 */
-	public int size() { return n; }
+	public int size() { return tableSize; }
 	
 }
