@@ -15,17 +15,17 @@ import java.util.List;
 public class HashTable<K, V> implements Map<K, V> {
 
 	// Fields
-	double lambda = 0;
-	int n = 0; //Tracker for the elements in the array
-	int capacity = 10;
 	ArrayList<LinkedList<MapEntry<K,V>>> hashTable = new ArrayList<LinkedList<MapEntry<K,V>>>(); // List backing the table
+	double lambda = 0;
+	int capacity = 10;
+	int n = 0; //Tracker for the elements in the array
 	
 	
 	/**
 	 * Compression function that modulates the hashCode of the object by the current capacity(length) of the hashTable
 	 * 
 	 * @param key: Generic object to be hashed
-	 * @return: Space of the hashTable it will be added to
+	 * @return: Index of the hashTable the key will be added to
 	 */
 	public int compression (Object key) {
 		return Math.abs(key.hashCode()) % capacity;
@@ -38,53 +38,54 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public void rehash() {
 		
-		//Double the size of the capacity
+		// Double the capacity to find the closest prime number
 		capacity *= 2;
+		boolean prime = false; // Prime flag
 		
-		//Create a new Linked List of Map Entries
+		while(!prime) { // While the current capacity isn't prime:
+			prime = true; // Set the flag to true to be checked
+			
+			// Check each number between 1 and the current capacity (exclusive):
+			for(int i = 2; i < capacity; i++) {
+			
+				// If something divides evenly into the current capacity:
+				if(capacity % i == 0) { 
+					prime = false; // The capacity is not prime.
+					break; // Exit the for loop
+				}
+			}
+			
+			// Increment the capacity if the number isn't prime
+			if(!prime) {
+				capacity++; 
+			}
+		}
+		
+		// Create a LinkedList for thea Map Entries
 		List<MapEntry<K,V>> mapEntriesList = this.entries();
 		
-		//System.out.println("REHASHING " + entryList.size()); // Test size
+		//System.out.println("REHASHING " + entryList.size()); // Test statement
 		
-		// Reset the backing array for the values
+		// Clear the hashTable to rehash
 		hashTable.clear();
 		n = 0;
 		
-
-		//Clear the table
-		hashTable.clear();
-				
-		// For each item within the capacity create an empty LinkedList
-
-		// For each item within the capacity:
-
+		
+		// Add an empty LinkedList to each index within the capacity
 		for(int i = 0; i < capacity; i++) {
-			
-			// Add an empty list there.
 			hashTable.add(new LinkedList<MapEntry<K, V>>());
 		}
 		
-		
-		// For each item within the capacity add the LinkedList with the MapEntry
-		//to each LinkedList
+		// Add the MapEntries to the LinkedLists to the table
 		for(int i = 0; i < capacity; i++) {
 			
-			//Add the corresponding MapEntry for the LinkedList of MapEntries to each
-			//Empty MapEntry LinkedList in the ArrayList
-			hashTable.get(i).add(mapEntriesList.get(i));
-			//this.put(mapEntriesList.get(i).getKey(), mapEntriesList.get(i).getValue());
-		
-		}
-		
-		// Puts the new elements into the backing array
-		for(MapEntry<K,V> currentEntry : mapEntriesList) {
-			
-			this.put(currentEntry.getKey(), currentEntry.getValue());
+			this.put(mapEntriesList.get(i).getKey(), mapEntriesList.get(i).getValue());
 		}
 	}
 	
 	
 	
+	@Override
 	/**
 	 * Removes all mappings from this map.
 	 * 
@@ -93,13 +94,14 @@ public class HashTable<K, V> implements Map<K, V> {
 	public void clear() {
 
 		//Clear each entry from the table while keeping its size
-		for(LinkedList<MapEntry<K,V>> entry : hashTable) {
-			entry.clear();
+		for(LinkedList< MapEntry<K, V> > mapEntry : hashTable) {
+			mapEntry.clear();
 		}
 	}
 	
 	
 	
+	@Override
 	/**
 	 * Determines whether this map contains the specified key.
 	 * 
@@ -110,16 +112,13 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public boolean containsKey(K key) {
 		
-		// If the list at the key's index has items, it contains the key
-		if (hashTable.get(compression(key)).size() != 0) {
-			return true; 
-		} else { // If there are no values in that space:
-			return false;
-		}
+		// If there's a list at the key's hash, the table contains the key
+		return (hashTable.get(compression(key)).size() != 0);
 	}
 
 	
 	
+	@Override
 	/**
 	 * Determines whether this map contains the specified value.
 	 * 
@@ -132,11 +131,10 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public boolean containsValue(V value) {
 		
-		// Loops through each value in the hashTable and each array within those table and returns true if
-		//  a match is found
+		// Loops through each LinkedList and each value within to find a match
 		for (LinkedList<MapEntry<K,V>> tableEntry : hashTable) {
 			
-			// Loop through the linkedLists
+			// Loop through the LinkedLists
 			for (MapEntry<K,V> mapEntry : tableEntry) {
 				
 				// Return true if a match is found
@@ -146,10 +144,12 @@ public class HashTable<K, V> implements Map<K, V> {
 			}
 		}
 		
-		// If no match was found:
-		return false;
+		return false; // Else for no matches, doesn't contain value
 	}
-
+	
+	
+	
+	@Override
 	/**
 	 * Returns a List view of the mappings contained in this map, where the ordering of 
 	 * mapping in the list is insignificant.
@@ -159,24 +159,25 @@ public class HashTable<K, V> implements Map<K, V> {
 	 * 
 	 * @return a List object containing all mapping (i.e., entries) in this map
 	 */
-	public List<MapEntry<K, V>> entries() {
+	public List< MapEntry<K, V> > entries() {
 		
-		// Empty list to be returned
-		LinkedList<MapEntry<K,V>> returned = new LinkedList<MapEntry<K,V>>();
+		// List to add to and return
+		LinkedList< MapEntry<K, V> > allEntries = new LinkedList< MapEntry<K, V> >();
 		
-		// Checks each non-null element of the table
-		for(LinkedList<MapEntry<K,V>> tableEntry : hashTable) {
+		// Checks each linkedList
+		for(LinkedList< MapEntry<K, V> > tableEntry : hashTable) {
 			
-			// If this value isn't null, add each item in that list to the list to be returned.
-			if(tableEntry != null) {
-				returned.addAll((Collection<? extends MapEntry<K, V>>) tableEntry);
+			if(tableEntry != null) { // Add every existing tableEntry to allEntries
+				allEntries.addAll( (Collection< ? extends MapEntry<K, V> >) tableEntry );
 			}
 		}
 		
-		// Return the completed list.
-		return returned;
+		return allEntries; // Return the completed list.
 	}
 
+	
+	
+	@Override
 	/**
 	 * Gets the value to which the specified key is mapped.
 	 * 
@@ -187,25 +188,25 @@ public class HashTable<K, V> implements Map<K, V> {
 	 *         contains no mapping for the key
 	 */
 	public V get(K key) {
-		// Compresses the key to find the right index
-		int code = compression(key);
 		
-		// Finds the corresponding index to the key
-		LinkedList<MapEntry<K, V>> entryList = hashTable.get(code);
+		// Find the list of MapEntries for the compressed key
+		LinkedList< MapEntry<K, V> > entryList = hashTable.get( compression(key) );
 		
-		// Check each MapEntry in the linkedList to see if there's a matching key
-		for(MapEntry<K,V> currentEntry : entryList) {
+		// Go through each entry in the LinkedList of MapEntries
+		for(MapEntry<K, V> currentEntry : entryList) {
 			
-			// If a match is found, return its value
+			// If there's a matching key, return that entry's value
 			if(currentEntry.getKey().equals(key)) {
 				return currentEntry.getValue();
 			}
 		}
 		
-		// Null if no match is found
-		return null;
+		return null; // Null for no match
 	}
 	
+	
+	
+	@Override
 	/**
 	 * Determines whether this map contains any mappings.
 	 * 
@@ -215,13 +216,12 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public boolean isEmpty() {
 		
-		if(n == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return n == 0; // Check if the tracking field for the number of elements has been added to
 	}
 
+	
+	
+	@Override
 	/**
 	 * Associates the specified value with the specified key in this map.
 	 * (I.e., if the key already exists in this map, resets the value; 
@@ -236,41 +236,43 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public V put(K key, V value) {
 		
-		// Finds the linkedList at the key
-		LinkedList<MapEntry<K,V>> entryList = hashTable.get(this.compression(key));
+		// Finds the LinkedList at the key's hash
+		LinkedList< MapEntry<K, V> > entryList = hashTable.get(this.compression(key));
 		
-		// Iterate through each item in the target list
-		for (MapEntry<K,V> currentEntry: entryList) {
+		// Iterate through each item at the LinkedList at the compressed key
+		for (MapEntry<K, V> currentEntry: entryList) {
 			
-			// If there's a matching key, update the value and return the new one
+			// If there's a matching key, update the MapEntry's value
 			if(currentEntry.getKey().equals(key)) {
 				
-				System.out.println("KEY: " + currentEntry.getKey()); // Test statement
-				System.out.println("VALUE: " + currentEntry.getValue()); // Test statement
+				//System.out.println("KEY: " + currentEntry.getKey()); // Test statement
+				//System.out.println("VALUE: " + currentEntry.getValue()); // Test statement
 				
-				// Full object path needed to directly change
 				currentEntry.setValue(value);
-				System.out.println("NEW VALUE: " + value); // Test statement
-				
-				return value; // Return the value
+				//System.out.println("NEW VALUE: " + currentEntry.getValue()); // Test statement
+				return value; // Return the new value for that key, break from the method
 			}
 		}
 		
-		// If there is no match, add the key-value pair to the end of the list
-		entryList.add(new MapEntry<K,V>(key, value));
+		// Else case for no matching key: Add the key-value pair to the end of the LinkedList in a new MapEntry
+		entryList.add(new MapEntry<K, V>(key, value));
+		n++; // Increase the tracking field for number of items
 		
-		// There's a new item, so increase the itemTotal .
-		n++;
 		//System.out.println("size " + table.size()); // Test statment
-		int lambda = n / hashTable.size();
+		
+		int lambda = n / capacity;
+		
 		// Check lambda to see if the function needs to rehash
 		if(lambda >= 10) {
 			this.rehash();
 		}
 		
-		return value;
+		return value; // Return the new value for the key
 	}
-
+	
+	
+	
+	@Override
 	/**
 	 * Removes the mapping for a key from this map if it is present.
 	 * 
@@ -282,28 +284,27 @@ public class HashTable<K, V> implements Map<K, V> {
 	 */
 	public V remove(K key) {
 		
-		// Finds the linkedList at the key
-		LinkedList<MapEntry<K,V>> entryList = hashTable.get(this.compression(key));
+		// Finds the LinkedList at the key's hash
+		LinkedList< MapEntry<K, V> > entryList = hashTable.get(this.compression(key));
 		
-		// Iterate through each item in the target list
-		for (MapEntry<K,V> currentEntry: entryList) {
+		// Iterate through each MapEntry in the LinkedList at the key's compressed index
+		for (MapEntry<K, V> currentEntry: entryList) {
 			
-			// If there's a matching key, remove the value
-			if(currentEntry.getKey().equals(key)) {
+			if (currentEntry.getKey().equals(key)) { // If there's a matching key, remove the MapEntry
 				
 				entryList.remove(currentEntry);
-				
-				// Decrement the element count
-				n--;
+				n--; // Decrement the tracking field for the number of elements
 
-				return currentEntry.getValue();
+				return currentEntry.getValue(); // Return the removed MapEntry's value
 			}
 		}
 		
-		// If there's no match, return null
-		return null;
+		return null; // Else case for no matching key: Return null
 	}
-
+	
+	
+	
+	@Override
 	/**
 	 * Determines the number of mappings in this map.
 	 * 
@@ -311,13 +312,6 @@ public class HashTable<K, V> implements Map<K, V> {
 	 * 
 	 * @return the number of mappings in this map
 	 */
-	public int size() {
-		return n;
-	}
+	public int size() { return n; }
 	
-	
-	
-	
-	
-
 }
