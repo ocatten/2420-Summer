@@ -97,7 +97,6 @@ public class HashTable<K, V> implements Map<K, V> {
 		
 		// Clear the hashTable to rehash
 		hashTable.clear();
-		hashTable = new ArrayList<LinkedList<MapEntry<K,V>>>();
 		tableSize = 0;
 		
 		
@@ -105,11 +104,12 @@ public class HashTable<K, V> implements Map<K, V> {
 		for(int i = 0; i < capacity; i++) {
 			hashTable.add(new LinkedList< MapEntry<K, V> >());
 		}
-		
 
-		//System.out.println("Rehasing. New capacity = " + capacity);
+		//System.out.println("Rehashing. New capacity = " + capacity); // Test statements
 		
+		// Adds all of the existing MapEntries back into the hashTable.
 		for(MapEntry<K,V> mapEntry : mapEntriesList) {
+			
 			this.put(mapEntry.getKey(), mapEntry.getValue());
 		}
 	}
@@ -128,6 +128,8 @@ public class HashTable<K, V> implements Map<K, V> {
 		for(LinkedList< MapEntry<K, V> > mapEntry : hashTable) {
 			mapEntry.clear();
 		}
+		
+		//tableSize = 0; // Reset tracking field
 	}
 	
 	
@@ -288,11 +290,14 @@ public class HashTable<K, V> implements Map<K, V> {
 		// Else case for no matching key: Add the key-value pair to the end of the LinkedList in a new MapEntry
 		entryList.add(new MapEntry<K, V>(key, value));
 		tableSize++; // Increase the tracking field for number of items
-		System.out.println("Value equals " +value);
-		//System.out.println("size " + table.size()); // Test statment
-		double lambda = (double)tableSize / (double) capacity;
-		System.out.println("Lambda = " + (lambda));
-		System.out.println("table size equals " + tableSize);
+		
+		// Test statements
+		//System.out.println("Value equals " +value);
+		//System.out.println("size " + table.size()); 
+		
+		double lambda = (double)tableSize / (double) capacity; // Find lambda for overhead
+		//System.out.println("Lambda = " + (lambda));
+		//System.out.println("table size equals " + tableSize);
 		// Check lambda to see if the function needs to rehash
 
 		if(lambda >= 10) {

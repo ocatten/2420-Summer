@@ -66,16 +66,9 @@ public class HashTableTester {
 	public void rehashOnEmptyTest() {
 		
 		assertEquals(10, numHash.getCapacity());
+		numHash.rehash();
+		assertEquals(23, numHash.getCapacity());
 		
-		try {
-			
-			numHash.rehash();
-			assertTrue(false);
-			
-		} catch(Exception e) {
-			
-			assertTrue(true);
-		}
 	}
 	
 	
