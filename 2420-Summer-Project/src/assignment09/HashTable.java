@@ -66,7 +66,7 @@ public class HashTable<K, V> implements Map<K, V> {
 	 * When the overhead gets too large, this function rehashes the table.
 	 */
 	public void rehash() {
-		
+	
 		// Double the capacity to find the closest prime number
 		capacity *= 2;
 		boolean prime = false; // Prime flag
@@ -97,6 +97,7 @@ public class HashTable<K, V> implements Map<K, V> {
 		
 		// Clear the hashTable to rehash
 		hashTable.clear();
+		hashTable = new ArrayList<LinkedList<MapEntry<K,V>>>();
 		tableSize = 0;
 		
 		
@@ -105,10 +106,11 @@ public class HashTable<K, V> implements Map<K, V> {
 			hashTable.add(new LinkedList< MapEntry<K, V> >());
 		}
 		
-		// Add the MapEntries to the LinkedLists to the table
-		for(int i = 0; i < capacity; i++) {
-			
-			this.put(mapEntriesList.get(i).getKey(), mapEntriesList.get(i).getValue());
+
+		//System.out.println("Rehasing. New capacity = " + capacity);
+		
+		for(MapEntry<K,V> mapEntry : mapEntriesList) {
+			this.put(mapEntry.getKey(), mapEntry.getValue());
 		}
 	}
 	
@@ -200,7 +202,7 @@ public class HashTable<K, V> implements Map<K, V> {
 				allEntries.addAll( (Collection< ? extends MapEntry<K, V> >) tableEntry );
 			}
 		}
-		
+		//System.out.println(allEntries.size());
 		return allEntries; // Return the completed list.
 	}
 
@@ -286,11 +288,14 @@ public class HashTable<K, V> implements Map<K, V> {
 		// Else case for no matching key: Add the key-value pair to the end of the LinkedList in a new MapEntry
 		entryList.add(new MapEntry<K, V>(key, value));
 		tableSize++; // Increase the tracking field for number of items
-		
+		System.out.println("Value equals " +value);
 		//System.out.println("size " + table.size()); // Test statment
-		
+		double lambda = (double)tableSize / (double) capacity;
+		System.out.println("Lambda = " + (lambda));
+		System.out.println("table size equals " + tableSize);
 		// Check lambda to see if the function needs to rehash
-		if(tableSize / capacity >= 10) {
+
+		if(lambda >= 10) {
 			this.rehash();
 		}
 		

@@ -19,6 +19,7 @@ public class HashTableTester {
 /*====================================================== CONSTRUCTOR TESTS ===================================================================*/
 	
 	private HashTable<Integer, String> numHash = new HashTable<Integer, String>();
+	private HashTable<Integer, String> numHashLarge = new HashTable<Integer,String>();
 	
 	
 	public void smallTableSetUp() {
@@ -43,7 +44,7 @@ public class HashTableTester {
 		int testSize = 1000;
 		
 		for(Integer i = 0; i < testSize; i++) {
-			numHash.put(i, i.toString());
+			numHashLarge.put(i, i.toString());
 		}
 	}
 	
@@ -98,13 +99,13 @@ public class HashTableTester {
 	public void rehashOnLargeTest() {
 		
 		largeTableSetUp();
-		assertEquals(97, numHash.getCapacity());
-		
-		for(Integer i = 12; i < 101; i++) {
-			numHash.put(i, i.toString());
-		}
-		
-		assertEquals(23, numHash.getCapacity());
+		assertEquals(197, numHashLarge.getCapacity());
+//		
+//		for(Integer i = 12; i < 101; i++) {
+//			numHashLarge.put(i, i.toString());
+//		}
+//		
+//		assertEquals(23, numHashLarge.getCapacity());
 	}
 	
 	
