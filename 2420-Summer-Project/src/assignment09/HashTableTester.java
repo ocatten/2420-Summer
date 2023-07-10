@@ -13,6 +13,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class HashTableTester {	
@@ -225,6 +226,123 @@ public class HashTableTester {
 	}
 	
 	
+/*========================================================= ENTRIES TESTS =========================================================================*/
+	
+	
+	@Test
+	public void entriesOnEmptyTest() {
+		
+		List< MapEntry<Integer, String> > noEntries = numHash.entries();
+		
+		assertEquals(noEntries.size(), 0);
+	}
+	
+	
+	
+	@Test
+	public void entriesOnSmallTest() {
+		
+		smallTableSetUp();
+		
+		List< MapEntry<Integer, String> > smallEntries = numHash.entries();
+		
+		for (MapEntry<Integer, String> mapEntry : smallEntries) {
+			assertEquals(mapEntry.getValue(), numHash.get( mapEntry.getKey() ));
+		}
+	}
+	
+	
+	
+	@Test
+	public void entriesOnLargeTest() {
+		
+		largeTableSetUp();
+		
+		List< MapEntry<Integer, String> > largeEntries = largeNumHash.entries();
+		
+		for (MapEntry<Integer, String> mapEntry : largeEntries) {
+			assertEquals(mapEntry.getValue(), largeNumHash.get( mapEntry.getKey() ));
+		}
+	}
+	
+	
+/*========================================================= GET TESTS =========================================================================*/
+	
+	
+	@Test
+	public void getOnEmptyTest() {
+		
+		assertEquals(numHash.get(0), null);
+	}
+	
+	
+	
+	@Test
+	public void getOnSmallTest() {
+		
+		smallTableSetUp();
+		
+		assertEquals(numHash.get(1), "one");
+		assertEquals(numHash.get(2), "two");
+		assertEquals(numHash.get(3), "three");
+		assertEquals(numHash.get(4), "four");
+		assertEquals(numHash.get(5), "five");
+		assertEquals(numHash.get(6), "six");
+		assertEquals(numHash.get(7), "seven");
+		assertEquals(numHash.get(8), "eight");
+		assertEquals(numHash.get(9), "nine");
+		assertEquals(numHash.get(10), "ten");
+		assertEquals(numHash.get(11), "eleven");
+		
+		assertEquals(numHash.get(12), null);
+	}
+	
+	
+	
+	@Test
+	public void getOnLargeTest() {
+		
+		largeTableSetUp();
+		
+		for (Integer i = 0; i < 1000; i++) {
+			assertEquals(largeNumHash.get(i), i.toString());
+		}
+	}
+	
+	
+/*======================================================= IS_EMPTY TESTS ==========================================================================*/
+	
+	
+	@Test
+	public void isEmptyOnEmptyTest() {
+		
+		assertTrue(numHash.isEmpty());
+	}
+	
+	
+	
+	@Test
+	public void isEmptyOnSmallTest() {
+		
+		smallTableSetUp();
+		assertFalse(numHash.isEmpty());
+
+		numHash.clear();
+		assertTrue(numHash.isEmpty());
+	}
+	
+	
+	
+	@Test
+	public void isEmptyOnLargeTest() {
+		
+		largeTableSetUp();
+		assertFalse(largeNumHash.isEmpty());
+
+		largeNumHash.clear();
+		assertTrue(largeNumHash.isEmpty());
+	}
+	
 	
 /*=========================================================== PUT TESTS ===========================================================================*/
 	
@@ -257,6 +375,136 @@ public class HashTableTester {
 	}
 	
 	
-/*=========================================================== REHASH TESTS ====================================================================*/
+/*======================================================== REMOVE TESTS ===========================================================================*/
+	
+	
+	@Test
+	public void removeOnEmptyTest() {
+		
+		numHash.put(12, "twelve");
+		numHash.remove(12);
+		
+		assertTrue(numHash.isEmpty());
+		assertFalse(numHash.containsKey(12));
+		assertFalse(numHash.containsValue("twelve"));
+	}
+	
+	
+	
+	@Test
+	public void removeOnSmallTest() {
+		
+		smallTableSetUp();
+		
+		List< MapEntry<Integer, String> > smallEntries = numHash.entries();
+		
+		
+		for (MapEntry<Integer, String> mapEntry : smallEntries) {
+			
+			assertEquals(mapEntry.getValue(), numHash.get( mapEntry.getKey() ));
+			assertTrue(numHash.containsValue( mapEntry.getValue()) );
+			assertTrue(numHash.containsKey( mapEntry.getKey()) );
+			
+			numHash.remove(mapEntry.getKey());
+			
+			assertEquals(null, numHash.get( mapEntry.getKey() ));
+			assertFalse(numHash.containsValue( mapEntry.getValue()) );
+			assertFalse(numHash.containsKey( mapEntry.getKey()) );
+		}
+		
+		
+		assertTrue(numHash.isEmpty());
+	}
+	
+	
+	
+	@Test
+	public void removeOnLargeTest() {
+		
+		largeTableSetUp();
+
+		List< MapEntry<Integer, String> > largeEntries = largeNumHash.entries();
+		
+		
+		for (MapEntry<Integer, String> mapEntry : largeEntries) {
+			
+			assertEquals(mapEntry.getValue(), largeNumHash.get( mapEntry.getKey() ));
+			assertTrue(largeNumHash.containsValue( mapEntry.getValue()) );
+			assertTrue(largeNumHash.containsKey( mapEntry.getKey()) );
+			
+			largeNumHash.remove(mapEntry.getKey());
+			
+			assertEquals(null, largeNumHash.get( mapEntry.getKey() ));
+			assertFalse(largeNumHash.containsValue( mapEntry.getValue()) );
+			assertFalse(largeNumHash.containsKey( mapEntry.getKey()) );
+		}
+		
+		
+		assertTrue(largeNumHash.isEmpty());
+	}
+	
+	
+/*=========================================================== SIZE TESTS ====================================================================*/
+	
+	
+	@Test
+	public void sizeOnEmptyTest() {
+		
+		assertEquals(0, numHash.size());
+		
+		numHash.put(12, "twelve");
+		assertEquals(1, numHash.size());
+		
+		numHash.remove(12);
+		assertEquals(0, numHash.size());
+	}
+	
+	
+	
+	@Test
+	public void sizeOnSmallTest() {
+		
+		smallTableSetUp();
+		assertEquals(numHash.size(), 11);
+		
+		numHash.put(12, "twelve");
+		assertEquals(numHash.size(), 12);
+		
+		List< MapEntry<Integer, String> > smallEntries = numHash.entries();
+		
+		
+		for (int i = 0; i < smallEntries.size(); i++ ) {
+			
+			assertEquals(numHash.size(), 12-i);
+			numHash.remove( smallEntries.get(i).getKey() );
+		}
+		
+		
+		assertEquals(numHash.size(), 0);
+	}
+	
+	
+	
+	@Test
+	public void sizeOnLargeTest() {
+		
+		largeTableSetUp();
+		assertEquals(largeNumHash.size(), 1000);
+		
+		largeNumHash.put(1001, "1001");
+		assertEquals(largeNumHash.size(), 1001);
+		
+		List< MapEntry<Integer, String> > largeEntries = largeNumHash.entries();
+		
+		
+		for (int i = 0; i < largeEntries.size(); i++ ) {
+			
+			assertEquals(1001-i, largeNumHash.size());
+			largeNumHash.remove( largeEntries.get(i).getKey() );
+		}
+		
+		
+		assertEquals(largeNumHash.size(), 0);
+	}
 	
 }
