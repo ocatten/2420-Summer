@@ -17,7 +17,6 @@ public class StudentMediumHash {
 	private int uid;
 	private String firstName;
 	private String lastName;
-
 		
 	/**
 	 * @Constructor for a new student with the specified uid, firstName, and lastName.
@@ -27,7 +26,7 @@ public class StudentMediumHash {
 	 * @param lastName
 	 */
 	public StudentMediumHash(int uid, String firstName, String lastName) {
-		
+
 		this.uid = uid;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -40,30 +39,28 @@ public class StudentMediumHash {
 	 */
 	public int getUid() { return this.uid; }
 	
-	
 
 	/**
 	 * @return the first name for this student object
 	 */
-	
 	public String getFirstName() { return this.firstName; }
 	
-	
- 
+
+
 	/**
 	 * @return the last name for this student object
 	 */
 	public String getLastName() { return this.lastName; }
 	
-	
+
 
 	/**
 	 * @return true if this student and 'other' have the same UID, first name, and last name; false otherwise
 	 */
 	public boolean equals(Object other) {
-		
-		// change to StudentMediumHash and StudentGoodHash for two new classes
-		if (!(other instanceof StudentBadHash)) {
+
+
+		if (!(other instanceof StudentMediumHash)) {
 			return false;
 		}
 
@@ -71,8 +68,6 @@ public class StudentMediumHash {
 
 		return this.uid == rhs.uid && this.firstName.equals(rhs.firstName) && this.lastName.equals(rhs.lastName);
 	}
-	
-	
 	
 	/**
 	 * @return a textual representation of this student
@@ -89,5 +84,16 @@ public class StudentMediumHash {
 		// FILL IN and add method comment
 		
 		return 0;
+		DecimalFormat formatter = new DecimalFormat("0000000");
+		return firstName + " " + lastName + " (u" + formatter.format(uid) + ")";
+	}
+
+	public int hashCode() {
+		int hashCode = 0;
+		int first = firstName.length();
+		int last = lastName.length();
+		hashCode = (first^2) * (last^2);
+		hashCode *= (uid)^2;
+		return hashCode;
 	}
 }
