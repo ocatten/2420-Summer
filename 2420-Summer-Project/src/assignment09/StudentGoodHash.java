@@ -5,13 +5,13 @@ import java.text.DecimalFormat;
 /**
  * This class provides a simple representation for a University of Utah student.
  * Object's hashCode method is overridden with a correct hash function for this
- * object, but one that does a poor job of distributing students in a hash
+ * object, but one that does a good job of distributing students in a hash
  * table.
  * 
  * @author Everett Oglesby and Parker Catten
  * @version 07/09/2023
  */
-public class StudentBadHash {
+public class StudentGoodHash {
 
 	private int uid;
 	private String firstName;
@@ -24,7 +24,7 @@ public class StudentBadHash {
 	 * @param firstName
 	 * @param lastName
 	 */
-	public StudentBadHash(int uid, String firstName, String lastName) {
+	public StudentGoodHash(int uid, String firstName, String lastName) {
 		this.uid = uid;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -57,11 +57,11 @@ public class StudentBadHash {
 	 */
 	public boolean equals(Object other) {
 
-		if (!(other instanceof StudentBadHash)) {
+		if (!(other instanceof StudentGoodHash)) {
 			return false;
 		}
 
-		StudentBadHash rhs = (StudentBadHash) other;
+		StudentGoodHash rhs = (StudentGoodHash) other;
 
 		return this.uid == rhs.uid && this.firstName.equals(rhs.firstName) && this.lastName.equals(rhs.lastName);
 	}
@@ -75,9 +75,25 @@ public class StudentBadHash {
 	}
 
 	public int hashCode() {
+		int hashCode = 1;
 		int first = firstName.length();
 		int last = lastName.length();
+		for(int i = 0; i < first; i++) {
+			char letter = firstName.charAt(i);
+			int value = Character.getNumericValue(letter);
+			value = value^i;
+			hashCode *= value;
+		}
 		
-		return (first + last + uid);
+		for(int i = 0; i < last; i++) {
+			char letter = lastName.charAt(i);
+			int value = Character.getNumericValue(letter);
+			value = value^i;
+			hashCode *= value;
+		}
+		
+		hashCode *= uid;
+		
+		return hashCode;
 	}
 }
