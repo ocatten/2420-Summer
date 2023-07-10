@@ -3,16 +3,15 @@ package assignment09;
 import java.text.DecimalFormat;
 
 /**
- * This class provides a simple representation for a University of Utah student.
+ * This class provides a more complex representation for a University of Utah student.
  * Object's hashCode method is overridden with a correct hash function for this
- * object, but one that does a poor job of distributing students in a hash
- * table.
+ * object, but one that does an adequate job of distributing students in a hash table.
  * 
  * @author Parker Catten & Everett Oglesby
  * @version 07:09:23 CS-2420_001 SUM-2023
  */
 
-public class StudentBadHash {
+public class StudentMediumHash {
 	
 	// Fields
 	private int uid;
@@ -27,7 +26,7 @@ public class StudentBadHash {
 	 * @param firstName
 	 * @param lastName
 	 */
-	public StudentBadHash(int uid, String firstName, String lastName) {
+	public StudentMediumHash(int uid, String firstName, String lastName) {
 		
 		this.uid = uid;
 		this.firstName = firstName;
@@ -35,7 +34,7 @@ public class StudentBadHash {
 	}
 	
 	
-
+	
 	/**
 	 * @return the UID for this student object
 	 */
@@ -68,7 +67,7 @@ public class StudentBadHash {
 			return false;
 		}
 
-		StudentBadHash rhs = (StudentBadHash) other;
+		StudentMediumHash rhs = (StudentMediumHash) other;
 
 		return this.uid == rhs.uid && this.firstName.equals(rhs.firstName) && this.lastName.equals(rhs.lastName);
 	}

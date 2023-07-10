@@ -21,7 +21,7 @@ public class HashTable<K, V> implements Map<K, V> {
 	
 	
 	/**
-	 * Constructor that sets up an initial hashTable ArrayList with 10 empty LinkedLists
+	 * @Constructor that sets up an initial hashTable ArrayList with 10 empty LinkedLists
 	 */
 	public HashTable() {
 		
