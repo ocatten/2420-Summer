@@ -280,12 +280,17 @@ public class HashTable<K, V> implements Map<K, V> {
 			// If there's a matching key, update the MapEntry's value
 			if(currentEntry.getKey().equals(key)) {
 				
-				//System.out.println("KEY: " + currentEntry.getKey()); // Test statement
-				//System.out.println("VALUE: " + currentEntry.getValue()); // Test statement
+				// Test statements
+				//System.out.println("MATCH FOUND: " + key); 
+				//System.out.println("KEY: " + currentEntry.getKey()); 
+				//System.out.println("VALUE: " + currentEntry.getValue());
 				
+				// Store previous value to return
+				V oldValue = currentEntry.getValue();
 				currentEntry.setValue(value);
+				
 				//System.out.println("NEW VALUE: " + currentEntry.getValue()); // Test statement
-				return value; // Return the new value for that key, break from the method
+				return oldValue; // Return the previous value for that key, break from the method
 			}
 		}
 		
@@ -295,18 +300,20 @@ public class HashTable<K, V> implements Map<K, V> {
 		
 		// Test statements
 		//System.out.println("Value equals " +value);
-		//System.out.println("size " + table.size()); 
+		//System.out.println("size " + hashTable.size());
 		
-		double lambda = (double)tableSize / (double) capacity; // Find lambda for overhead
+		double lambda = (double)tableSize / (double)capacity; // Find lambda for overhead
+		
+		// Test statements
 		//System.out.println("Lambda = " + (lambda));
 		//System.out.println("table size equals " + tableSize);
+		
 		// Check lambda to see if the function needs to rehash
-
 		if(lambda >= 10) {
 			this.rehash();
 		}
 		
-		return value; // Return the new value for the key
+		return null; // Return null since there was no mapping
 	}
 	
 	
