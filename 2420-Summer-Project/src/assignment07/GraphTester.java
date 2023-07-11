@@ -114,7 +114,7 @@ public class GraphTester {
 		
 		
 		// Creates the shortest path and prints it with a for loop to verify a successful test
-		List<Vertex> shortestPathResult = 
+		List< Vertex<String> > shortestPathResult = 
 				utility.shortestPath(sources2, destinations2, sample2.getVertices().get("a"), sample2.getVertices().get("i") );
 		System.out.print("Shortest path from a to i: ");
 		for(Vertex node : shortestPathResult) {
@@ -123,37 +123,37 @@ public class GraphTester {
 		System.out.println();
 		
 		// Creates the shortest path and prints it with a for loop to verify a successful test
-		List<Vertex> shortestPathResult2 = 
+		List< Vertex<String> > shortestPathResult2 = 
 				utility.shortestPath(sources2, destinations2, sample2.getVertices().get("a"), sample2.getVertices().get("k") );
 		System.out.print("Shortest path from a to k: ");
-		for(Vertex node : shortestPathResult2) {
+		for(Vertex<String> node : shortestPathResult2) {
 			System.out.print(node.getData() + " ");
 		}
 		System.out.println();
 		
 		// Creates the shortest path and prints it with a for loop to verify a successful test
-		List<Vertex> shortestPathResult3 = 
-				utility.shortestPath(sources2, destinations2, sample2.getVertices().get("a"), sample2.getVertices().get("g") );
+		List< Vertex<String> > shortestPathResult3 = 
+				GraphUtility.shortestPath(sources2, destinations2, sample2.getVertices().get("a"), sample2.getVertices().get("g") );
 		System.out.print("Shortest path from a to g: ");
-		for(Vertex node : shortestPathResult3) {
+		for(Vertex<String> node : shortestPathResult3) {
 			System.out.print(node.getData() + " ");
 		}
 		System.out.println();
 		
 		// Creates the shortest path and prints it with a for loop to verify a successful test
-		List<Vertex> shortestPathResult4 = 
+		List< Vertex<String> > shortestPathResult4 = 
 				utility.shortestPath(sources2, destinations2, sample2.getVertices().get("b"), sample2.getVertices().get("g") );
 		System.out.print("Shortest path from b to g: ");
-		for(Vertex node : shortestPathResult4) {
+		for(Vertex<String>+ node : shortestPathResult4) {
 			System.out.print(node.getData() + " ");
 		}
 		System.out.println();
 		
 		// Creates the shortest path and prints it with a for loop to verify a successful test
-		List<Vertex> shortestPathResult5 = 
+		List< Vertex<String> > shortestPathResult5 = 
 				utility.shortestPath(sources2, destinations2, sample2.getVertices().get("b"), sample2.getVertices().get("j") );
 		System.out.print("Shortest path from b to j: ");
-		for(Vertex node : shortestPathResult5) {
+		for(Vertex<String> node : shortestPathResult5) {
 			System.out.print(node.getData() + " ");
 		}
 		System.out.println();		
@@ -167,7 +167,7 @@ public class GraphTester {
 		System.out.println("Topo sort tests");
 		
 		// Creates the shortest path and prints it with a for loop to verify a successful test
-				List<Vertex> shortestPathResultTopo = utility.sort(sources2, destinations2);
+				List< Vertex<String> > shortestPathResultTopo = utility.sort(sources2, destinations2);
 				System.out.print("Shortest path from a to i: ");
 				for(Vertex node : shortestPathResultTopo) {
 					System.out.print(node.getData() + " ");

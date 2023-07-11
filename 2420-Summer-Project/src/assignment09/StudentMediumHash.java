@@ -17,13 +17,14 @@ public class StudentMediumHash {
 	private int uid;
 	private String firstName;
 	private String lastName;
+	
 		
 	/**
 	 * @Constructor for a new student with the specified uid, firstName, and lastName.
 	 * 
-	 * @param uid: 
-	 * @param firstName
-	 * @param lastName
+	 * @param uid: ID number for student
+	 * @param firstName: First name of student
+	 * @param lastName: Last name of student
 	 */
 	public StudentMediumHash(int uid, String firstName, String lastName) {
 
@@ -39,26 +40,26 @@ public class StudentMediumHash {
 	 */
 	public int getUid() { return this.uid; }
 	
+	
 
 	/**
 	 * @return the first name for this student object
 	 */
 	public String getFirstName() { return this.firstName; }
 	
-
-
+	
+	
 	/**
 	 * @return the last name for this student object
 	 */
 	public String getLastName() { return this.lastName; }
 	
-
-
+	
+	
 	/**
 	 * @return true if this student and 'other' have the same UID, first name, and last name; false otherwise
 	 */
 	public boolean equals(Object other) {
-
 
 		if (!(other instanceof StudentMediumHash)) {
 			return false;
@@ -68,6 +69,8 @@ public class StudentMediumHash {
 
 		return this.uid == rhs.uid && this.firstName.equals(rhs.firstName) && this.lastName.equals(rhs.lastName);
 	}
+	
+	
 	
 	/**
 	 * @return a textual representation of this student
@@ -79,21 +82,17 @@ public class StudentMediumHash {
 	}
 	
 	
-
+	
+	/**
+	 * This is an adequately elaborate hash function, but could still be better.
+	 * It takes the length of the name and multiplies the two values squared together
+	 * and then multiplies that by the uid squared.
+	 * 
+	 * @return: length of firstName^2 * length of lastName^2 * uid^2
+	 */
 	public int hashCode() {
-		// FILL IN and add method comment
 		
-		return 0;
-		DecimalFormat formatter = new DecimalFormat("0000000");
-		return firstName + " " + lastName + " (u" + formatter.format(uid) + ")";
+		return (firstName.length()^2) * (lastName.length()^2)*(uid^2);
 	}
-
-	public int hashCode() {
-		int hashCode = 0;
-		int first = firstName.length();
-		int last = lastName.length();
-		hashCode = (first^2) * (last^2);
-		hashCode *= (uid)^2;
-		return hashCode;
-	}
+	
 }

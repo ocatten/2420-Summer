@@ -131,7 +131,7 @@ public class GraphUtility {
 	 * @return: List of generic objects of the shortest path for srcData to the destination (inclusive)
 	 * @throws IllegalArgumentException
 	 */
-	public static <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
+	public <Type> List<Type> shortestPath(List<Type> sources, List<Type> destinations, Type srcData, Type dstData)
 			throws IllegalArgumentException {
 		
 		// Store each value of the sources and destinations into a Graph object
@@ -363,13 +363,12 @@ public class GraphUtility {
             queue.add(vertex);
             
             // Make sure the current object's visited flag is true.
-            Vertex currVertex = (Vertex) vertex;
+            Vertex<String> currVertex = (Vertex<String>) vertex;
             currVertex.visited = true;
         }
 
         // Perform topological sorting
         List<Type> sortedOrder = new ArrayList<>();
-        
         
         // While there are still objects in the queue:
         while (!queue.isEmpty()) {
@@ -377,7 +376,7 @@ public class GraphUtility {
         	//Keep a tracker for the current vertex and remove it from the queue
             Type vertex = queue.remove();
             sortedOrder.add(vertex); // Add it to a sorted list
-            Vertex<Type> currVertex = (Vertex) vertex;
+            Vertex<Type> currVertex = (Vertex<Type>) vertex;
             
             //The amount of neighbors 
             int size = sources.size();

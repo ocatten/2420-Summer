@@ -23,9 +23,9 @@ public class StudentBadHash {
 	/**
 	 * @Constructor for a new student with the specified uid, firstName, and lastName.
 	 * 
-	 * @param uid: 
-	 * @param firstName
-	 * @param lastName
+	 * @param uid: ID number for student
+	 * @param firstName: First name of student
+	 * @param lastName: Last name of student
 	 */
 	public StudentBadHash(int uid, String firstName, String lastName) {
 		
@@ -86,11 +86,15 @@ public class StudentBadHash {
 	}
 	
 	
-
+	
+	/**
+	 * This hash function provides a very poor implementation of a hash function. It simply
+	 * adds the length of the name to the uid.
+	 * 
+	 * @return: length of name + uid
+	 */
 	public int hashCode() {
-		int first = firstName.length();
-		int last = lastName.length();
 		
-		return (first + last + uid);
+		return firstName.length() + lastName.length() + uid;
 	}
 }
