@@ -12,65 +12,24 @@ package assignment10;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
-public class MaxBinaryHeap<E> implements PriorityQueue<E> {
+public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQueue<E> {
 	
 	// Fields
-	Object[] maxHeap;
+	E[] maxHeap;
 	int backingArrayLength, size;
 	
 	
 	/**
 	 * @Constructor that instantiates the backing array and relevant fields
 	 */
+	@SuppressWarnings("unchecked")
 	public MaxBinaryHeap() {
 		
-		maxHeap = new Object[3];
+		maxHeap = (E[]) new Object[3];;
 		backingArrayLength = 3;
 		size = 0;
 	}
 	
-	/*
-	 * Move the given index up the tree till the order is correct. Swap 
-	 * the elements at each position when moving up the tree. 
-	 */
-	public void perculateUp(int index) {
-		
-		//Variables to hold the data of each position
-		Object givenData = maxHeap[index];
-		Object priorData;
-		int priorIndex = 0;
-		
-		//
-		if(index % 2 == 0) {
-			priorIndex = (index - 2)/2;
-		
-		}
-		if(index % 2 == 1) {
-			priorIndex = (index - 1)/2;
-		
-		}
-		priorData = maxHeap[priorIndex];
-		boolean givenDataGreater = innerCompare(givenData, priorData);
-		if(givenDataGreater) {
-			maxHeap[index] = priorData;
-			maxHeap[priorIndex] = givenData;
-		}
-		else {
-			return;
-		}
-	}
-	
-	public boolean innerCompare(Object lhs,Object rhs) {
-		
-		Comparator cmp = new Comparator<E>() { 
-			public int compare(E e1, E e2) { return ((Object) e1).compareTo(e2); } };
-			
-		int compare = cmp.compare(lhs, rhs);
-		if(compare >= 0) {
-			return true;
-		}
-		return false;
-	}
 	
 	
 	/**
@@ -102,8 +61,9 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	 */
 	private void resize() {
 		
+		@SuppressWarnings("unchecked")
 		// Make a new empty array for the resized array.
-		Object[] newMaxHeap = new Object[ (backingArrayLength*2)+1 ];
+		E[] newMaxHeap = (E[]) new Object[ (backingArrayLength*2)+1 ];
 		
 		// Loop through the current backing array and copy its existing elements to the new one
 		for(int i = 0; i < backingArrayLength; i++) {
@@ -117,11 +77,36 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	
 	
 	/**
+	 * Move the given index up the tree till the order is correct. Swap 
+	 * the elements at each position when moving up the tree.
 	 * 
 	 * @param index: Index of the item in the backingArray to be percolated.
 	 */
 	private void percolateUp(int index) {
 		
+		//Variables to hold the data of each position
+		E givenData = maxHeap[index];
+		E priorData;
+		int priorIndex = 0;
+		
+		//
+		if(index % 2 == 0) {
+			priorIndex = (index - 2)/2;
+		
+		}
+		if(index % 2 == 1) {
+			priorIndex = (index - 1)/2;
+		
+		}
+		priorData = (E) maxHeap[priorIndex];
+		boolean givenDataGreater;
+		if(givenDataGreater) {
+			maxHeap[index] = priorData;
+			maxHeap[priorIndex] = givenData;
+		}
+		else {
+			return;
+		}
 	}
 
 
@@ -135,7 +120,7 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	 */
 	public E peek() throws NoSuchElementException{
 		
-		return null;
+		return (E)maxHeap[0];
 	}
 	
 	
