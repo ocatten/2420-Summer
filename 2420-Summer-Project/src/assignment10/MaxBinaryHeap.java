@@ -1,5 +1,7 @@
 package assignment10;
 
+import java.util.Comparator;
+
 /**
  * This class represents a Maximum Binary Heap, and as such implements a PriorityQueue interface written by this course's instructor.
  * A Binary Heap keeps a backing array to represent the tree, and each node added to the tree is at the next available space at the'
@@ -9,7 +11,6 @@ package assignment10;
  * @version: 07:13:23 CS-2420_001 SUM_2023
  */
 
-import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQueue<E> {
@@ -17,17 +18,21 @@ public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQ
 	// Fields
 	E[] maxHeap;
 	int backingArrayLength, size;
+	private Comparator<? super E> cmp;
 	
 	
 	/**
 	 * @Constructor that instantiates the backing array and relevant fields
 	 */
-	@SuppressWarnings("unchecked")
 	public MaxBinaryHeap() {
 		
 		maxHeap = (E[]) new Object[3];;
 		backingArrayLength = 3;
 		size = 0;
+		
+		// Comparator object used for the generic objects 
+		cmp = new Comparator<E>() { 
+			public int compare(E e1, E e2) { return e1.compareTo(e2); } };
 	}
 	
 	
@@ -61,9 +66,8 @@ public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQ
 	 */
 	private void resize() {
 		
-		@SuppressWarnings("unchecked")
 		// Make a new empty array for the resized array.
-		E[] newMaxHeap = (E[]) new Object[ (backingArrayLength*2)+1 ];
+		E[] newMaxHeap = (E[])new Object[ (backingArrayLength*2)+1 ];
 		
 		// Loop through the current backing array and copy its existing elements to the new one
 		for(int i = 0; i < backingArrayLength; i++) {
@@ -85,7 +89,7 @@ public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQ
 	private void percolateUp(int index) {
 		
 		// If this child node is greater than its parent (found at (i-1)/2 in a binary heap for the array):
-		if (maxHeap[index].compareTo( maxHeap[ (index-1)/2 ] ) > 0) {
+		if ( cmp.compare(maxHeap[index], maxHeap[ (index-1)/2 ] ) > 0) {
 			
 			// Store the data in the child node
 			E givenData = maxHeap[index]; 
