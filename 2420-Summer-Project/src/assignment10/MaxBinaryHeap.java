@@ -1,14 +1,31 @@
 package assignment10;
 
+/**
+ * This class represents a Maximum Binary Heap, and as such implements a PriorityQueue interface written by this course's instructor.
+ * A Binary Heap keeps a backing array to represent the tree, and each node added to the tree is at the next available space at the'
+ * bottom of the tree (or the next available space in the array) and percolates up until the new node is less than each parent node.
+ * 
+ * @author: Parker Catten & Everett Oglesby
+ * @version: 07:13:23 CS-2420_001 SUM_2023
+ */
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 public class MaxBinaryHeap<E> implements PriorityQueue<E> {
-
-	public MaxBinaryHeap() {
-
-	}
 	
+	// Fields
+	ArrayList<E> maxHeap;
+	
+	
+	/**
+	 * @Constructor that instantiates the backing array
+	 */
+	public MaxBinaryHeap() {
+		
+		maxHeap = new ArrayList<E>();
+	}
 	
 	
 	
@@ -19,8 +36,11 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	 * @param item
 	 */
 	public void add(E item) {
-
+		
+		
 	}
+	
+	
 	
 	/**
 	 * Returns, but does not remove, the maximum item this priority queue.
@@ -34,6 +54,8 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 		return null;
 	}
 	
+	
+	
 	/**
 	 * Returns and removes the maximum item this priority queue.
 	 * O(log N)
@@ -45,6 +67,8 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 		
 		return null;
 	}
+	
+	
 
 	/**
 	 * Returns the number of items in this priority queue.
@@ -53,7 +77,9 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	public int size() {
 		
 		return 0;
-	};
+	}
+	
+	
 	
 	/**
 	 * Returns true if this priority queue is empty, false otherwise.
@@ -61,8 +87,10 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	 */
 	public boolean isEmpty() {
 		
-		return null;
-	};
+		return false;
+	}
+	
+	
 	
 	/**
 	 * Empties this priority queue of items.
@@ -71,7 +99,9 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	public void clear() {
 		
 		
-	};
+	}
+	
+	
 	
 	/** 
 	 * Creates and returns an array of the items in this priority queue,
@@ -85,6 +115,6 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	public Object[] toArray() {
 		
 		return null;
-	};
+	}
 
 }
