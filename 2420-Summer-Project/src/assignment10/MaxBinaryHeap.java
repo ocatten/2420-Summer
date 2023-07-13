@@ -9,46 +9,82 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 
 	}
 	
-	@Override
+	
+	
+	
+	/**
+	 * Adds the given item to this priority queue.
+	 * O(1) in the average case, O(log N) in the worst case
+	 * 
+	 * @param item
+	 */
 	public void add(E item) {
-		// TODO Auto-generated method stub
+
+	}
+	
+	/**
+	 * Returns, but does not remove, the maximum item this priority queue.
+	 * O(1)
+	 * 
+	 * @return the maximum item
+	 * @throws NoSuchElementException if this priority queue is empty
+	 */
+	public E peek() throws NoSuchElementException{
 		
+		return null;
 	}
-
-	@Override
-	public E peek() throws NoSuchElementException {
-		// TODO Auto-generated method stub
+	
+	/**
+	 * Returns and removes the maximum item this priority queue.
+	 * O(log N)
+	 * 
+	 * @return the maximum item
+	 * @throws NoSuchElementException if this priority queue is empty
+	 */
+	public E extractMax() throws NoSuchElementException{
+		
 		return null;
 	}
 
-	@Override
-	public E extractMax() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+	/**
+	 * Returns the number of items in this priority queue.
+	 * O(1)
+	 */
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public Object[] toArray() {
-		// TODO Auto-generated method stub
+		return 0;
+	};
+	
+	/**
+	 * Returns true if this priority queue is empty, false otherwise.
+	 * O(1)
+	 */
+	public boolean isEmpty() {
+		
 		return null;
-	}
+	};
+	
+	/**
+	 * Empties this priority queue of items.
+	 * O(1)
+	 */
+	public void clear() {
+		
+		
+	};
+	
+	/** 
+	 * Creates and returns an array of the items in this priority queue,
+	 * in the same order they appear in the backing array.
+	 * O(N)
+	 * 
+	 * (NOTE: This method is needed for grading purposes. The root item 
+	 * must be stored at index 0 in the returned array, regardless of 
+	 * whether it is in stored there in the backing array.) 
+	 */
+	public Object[] toArray() {
+		
+		return null;
+	};
 
 }
