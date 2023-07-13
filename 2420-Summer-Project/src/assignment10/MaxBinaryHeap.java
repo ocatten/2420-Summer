@@ -80,17 +80,30 @@ public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQ
 	 * Move the given index up the tree till the order is correct. Swap 
 	 * the elements at each position when moving up the tree.
 	 * 
-	 * @param index: Index of the item in the backingArray to be percolated.
+	 * @param index: Index of the item in the backing array to be percolated.
 	 */
 	private void percolateUp(int index) {
 		
-		//Variables to hold the data of each position
-		E givenData = maxHeap[index];
-		E priorData;
-		int priorIndex = 0;
+		// If this child node is greater than its parent (found at (i-1)/2 in a binary heap for the array):
+		if (maxHeap[index].compareTo( maxHeap[ (index-1)/2 ] ) > 0) {
+			
+			// Store the data in the child node
+			E givenData = maxHeap[index]; 
+			
+			// Swap the two elements at the parent and child
+			maxHeap[index] = maxHeap[ (index-1)/2 ];
+			maxHeap[ (index-1)/2 ] = givenData;
+			
+			// Repeat this process at the new position of the added element
+			percolateUp( (index-1)/2 );
+			
+		} else {
+			
+			return; // Base case, if there's no percolation needed its done
+		}
 		
 		//
-		if(index % 2 == 0) {
+		/*if(index % 2 == 0) {
 			priorIndex = (index - 2)/2;
 		
 		}
@@ -106,7 +119,7 @@ public class MaxBinaryHeap<E extends Comparable<? super E>> implements PriorityQ
 		}
 		else {
 			return;
-		}
+		}*/
 	}
 
 
