@@ -29,6 +29,48 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 		size = 0;
 	}
 	
+	/*
+	 * Move the given index up the tree till the order is correct. Swap 
+	 * the elements at each position when moving up the tree. 
+	 */
+	public void perculateUp(int index) {
+		
+		//Variables to hold the data of each position
+		Object givenData = maxHeap[index];
+		Object priorData;
+		int priorIndex = 0;
+		
+		//
+		if(index % 2 == 0) {
+			priorIndex = (index - 2)/2;
+		
+		}
+		if(index % 2 == 1) {
+			priorIndex = (index - 1)/2;
+		
+		}
+		priorData = maxHeap[priorIndex];
+		boolean givenDataGreater = innerCompare(givenData, priorData);
+		if(givenDataGreater) {
+			maxHeap[index] = priorData;
+			maxHeap[priorIndex] = givenData;
+		}
+		else {
+			return;
+		}
+	}
+	
+	public boolean innerCompare(Object lhs,Object rhs) {
+		
+		Comparator cmp = new Comparator<E>() { 
+			public int compare(E e1, E e2) { return ((Object) e1).compareTo(e2); } };
+			
+		int compare = cmp.compare(lhs, rhs);
+		if(compare >= 0) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 	/**
