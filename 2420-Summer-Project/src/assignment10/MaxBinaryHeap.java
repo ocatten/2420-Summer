@@ -9,22 +9,24 @@ package assignment10;
  * @version: 07:13:23 CS-2420_001 SUM_2023
  */
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
 public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	
 	// Fields
-	ArrayList<E> maxHeap;
+	Object[] maxHeap;
+	int backingArrayLength, size;
 	
 	
 	/**
-	 * @Constructor that instantiates the backing array
+	 * @Constructor that instantiates the backing array and relevant fields
 	 */
 	public MaxBinaryHeap() {
 		
-		maxHeap = new ArrayList<E>();
+		maxHeap = new Object[3];
+		backingArrayLength = 3;
+		size = 0;
 	}
 	
 	
@@ -37,11 +39,51 @@ public class MaxBinaryHeap<E> implements PriorityQueue<E> {
 	 */
 	public void add(E item) {
 		
+		size++; // Track the size
 		
+		// Check if the backing array needs to be resized
+		if (size > backingArrayLength) {
+			this.resize();
+		}
+		
+		// Add this element to the next available space
+		maxHeap[ backingArrayLength-size ] = item;
+		
+		// Percolate up if needed
+		percolateUp(backingArrayLength-size);
 	}
 	
 	
 	
+	/**
+	 * Changes the backing array to be an adequate length
+	 */
+	private void resize() {
+		
+		// Make a new empty array for the resized array.
+		Object[] newMaxHeap = new Object[ (backingArrayLength*2)+1 ];
+		
+		// Loop through the current backing array and copy its existing elements to the new one
+		for(int i = 0; i < backingArrayLength; i++) {
+			newMaxHeap[i] = maxHeap[i];
+		} 
+		
+		// Adjust the size tracker
+		backingArrayLength = (backingArrayLength*2)+1;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param index: Index of the item in the backingArray to be percolated.
+	 */
+	private void percolateUp(int index) {
+		
+	}
+
+
+
 	/**
 	 * Returns, but does not remove, the maximum item this priority queue.
 	 * O(1)
